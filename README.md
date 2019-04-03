@@ -1,2 +1,1 @@
-# realm-o-matic
-Keycloak Realm Self-Service App
+## Self-service App for KeyCloak Realm Provosioning
