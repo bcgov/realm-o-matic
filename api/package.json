@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "realmomatic-api",
   "version": "1.0.0",
   "description": "The api of Realm-o-Matic",
   "main": "index.js",
