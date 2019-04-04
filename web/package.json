@@ -7,7 +7,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "redux-starter-kit": "^0.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,9 +30,5 @@
     "url": "git+https://github.com/bcgov/realm-o-matic.git"
   },
   "author": "ShellyXueHan",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/bcgov/realm-o-matic/issues"
-  },
-  "homepage": "https://github.com/bcgov/realm-o-matic#readme"
+  "license": "Apache-2.0"
 }

@@ -7,20 +7,18 @@ ENV INSTALL_PATH /home/app
 RUN apt-get update && \
   yes | apt-get upgrade
 
-# Create a non-root user
 RUN useradd --user-group --create-home --shell /bin/false app
-USER app
 
-# Create a home for the application
+USER app
 WORKDIR $INSTALL_PATH
 
 COPY . .
 USER root
 RUN chown -R app:app $INSTALL_PATH
 
-# Install app dependencies
 RUN npm ci --silent
+RUN npm i react-scripts --silent
 
-EXPOSE 8089 9229
+EXPOSE 3000
 
-CMD ["npm", "run", "dev:docker"]
+CMD [ "npm", "start" ]
