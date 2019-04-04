@@ -5,7 +5,7 @@ services:
     container_name: kc-api
     build:
       context: ./api
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - type: bind
         source: ./api
@@ -25,7 +25,7 @@ services:
     container_name: kc-web
     build:
       context: ./web
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - type: bind
         source: ./web
