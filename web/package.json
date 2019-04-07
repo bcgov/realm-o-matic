@@ -9,7 +9,8 @@
     "react-helmet": "^5.2.0",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
-    "redux-starter-kit": "^0.4.3"
+    "redux-starter-kit": "^0.4.3",
+    "typography": "^0.16.19"
   },
   "scripts": {
     "start": "react-scripts start",

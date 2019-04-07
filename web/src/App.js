@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
+import typography from './utils/typography';
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,7 +11,14 @@ class App extends Component {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Realm-o-Matic</title>
-          <meta name="description" content="Self-service App for KeyCloak Realm Provosioning" />
+          <meta name="description" content="Self-service KeyCloak Realm Provosioner" />
+          <meta name="twitter:author" content="ShellyXueHan" />
+          <meta name="twitter:description" content="Self-service KeyCloak Realm Provosioner"
+          />
+          <meta name="og:author" content="ShellyXueHan" />
+          <meta name="og:description" content="Self-service KeyCloak Realm Provosioner"
+          />
+          <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         </Helmet>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
