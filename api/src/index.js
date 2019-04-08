@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Authentication middleware
-// authmware(app);
+authmware(app);
 
 // Server API routes
 router(app);
