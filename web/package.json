@@ -3,18 +3,41 @@
   "version": "1.0.0",
   "description": "The frontend of Realm-o-Matic",
   "main": "index.js",
-  "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "2.1.8",
-    "redux": "^4.0.1",
-    "redux-starter-kit": "^0.4.3"
-  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
+    "test:watch": "jest --watch --env=jsdom",
+    "test:lint": "eslint src/",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "transform": {
+      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/fileTransformer.js",
+      "^.+\\.(js|jsx)?$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.cache/"
+    ],
+    "moduleFileExtensions": [
+      "jsx",
+      "js",
+      "module.css",
+      ".css",
+      "json"
+    ],
+    "moduleNameMapper": {
+      "\\.module\\.(css|less)$": "identity-obj-proxy",
+      ".(css)$": "identity-obj-proxy"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +53,23 @@
     "url": "git+https://github.com/bcgov/realm-o-matic.git"
   },
   "author": "ShellyXueHan",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.0",
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
+    "redux-starter-kit": "^0.4.3",
+    "typography": "^0.16.19"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.7.1",
+    "babel-plugin-emotion": "^10.0.9",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.7.1",
+    "react-testing-library": "^6.1.2"
+  }
 }

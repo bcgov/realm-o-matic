@@ -22,5 +22,7 @@
 
 // eslint-disable-next-line import/prefer-default-export
 export const ACCESS_CONTROL = {
-  USER_ROLE: 'devhub_kc',
+  SA_ROLE: 'devhub_kc_web',
+  REQUESTER_ROLE: 'devhub_kc_requester',
+  REVIEWER_ROLE: 'devhub_kc_reviewer',
 };
