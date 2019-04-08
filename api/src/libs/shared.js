@@ -22,12 +22,12 @@ import { JWTServiceManager } from '@bcgov/nodejs-common-utils';
 import config from '../config';
 
 // Assign keys:
-const webKey = Symbol.for('ca.bc.gov.pathfinder.realmomatic-api.sso');
+const ssoKey = Symbol.for('ca.bc.gov.pathfinder.realm-o-matic-api.sso');
 const gs = Object.getOwnPropertySymbols(global);
 
-// SSO for web:
-if (!(gs.indexOf(webKey) > -1)) {
-  global[webKey] = new JWTServiceManager({
+// SSO:
+if (!(gs.indexOf(ssoKey) > -1)) {
+  global[ssoKey] = new JWTServiceManager({
     uri: config.get('sso:tokenUrl'),
     grantType: config.get('sso:grantType'),
     clientId: config.get('sso:clientId'),
@@ -38,7 +38,7 @@ if (!(gs.indexOf(webKey) > -1)) {
 const singleton = {};
 
 Object.defineProperty(singleton, 'sso', {
-  get: () => global[webKey],
+  get: () => global[ssoKey],
 });
 
 Object.freeze(singleton);

@@ -28,7 +28,7 @@ import config from '../config';
 
 // Match the client role:
 export const isAuthorized = jwtPayload => {
-  return jwtPayload.roles && jwtPayload.roles.includes(ACCESS_CONTROL.USER_ROLE);
+  return jwtPayload.roles && jwtPayload.roles.includes(ACCESS_CONTROL.SA_ROLE);
 };
 
 // authenicating app:
