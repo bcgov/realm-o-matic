@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-// eslint-disable-next-line
-import typography from '../utils/typography';
 import logo from '../assets/logo.svg';
 import styles from './App.module.css';
 

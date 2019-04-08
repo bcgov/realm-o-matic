@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+// eslint-disable-next-line
+import typography from './utils/typography';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
