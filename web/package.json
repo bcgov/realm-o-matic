@@ -60,7 +60,7 @@
     "react-helmet": "^5.2.0",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
-    "redux-starter-kit": "^0.4.3",
+    "redux-thunk": "^2.3.0",
     "typography": "^0.16.19"
   },
   "devDependencies": {
@@ -68,8 +68,11 @@
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-emotion": "^10.0.9",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.7.1",
+    "prettier": "^1.16.4",
     "react-testing-library": "^6.1.2"
   }
 }
