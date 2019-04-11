@@ -1,13 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Helmet from 'react-helmet';
+import { Provider } from 'react-redux';
+import 'semantic-ui/dist/semantic.min.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 // eslint-disable-next-line
 import typography from './utils/typography';
+import configureStore from './configureStore';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = configureStore();
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(
+  <Provider store={store}>
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>Realm-o-Matic</title>
+      <meta name="description" content="Self-service KeyCloak Realm Provosioner" />
+      <meta name="twitter:author" content="ShellyXueHan" />
+      <meta name="twitter:description" content="Self-service KeyCloak Realm Provosioner" />
+      <meta name="og:author" content="ShellyXueHan" />
+      <meta name="og:description" content="Self-service KeyCloak Realm Provosioner" />
+      <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+    </Helmet>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+
 serviceWorker.register();
