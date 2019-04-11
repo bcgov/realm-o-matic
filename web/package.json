@@ -55,12 +55,20 @@
   "author": "ShellyXueHan",
   "license": "Apache-2.0",
   "dependencies": {
+    "@bcgov/common-web-utils": "^0.5.2",
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.10",
+    "axios": "^0.18.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
+    "react-redux": "^7.0.1",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "semantic-ui": "^2.4.2",
+    "semantic-ui-react": "^0.86.0",
     "typography": "^0.16.19"
   },
   "devDependencies": {
