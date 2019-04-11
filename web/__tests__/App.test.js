@@ -33,14 +33,13 @@ describe('App Component', () => {
   });
 
   it('provide list of idps', async () => {
-    const { getByText, getByTestId, container } = render(<App {...defaultProps} />);
+    const { getByText, getByTestId, container, rerender } = render(<App {...defaultProps} />);
 
     expect(getByTestId(TEST_IDS.APP.GET_IDPS)).toHaveTextContent('get idps');
 
     fireEvent.click(getByText('get idps'));
 
-    // update the props:
-    render(<App {...{ idps: ['abc', 'def'] }} />, { container });
+    rerender(<App {...{ idps: ['abc', 'def'] }} />);
 
     getByText('abc');
     getByText('def');

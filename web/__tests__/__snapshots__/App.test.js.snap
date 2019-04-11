@@ -2,7 +2,7 @@
 
 exports[`App Component displays after logged in 1`] = `
 <div
-  class="app"
+  class="css-bpit-StyledApp eamkuan0"
 >
   <p>
     Welcome!
@@ -23,7 +23,7 @@ exports[`App Component displays after logged in 1`] = `
 
 exports[`App Component provide list of idps 1`] = `
 <div
-  class="app"
+  class="css-bpit-StyledApp eamkuan0"
 >
   <p>
     Welcome!
@@ -57,7 +57,7 @@ exports[`App Component provide list of idps 1`] = `
 
 exports[`App Component renders without crashing 1`] = `
 <div
-  class="app"
+  class="css-bpit-StyledApp eamkuan0"
 >
   <p>
     Welcome!
