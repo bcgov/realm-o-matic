@@ -23,8 +23,8 @@
 import request from 'supertest';
 import app from '../../src';
 
-test('hello world', async () => {
+test('sample endpoint return list of idps', async () => {
   await request(app)
-    .get('/api/v1/ehlo')
-    .expect(200);
+    .get('/api/v1/idps')
+    .expect({ idp: ['abc', '111'] });
 });
