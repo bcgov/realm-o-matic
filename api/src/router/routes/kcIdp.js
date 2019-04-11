@@ -20,23 +20,16 @@
 
 'use strict';
 
-import cors from 'cors';
-import passport from 'passport';
-import ehlo from './routes/ehlo';
-import kcIdp from './routes/kcIdp';
+import { asyncMiddleware } from '@bcgov/nodejs-common-utils';
+import { Router } from 'express';
 
-// TODO: specify the allowed origins instead of all
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+const router = new Router();
 
-// eslint-disable-next-line import/prefer-default-export
-export const router = app => {
-  app.use(cors(corsOptions));
-  app.use('/api/v1/ehlo', ehlo); // probes
-  // Auth needed for the endpoints:
-  app.use(passport.authenticate('jwt', { session: false }));
-  app.use('/api/v1/idps', kcIdp);
-};
+router.get(
+  '/',
+  asyncMiddleware(async (req, res) => {
+    res.status(200).json({ idp: ['abc', '111'] });
+  })
+);
+
+module.exports = router;

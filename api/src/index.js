@@ -24,6 +24,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { logger } from '@bcgov/nodejs-common-utils';
 import { router } from './router';
+import { authmware } from './libs/authmware';
 
 const app = express();
 

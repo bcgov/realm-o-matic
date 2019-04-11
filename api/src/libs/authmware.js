@@ -28,7 +28,11 @@ import config from '../config';
 
 // Match the user role from client, accept either requester or reviewer:
 export const isAuthorized = jwtPayload => {
-  return jwtPayload.roles && jwtPayload.roles.includes(ACCESS_CONTROL.REQUESTER_ROLE || ACCESS_CONTROL.REVIEWER_ROLE);
+  return (
+    jwtPayload.roles &&
+    (jwtPayload.roles.includes(ACCESS_CONTROL.REQUESTER_ROLE) ||
+      jwtPayload.roles.includes(ACCESS_CONTROL.REVIEWER_ROLE))
+  );
 };
 
 // authenicating app:

@@ -25,6 +25,6 @@ RUN chown -R app:app $INSTALL_PATH
 
 RUN npm ci --silent
 
-EXPOSE 8089 9229
+EXPOSE 8000 9229
 
 CMD [ "npm", "run", "dev" ]
