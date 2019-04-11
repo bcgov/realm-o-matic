@@ -35,3 +35,10 @@ export const API = {
   TIME_OUT: 40000,
   IDP: () => 'idps',
 };
+
+export const TEST_IDS = {
+  APP: {
+    LOGIG: 'login-button',
+    GET_IDPS: 'get-idps-button',
+  },
+};

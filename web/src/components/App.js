@@ -6,6 +6,7 @@ import implicitAuthManager from '../utils/auth';
 import styles from './App.module.css';
 import { getIdps } from '../actionCreators';
 import { authenticateFailed, authenticateSuccess } from '../actions';
+import { TEST_IDS } from '../constants';
 
 export class App extends Component {
   componentDidMount = () => {
@@ -36,9 +37,13 @@ export class App extends Component {
 
     const idps = this.props.idps ? this.props.idps : [];
     const buttons = !this.props.userId ? (
-      <Button onClick={onClickSSO}>sso login</Button>
+      <Button onClick={onClickSSO} data-testid={TEST_IDS.APP.LOGIG}>
+        sso login
+      </Button>
     ) : (
-      <Button onClick={onClick}>get idps</Button>
+      <Button onClick={onClick} data-testid={TEST_IDS.APP.GET_IDPS}>
+        get idps
+      </Button>
     );
 
     return (
