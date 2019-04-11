@@ -2,11 +2,23 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, List } from 'semantic-ui-react';
+import styled from '@emotion/styled';
 import implicitAuthManager from '../utils/auth';
-import styles from './App.module.css';
 import { getIdps } from '../actionCreators';
 import { authenticateFailed, authenticateSuccess } from '../actions';
 import { TEST_IDS } from '../constants';
+
+const StyledApp = styled.div`
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+`;
 
 export class App extends Component {
   componentDidMount = () => {
@@ -47,12 +59,12 @@ export class App extends Component {
     );
 
     return (
-      <div className={styles.app}>
+      <StyledApp>
         <p>Welcome!</p>
         {buttons}
         <p>{this.props.errorMessage}</p>
         <List items={idps} />
-      </div>
+      </StyledApp>
     );
   }
 }
