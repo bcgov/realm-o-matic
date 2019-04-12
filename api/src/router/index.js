@@ -21,7 +21,9 @@
 'use strict';
 
 import cors from 'cors';
+import passport from 'passport';
 import ehlo from './routes/ehlo';
+import kcIdp from './routes/kcIdp';
 
 // TODO: specify the allowed origins instead of all
 const corsOptions = {
@@ -34,4 +36,7 @@ const corsOptions = {
 export const router = app => {
   app.use(cors(corsOptions));
   app.use('/api/v1/ehlo', ehlo); // probes
+  // Auth needed for the endpoints:
+  app.use(passport.authenticate('jwt', { session: false }));
+  app.use('/api/v1/idps', kcIdp);
 };

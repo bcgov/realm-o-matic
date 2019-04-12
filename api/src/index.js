@@ -24,6 +24,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { logger } from '@bcgov/nodejs-common-utils';
 import { router } from './router';
+import { authmware } from './libs/authmware';
 
 const app = express();
 
@@ -32,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Authentication middleware
-// authmware(app);
+authmware(app);
 
 // Server API routes
 router(app);

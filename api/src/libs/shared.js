@@ -25,6 +25,7 @@ import config from '../config';
 const ssoKey = Symbol.for('ca.bc.gov.pathfinder.realm-o-matic-api.sso');
 const gs = Object.getOwnPropertySymbols(global);
 
+// TODO: might need a client in the master realm and realm management, and update config/
 // SSO:
 if (!(gs.indexOf(ssoKey) > -1)) {
   global[ssoKey] = new JWTServiceManager({

@@ -60,3 +60,7 @@ typings/
 # Project
 TODO.md
 .DS_Store
+
+# semantic UI
+web/semantic/dist/
+web/semantic/tasks/
