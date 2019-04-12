@@ -1,9 +1,0 @@
-{
-  "sso": {
-    "grantType": "client_credentials",
-    "callback": "/v1/auth/callback",
-    "authUrl": "https://sso.pathfinder.gov.bc.ca/auth/realms/devhub/protocol/openid-connect/auth",
-    "tokenUrl": "https://sso.pathfinder.gov.bc.ca/auth/realms/devhub/protocol/openid-connect/token",
-    "certsUrl": "https://sso.pathfinder.gov.bc.ca/auth/realms/devhub/protocol/openid-connect/certs"
-  }
-}

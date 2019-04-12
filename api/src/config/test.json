@@ -1,9 +1,0 @@
-{
-  "sso": {
-		"clientSecret": "thisisfaux",
-		"callback": "/v1/auth/callback",
-		"authUrl": "https://sso-test.pathfinder.gov.bc.ca/auth/realms/mobile/protocol/openid-connect/auth",
-		"tokenUrl": "https://sso-test.pathfinder.gov.bc.ca/auth/realms/mobile/protocol/openid-connect/token",
-		"certsUrl": "https://sso-test.pathfinder.gov.bc.ca/auth/realms/mobile/protocol/openid-connect/certs"
-  }
-}
