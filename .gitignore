@@ -66,5 +66,4 @@ web/semantic/dist/
 web/semantic/tasks/
 
 # pending cicd
-openshift/
 pipeline/
