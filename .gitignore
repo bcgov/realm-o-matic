@@ -64,3 +64,6 @@ TODO.md
 # semantic UI
 web/semantic/dist/
 web/semantic/tasks/
+
+# pending cicd
+pipeline/

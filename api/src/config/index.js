@@ -22,7 +22,6 @@
 
 import dotenv from 'dotenv';
 import nconf from 'nconf';
-import path from 'path';
 
 const env = process.env.NODE_ENV || 'development';
 const defaultPort = 8000;
@@ -43,21 +42,16 @@ nconf.overrides({
   host: process.env.API_HOST || '127.0.0.1',
   port: process.env.API_PORT || defaultPort,
   sso: {
-    clientId: process.env.SSO_CLIENT_ID,
-    clientSecret: process.env.SSO_CLIENT_SECRET,
+    clientId: process.env.API_SSO_CLIENT_ID,
+    clientSecret: process.env.API_SSO_CLIENT_SECRET,
+    grantType: 'client_credentials',
+    tokenUrl: `${process.env.API_SSO_URL}/realms/${
+      process.env.API_SSO_REALM
+    }/protocol/openid-connect/token`,
+    certsUrl: `${process.env.API_SSO_URL}/realms/${
+      process.env.API_SSO_REALM
+    }/protocol/openid-connect/certs`,
   },
-});
-
-// load other properties from file.
-nconf
-  .argv()
-  .env()
-  .file({ file: path.join(__dirname, `${env}.json`) });
-
-// if nothing else is set, use defaults. This will be set if
-// they do not exist in overrides or the config file.
-nconf.defaults({
-  apiUrl: process.env.API_URL || `http://localhost:${process.env.API_PORT || defaultPort}`,
 });
 
 export default nconf;
