@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, List } from 'semantic-ui-react';
+import { Route, Switch } from 'react-router-dom';
 import styled from '@emotion/styled';
 import implicitAuthManager from '../utils/auth';
-import { getIdps } from '../actionCreators';
 import { authenticateFailed, authenticateSuccess } from '../actions';
-import { TEST_IDS } from '../constants';
+import { Header } from './UI/Header';
+import Footer from './UI/Footer';
+import { Home, LoginHint } from '../containers';
+import { LoginRoute } from '../components/Auth/LoginRoute';
+import { AuthModal } from '../components/Auth/AuthModal';
 
 const StyledApp = styled.div`
   text-align: center;
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 `;
 
 export class App extends Component {
@@ -39,31 +40,16 @@ export class App extends Component {
   };
 
   render() {
-    const onClick = () => {
-      this.props.getIdps();
-    };
-
-    const onClickSSO = () => {
-      window.location = implicitAuthManager.getSSOLoginURI();
-    };
-
-    const idps = this.props.idps ? this.props.idps : [];
-    const buttons = !this.props.userId ? (
-      <Button onClick={onClickSSO} data-testid={TEST_IDS.APP.LOGIG}>
-        sso login
-      </Button>
-    ) : (
-      <Button onClick={onClick} data-testid={TEST_IDS.APP.GET_IDPS}>
-        get idps
-      </Button>
-    );
-
     return (
       <StyledApp>
-        <p>Welcome!</p>
-        {buttons}
-        <p>{this.props.errorMessage}</p>
-        <List items={idps} />
+        <Header isAuthenticated={this.props.isAuthenticated} />
+        <AuthModal isAuthenticated={this.props.isAuthenticated} />
+        <Switch>
+          <Route path="/notAuthorized" component={LoginHint} />
+          <Route path="/login/:idp" component={LoginRoute} />
+          <Route path="/" component={Home} />
+        </Switch>
+        <Footer />
       </StyledApp>
     );
   }
@@ -74,9 +60,6 @@ const mapStateToProps = state => {
     isAuthenticated: state.authentication.isAuthenticated,
     email: state.authentication.email,
     userId: state.authentication.userId,
-    errorMessage: state.getIdps.errorMessage,
-    idps: state.getIdps.idps,
-    getIdpsStarted: state.getIdps.getIdpsStarted,
   };
 };
 
@@ -85,7 +68,6 @@ const mapDispatchToProps = dispatch => {
     {
       login: () => dispatch(authenticateSuccess()),
       logout: () => dispatch(authenticateFailed()),
-      getIdps,
     },
     dispatch
   );

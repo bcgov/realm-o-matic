@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { Provider } from 'react-redux';
 import 'semantic-ui/dist/semantic.min.css';
@@ -23,7 +24,9 @@ ReactDOM.render(
       <meta name="og:description" content="Self-service KeyCloak Realm Provosioner" />
       <meta httpEquiv="x-ua-compatible" content="ie=edge" />
     </Helmet>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );
