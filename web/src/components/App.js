@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
+import { BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import styled from '@emotion/styled';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
 import { Header } from './UI/Header';
-import Footer from './UI/Footer';
+import { Footer } from './UI/Footer';
 import { Home, LoginHint } from '../containers';
 import { LoginRoute } from '../components/Auth/LoginRoute';
 import { AuthModal } from '../components/Auth/AuthModal';
@@ -41,16 +42,18 @@ export class App extends Component {
 
   render() {
     return (
-      <StyledApp>
-        <Header isAuthenticated={this.props.isAuthenticated} />
-        <AuthModal isAuthenticated={this.props.isAuthenticated} />
-        <Switch>
-          <Route path="/notAuthorized" component={LoginHint} />
-          <Route path="/login/:idp" component={LoginRoute} />
-          <Route path="/" component={Home} />
-        </Switch>
-        <Footer />
-      </StyledApp>
+      <BrowserRouter>
+        <StyledApp>
+          <Header isAuthenticated={this.props.isAuthenticated} />
+          <AuthModal isAuthenticated={this.props.isAuthenticated} />
+          <Switch>
+            <Route path="/notAuthorized" component={LoginHint} />
+            <Route path="/login/:idp" component={LoginRoute} />
+            <Route path="/" component={Home} />
+          </Switch>
+          <Footer />
+        </StyledApp>
+      </BrowserRouter>
     );
   }
 }

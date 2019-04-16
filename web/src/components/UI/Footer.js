@@ -29,5 +29,3 @@ export const Footer = () => {
     </StyledFooter>
   );
 };
-
-export default Footer;

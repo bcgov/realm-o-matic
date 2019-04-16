@@ -5,7 +5,7 @@ import { Button, List } from 'semantic-ui-react';
 import { TEST_IDS } from '../constants';
 import { getIdps } from '../actionCreators';
 
-class Home extends Component {
+export class Home extends Component {
   static displayName = '[Component Home]';
 
   render() {
