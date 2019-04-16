@@ -24,7 +24,6 @@ export const SSO_CONFIG = {
   baseURL: process.env.REACT_APP_SSO_BASE_URL || config.ssoBaseUrl,
   realmName: process.env.REACT_APP_SSO_REALM_NAME || config.ssoRealmName,
   clientId: process.env.REACT_APP_SSO_CLIENT_ID || config.ssoClientId,
-  kcIDPHint: 'idir',
 };
 
 export const API = {
@@ -42,3 +41,39 @@ export const TEST_IDS = {
     GET_IDPS: 'get-idps-button',
   },
 };
+
+export const APP_INFO = {
+  NAME: 'Realm-o-Matic',
+};
+
+export const SSO_IDP = {
+  GITHUB: 'github',
+  IDIR: 'idir',
+};
+
+export const FOOTER_LINKS = [
+  {
+    name: 'Home',
+    link: '.',
+  },
+  {
+    name: 'Disclaimer',
+    link: 'https://www2.gov.bc.ca/gov/content/home/disclaimer',
+  },
+  {
+    name: 'Privacy',
+    link: 'https://www2.gov.bc.ca/gov/content/home/privacy',
+  },
+  {
+    name: 'Accessibility',
+    link: 'https://www2.gov.bc.ca/gov/content/home/accessibility',
+  },
+  {
+    name: 'Copyright',
+    link: 'https://www2.gov.bc.ca/gov/content/home/copyright',
+  },
+  {
+    name: 'Contact Us',
+    link: 'https://github.com/bcgov/realm-o-matic',
+  },
+];
