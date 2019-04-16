@@ -40,8 +40,8 @@ const TextCss = css`
   color: white !important;
 `;
 
-export const Header = ({ isAuthenticated }) => {
-  const authButtonText = isAuthenticated ? 'Logout' : 'Login';
+export const Header = ({ authentication }) => {
+  const authButtonText = authentication.isAuthenticated ? 'Logout' : 'Login';
   return (
     <StyledHeader fixed="top">
       <Container>
@@ -65,12 +65,12 @@ export const Header = ({ isAuthenticated }) => {
 };
 
 Header.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  authentication: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.isAuthenticated,
+    authentication: state.authentication,
   };
 };
 

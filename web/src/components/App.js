@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import styled from '@emotion/styled';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
-import { Header } from './UI/Header';
-import { Footer } from './UI/Footer';
 import { Home, LoginHint } from '../containers';
 import { LoginRoute } from '../components/Auth/LoginRoute';
 import { AuthModal } from '../components/Auth/AuthModal';
-
-const StyledApp = styled.div`
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-`;
+import { Layout } from './UI';
 
 export class App extends Component {
   componentDidMount = () => {
@@ -42,27 +30,21 @@ export class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <StyledApp>
-          <Header isAuthenticated={this.props.isAuthenticated} />
-          <AuthModal isAuthenticated={this.props.isAuthenticated} />
-          <Switch>
-            <Route path="/notAuthorized" component={LoginHint} />
-            <Route path="/login/:idp" component={LoginRoute} />
-            <Route path="/" component={Home} />
-          </Switch>
-          <Footer />
-        </StyledApp>
-      </BrowserRouter>
+      <Layout>
+        <AuthModal isAuthenticated={this.props.authentication.isAuthenticated} />
+        <Switch>
+          <Route path="/notAuthorized" component={LoginHint} />
+          <Route path="/login/:idp" component={LoginRoute} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </Layout>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.authentication.isAuthenticated,
-    email: state.authentication.email,
-    userId: state.authentication.userId,
+    authentication: state.authentication,
   };
 };
 
@@ -74,6 +56,10 @@ const mapDispatchToProps = dispatch => {
     },
     dispatch
   );
+};
+
+App.propTypes = {
+  authentication: PropTypes.object.isRequired,
 };
 
 export default connect(
