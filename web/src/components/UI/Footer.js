@@ -20,7 +20,7 @@ const columns = FOOTER_LINKS.map((link, index) => (
   </Grid.Column>
 ));
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <StyledFooter>
       <Container>
