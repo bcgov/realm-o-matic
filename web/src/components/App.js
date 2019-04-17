@@ -20,12 +20,6 @@ export class App extends Component {
     if (!window.location.host.match(/localhost/)) {
       implicitAuthManager.handleOnPageLoad();
     }
-    try {
-      const iamId = implicitAuthManager.idToken.data.sub;
-      const token = implicitAuthManager.idToken.bearer;
-    } catch (err) {
-      console.log('---implicitAuthManager----not logged in');
-    }
   };
 
   render() {
