@@ -68,13 +68,4 @@ Header.propTypes = {
   authentication: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    authentication: state.authentication,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null
-)(Header);
+export default Header;

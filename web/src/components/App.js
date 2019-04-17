@@ -30,7 +30,7 @@ export class App extends Component {
 
   render() {
     return (
-      <Layout>
+      <Layout authentication={this.props.authentication}>
         <AuthModal isAuthenticated={this.props.authentication.isAuthenticated} />
         <Switch>
           <Route path="/notAuthorized" component={LoginHint} />

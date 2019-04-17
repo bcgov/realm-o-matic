@@ -15,11 +15,11 @@ const StyledApp = styled.div`
   font-size: calc(10px + 2vmin);
 `;
 
-export const Layout = ({ children }) => {
+export const Layout = ({ authentication, children }) => {
   return (
     <BrowserRouter>
       <StyledApp>
-        <Header />
+        <Header authentication={authentication} />
         <Container>{children}</Container>
         <Footer />
       </StyledApp>
@@ -29,4 +29,7 @@ export const Layout = ({ children }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  authentication: PropTypes.object.isRequired,
 };
+
+export default Layout;
