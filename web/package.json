@@ -6,15 +6,10 @@
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest --env=jsdom",
     "test:watch": "jest --watch --env=jsdom",
     "test:lint": "eslint src/",
     "eject": "react-scripts eject"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./rtl.setup.js"
-    ]
   },
   "eslintConfig": {
     "extends": "react-app"
