@@ -5,6 +5,6 @@ import implicitAuthManager from '../../utils/auth';
 export const LoginRoute = ({ match }) => {
   const idp = match.params.idp;
   if (idp) implicitAuthManager.config.kcIDPHint = idp;
-  window.location = implicitAuthManager.getSSOLoginURI();
+  window.location.assign(implicitAuthManager.getSSOLoginURI());
   return null;
 };
