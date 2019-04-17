@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu, Container, Dropdown } from 'semantic-ui-react';
 import styled from '@emotion/styled';
@@ -8,6 +7,7 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/core';
 import { APP_INFO } from '../../constants';
 import logo from '../../assets/bcgovlogo.svg';
+import { TEST_IDS } from '../../constants';
 
 const StyledHeader = styled(Menu)`
   &&& {
@@ -46,7 +46,7 @@ export const Header = ({ authentication }) => {
     <StyledHeader fixed="top">
       <Container>
         <StyledItem>
-          <Link to={{ pathname: '/' }}>
+          <Link to={{ pathname: '/' }} data-testid={TEST_IDS.APP.LOGO}>
             <StyledImage src={logo} className="logo" alt="logo" width="80" />
           </Link>
         </StyledItem>
@@ -54,7 +54,7 @@ export const Header = ({ authentication }) => {
         <StyledItem position="right">
           <Dropdown item simple text="Account" css={DropdownCss}>
             <Dropdown.Menu>
-              <Dropdown.Item text={authButtonText} />
+              <Dropdown.Item text={authButtonText} data-testid={TEST_IDS.APP.LOGIN} />
               <Dropdown.Item text="My Requests" />
             </Dropdown.Menu>
           </Dropdown>

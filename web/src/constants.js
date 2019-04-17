@@ -37,7 +37,10 @@ export const API = {
 
 export const TEST_IDS = {
   APP: {
-    LOGIG: 'login-button',
+    LOGO: 'gov-logo',
+    LOGIN: 'login-button',
+    IDIR_LOGIN: 'idir-login-button',
+    GITHUB_LOGIN: 'github-login-button',
     GET_IDPS: 'get-idps-button',
   },
 };

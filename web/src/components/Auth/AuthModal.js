@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'semantic-ui-react';
-import { SSO_IDP } from '../../constants';
+import { TEST_IDS, SSO_IDP } from '../../constants';
 
 export const AuthModal = ({ isAuthenticated }) => {
   return (
@@ -19,10 +19,10 @@ export const AuthModal = ({ isAuthenticated }) => {
       </Modal.Content>
       <Modal.Actions>
         <Link to={{ pathname: `/login/${SSO_IDP.GITHUB}` }}>
-          <Button>GitHub</Button>
+          <Button data-testid={TEST_IDS.APP.GITHUB_LOGIN}>GitHub</Button>
         </Link>
         <Link to={{ pathname: `/login/${SSO_IDP.IDIR}` }}>
-          <Button>IDIR</Button>
+          <Button data-testid={TEST_IDS.APP.IDIR_LOGIN}>IDIR</Button>
         </Link>
       </Modal.Actions>
     </Modal>
