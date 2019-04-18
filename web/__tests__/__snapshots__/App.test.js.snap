@@ -1,77 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App Component displays after logged in 1`] = `
-<div
-  class="css-bpit-StyledApp eamkuan0"
->
-  <p>
-    Welcome!
-  </p>
-  <button
-    class="ui button"
-    data-testid="get-idps-button"
-  >
-    get idps
-  </button>
-  <p />
-  <div
-    class="ui list"
-    role="list"
-  />
-</div>
-`;
-
-exports[`App Component provide list of idps 1`] = `
-<div
-  class="css-bpit-StyledApp eamkuan0"
->
-  <p>
-    Welcome!
-  </p>
-  <button
-    class="ui button"
-    data-testid="login-button"
-  >
-    sso login
-  </button>
-  <p />
-  <div
-    class="ui list"
-    role="list"
-  >
-    <div
-      class="item"
-      role="listitem"
-    >
-      abc
-    </div>
-    <div
-      class="item"
-      role="listitem"
-    >
-      def
-    </div>
-  </div>
-</div>
-`;
-
 exports[`App Component renders without crashing 1`] = `
-<div
-  class="css-bpit-StyledApp eamkuan0"
->
-  <p>
-    Welcome!
-  </p>
-  <button
-    class="ui button"
-    data-testid="login-button"
-  >
-    sso login
-  </button>
-  <p />
-  <div
-    class="ui list"
-    role="list"
-  />
+<div>
+  <div />
 </div>
 `;

@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Component renders without crashing 1`] = `
+<div>
+  <div
+    class="ui top fixed css-hn2qep-StyledHeader em87vhj0 menu"
+  >
+    <div
+      class="ui container"
+    >
+      <div
+        class="item css-1mhg2ut-StyledItem em87vhj1"
+      >
+        <a
+          data-testid="gov-logo"
+          href="/"
+        >
+          <img
+            alt="logo"
+            class="logo css-bro51y-StyledImage em87vhj2"
+            src="bcgovlogo.svg"
+            width="80"
+          />
+        </a>
+      </div>
+      <div
+        class="item css-16ynqqp-StyledItem-TextCss em87vhj1"
+      >
+        Realm-o-Matic
+      </div>
+      <div
+        class="right item css-1mhg2ut-StyledItem em87vhj1"
+      >
+        <div
+          aria-expanded="false"
+          class="ui item simple dropdown css-icuubi-DropdownCss"
+          role="listbox"
+          tabindex="0"
+        >
+          <div
+            aria-live="polite"
+            class="text"
+            role="alert"
+          >
+            Account
+          </div>
+          <i
+            aria-hidden="true"
+            class="dropdown icon"
+          />
+          <div
+            class="menu transition"
+          >
+            <div
+              class="item"
+              data-testid="login-button"
+              role="option"
+            >
+              <span
+                class="text"
+              >
+                Logout
+              </span>
+            </div>
+            <div
+              class="item"
+              role="option"
+            >
+              <span
+                class="text"
+              >
+                My Requests
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
