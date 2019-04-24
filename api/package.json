@@ -18,6 +18,8 @@
   "dependencies": {
     "@babel/runtime": "^7.4.2",
     "@bcgov/nodejs-common-utils": "0.0.16",
+    "@octokit/rest": "^16.25.0",
+    "ajv": "^6.10.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
@@ -25,6 +27,7 @@
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-clean": "^0.4.0",
+    "lodash": "^4.17.11",
     "nconf": "^0.10.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
