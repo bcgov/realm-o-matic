@@ -20,21 +20,14 @@
 
 'use strict';
 
-import _ from 'lodash';
 import Ajv from 'ajv';
 
 // Validate json object against a schema:
 // eslint-disable-next-line import/prefer-default-export
 export const validateSchema = (object, schema) => {
-  let isValid = false;
-  if (!object || _.isEmpty(object))
-    return {
-      isValid,
-      payload: 'Empty payload!',
-    };
   const ajv = new Ajv();
   const validate = ajv.compile(schema);
-  isValid = validate(object);
+  const isValid = validate(object);
   return {
     isValid,
     payload: isValid ? object : `Fail to match schema, ${ajv.errorsText(validate.errors)}`,

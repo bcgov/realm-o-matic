@@ -20,7 +20,6 @@
 
 'use strict';
 
-// eslint-disable-next-line import/prefer-default-export
 export const ACCESS_CONTROL = {
   SA_ROLE: 'devhub_kc_web',
   REQUESTER_ROLE: 'devhub_kc_requester',
@@ -28,9 +27,12 @@ export const ACCESS_CONTROL = {
 };
 
 export const realmSchema = {
+  type: 'object',
+  required: ['id', 'displayName', 'adminUser', 'idps', 'po'],
   properties: {
     id: { type: 'string' },
     displayName: { type: 'string' },
+    adminUser: { type: 'string' },
     idps: { type: 'array' },
     po: { type: 'string' },
   },
