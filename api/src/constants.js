@@ -26,3 +26,12 @@ export const ACCESS_CONTROL = {
   REQUESTER_ROLE: 'devhub_kc_requester',
   REVIEWER_ROLE: 'devhub_kc_reviewer',
 };
+
+export const realmSchema = {
+  properties: {
+    id: { type: 'string' },
+    displayName: { type: 'string' },
+    idps: { type: 'array' },
+    po: { type: 'string' },
+  },
+};
