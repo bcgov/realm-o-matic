@@ -23,6 +23,7 @@
 import _ from 'lodash';
 import Ajv from 'ajv';
 
+// Validate json object against a schema:
 // eslint-disable-next-line import/prefer-default-export
 export const validateSchema = (object, schema) => {
   let isValid = false;
