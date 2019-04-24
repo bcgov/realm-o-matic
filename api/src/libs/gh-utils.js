@@ -56,7 +56,7 @@ export const normalizeIssues = data => {
 };
 
 // Request to get list of open GitHub issues:
-export const getIssues = async () => {
+export const getIssueList = async () => {
   try {
     const res = await shared.gh.issues.listForRepo({
       owner: config.get('github:owner'),

@@ -20,10 +20,9 @@
 
 'use strict';
 
-import _ from 'lodash';
 import { asyncMiddleware } from '@bcgov/nodejs-common-utils';
 import { Router } from 'express';
-import { getIssues, getIssue } from '../../libs/gh-utils';
+import { getIssueList, getIssue } from '../../libs/gh-utils';
 
 const router = new Router();
 
@@ -45,7 +44,7 @@ router.get(
   '/',
   asyncMiddleware(async (req, res) => {
     try {
-      const ghIssues = await getIssues();
+      const ghIssues = await getIssueList();
       res.status(200).json(ghIssues);
     } catch (err) {
       const errCode = err.status ? err.status : 500;
