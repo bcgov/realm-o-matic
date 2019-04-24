@@ -22,7 +22,7 @@
 
 export const goodObject = {
   id: 'abcd4321',
-  displayName: 'test-realm-2',
+  displayName: 'test-realm-1',
   adminUser: 'test-user',
   idps: ['github', 'idir'],
   po: 'test-user@email.com',
@@ -30,7 +30,7 @@ export const goodObject = {
 
 export const badObject = {
   id: 'abcd4321',
-  displayName: 'test-realm-2',
+  displayName: 'test-realm-1',
   adminUser: 'test-user',
   idps: ['github', 'idir'],
   // missing po
@@ -39,15 +39,24 @@ export const badObject = {
 export const emptyObject = null;
 
 export const goodIssue = {
-  issueId: 1,
-  realm: goodObject,
+  id: 436374981,
+  number: 1,
+  title: 'test-realm-2',
+  body:
+    '{\r\n\t"id": "abcd4321",\r\n\t"displayName": "test-realm-1",\r\n\t"adminUser": "test-user",\r\n\t"idps": ["github", "idir"],\r\n\t"po": "test-user@email.com"\r\n}',
 };
 
 export const badIssue1 = {
-  issueId: 1,
+  id: 436374981,
+  number: 1,
+  title: 'test-realm-2',
 };
 
 export const badIssue2 = {
-  issueId: 1,
-  realm: badObject,
+  id: 436374981,
+  number: 1,
+  title: 'test-realm-2',
+  body:
+    '{\r\n\t"id": "abcd4321",\r\n\t"displayName": "test-realm-1",\r\n\t"adminUser": "test-user",\r\n\t"idps": ["github", "idir"]}',
+  // missing po
 };
