@@ -22,8 +22,12 @@
 
 import Ajv from 'ajv';
 
-// Validate json object against a schema:
-// eslint-disable-next-line import/prefer-default-export
+/**
+ * Validate json object:
+ * @param {Object} object the content to validate
+ * @param {String} schema the schema to match against
+ * @returns {Object} validation result and content/error message
+ */
 export const validateSchema = (object, schema) => {
   const ajv = new Ajv();
   const validate = ajv.compile(schema);
@@ -32,4 +36,20 @@ export const validateSchema = (object, schema) => {
     isValid,
     payload: isValid ? object : `Fail to match schema, ${ajv.errorsText(validate.errors)}`,
   };
+};
+
+/**
+ * Json object to base64 encoded file content:
+ * @param {*} input Json object
+ */
+export const objectToEncodedFile = (name, content) => {
+  try {
+    const encodedFileContent = Buffer.from(JSON.stringify(content)).toString('base64');
+    return {
+      name,
+      content: encodedFileContent,
+    };
+  } catch (err) {
+    throw err;
+  }
 };
