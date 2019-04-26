@@ -57,4 +57,9 @@ export const prSchema = {
   },
 };
 
-export const commitMessageTemplate = (user, realmName) => `${user} requested for ${realmName}.`;
+export const GITHUB = {
+  BASE_BRANCH: 'master',
+  branchRef: name => `refs/heads/${name}`,
+  recordPath: name => `records/${name}.json`,
+  commitMessage: request => `Requested for ${request}.`,
+};
