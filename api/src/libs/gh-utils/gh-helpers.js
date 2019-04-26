@@ -22,10 +22,8 @@
 
 import _ from 'lodash';
 import { errorWithCode, logger } from '@bcgov/common-nodejs-utils';
-import { realmSchema } from '../constants';
-import { validateSchema } from './utils';
-import shared from './shared';
-import config from '../config';
+import { realmSchema } from '../../constants';
+import { validateSchema } from '../utils';
 
 // Normalize the github issue:
 export const normalizeIssue = issueBody => {
@@ -52,38 +50,6 @@ export const normalizeIssues = data => {
     throw errorWithCode('No issues found.', 404);
   } catch (err) {
     logger.error(`Fail to normalize issue: ${err.message}`);
-    throw err;
-  }
-};
-
-// Request to get list of open GitHub issues:
-export const getIssueList = async () => {
-  try {
-    const res = await shared.gh.issues.listForRepo({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-    });
-
-    const openIssues = normalizeIssues(res.data);
-
-    return openIssues;
-  } catch (err) {
-    throw err;
-  }
-};
-
-// Request to find a GitHub issue:
-export const getIssue = async issueId => {
-  try {
-    const res = await shared.gh.issues.get({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-      issue_number: issueId,
-    });
-    const openIssue = normalizeIssues(res.data);
-
-    return openIssue;
-  } catch (err) {
     throw err;
   }
 };

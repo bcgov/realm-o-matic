@@ -22,7 +22,7 @@
 
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
-import { getIssueList, getIssue } from '../../libs/gh-utils';
+import { getIssueList, getIssue } from '../../libs/gh-utils/gh-requests';
 
 const router = new Router();
 

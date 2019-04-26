@@ -20,7 +20,7 @@
 
 'use strict';
 
-import { normalizeIssue, normalizeIssues } from '../src/libs/gh-utils';
+import { normalizeIssue, normalizeIssues } from '../src/libs/gh-utils/gh-helpers';
 import { goodIssue, badIssue1, badIssue2, goodObject } from '../__fixtures__/utils-fixture';
 
 describe('normalizeIssue test', () => {
