@@ -21,7 +21,7 @@
 'use strict';
 
 import _ from 'lodash';
-import { errorWithCode } from '@bcgov/nodejs-common-utils';
+import { errorWithCode } from '@bcgov/common-nodejs-utils';
 import { realmSchema } from '../constants';
 import { validateSchema } from './utils';
 import shared from './shared';
@@ -51,6 +51,10 @@ export const normalizeIssues = data => {
     }
     throw errorWithCode('No issues found.', 404);
   } catch (err) {
+    // const message = `Unable to remove bla ${blaId} from order ${orderId}`;
+    // logger.error(`${message}, err = ${err.message}`);
+
+    // throw errorWithCode(message, err.code ? err.code : 500);
     throw Error(err.message);
   }
 };

@@ -18,7 +18,7 @@
 // Created by Jason Leach on 2018-02-14.
 //
 
-import { JWTServiceManager } from '@bcgov/nodejs-common-utils';
+import { JWTServiceManager } from '@bcgov/common-nodejs-utils';
 import Octokit from '@octokit/rest';
 import config from '../config';
 
