@@ -37,3 +37,24 @@ export const realmSchema = {
     po: { type: 'string' },
   },
 };
+
+export const requestSchema = {
+  type: 'object',
+  required: ['id', 'realm'],
+  properties: {
+    id: { type: 'string' },
+    realm: realmSchema,
+  },
+};
+
+export const prSchema = {
+  type: 'object',
+  required: ['number', 'status', 'fileName'],
+  properties: {
+    number: { type: 'number' },
+    status: { type: 'string' },
+    fileName: { type: 'string' },
+  },
+};
+
+export const commitMessageTemplate = (user, realmName) => `${user} requested for ${realmName}.`;
