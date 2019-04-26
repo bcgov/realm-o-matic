@@ -23,8 +23,24 @@
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
 import { getIssueList, getIssue } from '../../libs/gh-utils/gh-requests';
+import { createRecord } from '../../libs/gh-utils/gh-ops';
 
 const router = new Router();
+
+router.post(
+  '/records/:bName',
+  asyncMiddleware(async (req, res) => {
+    const { bName } = req.params;
+    const { request } = req.body;
+    try {
+      const newPr = await createRecord(bName, request);
+      res.status(200).json(newPr);
+    } catch (err) {
+      const errCode = err.status ? err.status : 500;
+      res.status(errCode).json(`Unable to start a PR: ${err}`);
+    }
+  })
+);
 
 router.get(
   '/:issueId',
