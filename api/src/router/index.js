@@ -24,6 +24,7 @@ import cors from 'cors';
 import passport from 'passport';
 import ehlo from './routes/ehlo';
 import kcIdp from './routes/kcIdp';
+import github from './routes/github';
 
 // TODO: specify the allowed origins instead of all
 const corsOptions = {
@@ -39,4 +40,5 @@ export const router = app => {
   // Auth needed for the endpoints:
   app.use(passport.authenticate('jwt', { session: false }));
   app.use('/api/v1/idps', kcIdp);
+  app.use('/api/v1/gh', github);
 };

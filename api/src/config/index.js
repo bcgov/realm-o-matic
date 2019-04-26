@@ -52,6 +52,11 @@ nconf.overrides({
       process.env.API_SSO_REALM
     }/protocol/openid-connect/certs`,
   },
+  github: {
+    auth: process.env.GITHUB_TOKEN,
+    owner: process.env.GITHUB_OWNER,
+    repo: process.env.GITHUB_REPO,
+  },
 });
 
 export default nconf;

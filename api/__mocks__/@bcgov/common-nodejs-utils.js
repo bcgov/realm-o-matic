@@ -20,7 +20,7 @@
 
 'use strict';
 
-import * as ncu from '@bcgov/nodejs-common-utils';
+import * as ncu from '@bcgov/common-nodejs-utils';
 
 // public certificate
 const pem = `
