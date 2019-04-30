@@ -44,6 +44,7 @@ export const requestSchema = {
   properties: {
     id: { type: 'string' },
     realm: realmSchema,
+    requester: { type: 'string' },
   },
 };
 
@@ -57,9 +58,14 @@ export const prSchema = {
   },
 };
 
-export const GITHUB = {
+export const GITHUB_REQUEST = {
   BASE_BRANCH: 'master',
   branchRef: name => `refs/heads/${name}`,
   recordPath: name => `records/${name}.json`,
   commitMessage: request => `Requested for ${request}.`,
+};
+
+// For jsonReader:
+export const GITHUB_JSON_PATH = {
+  PR_PATH: { number: 'number', state: 'state', fileName: 'title', requester: 'body' },
 };

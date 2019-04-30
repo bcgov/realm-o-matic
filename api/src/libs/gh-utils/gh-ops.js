@@ -21,8 +21,8 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { requestSchema } from '../../constants';
-import { getBranch, createBranch, createFile, createPR } from './gh-requests';
+import { requestSchema, GITHUB_REQUEST } from '../../constants';
+import { getBranch, createBranch, createFile, createPR, getPRs } from './gh-requests';
 import { validateSchema, objectToEncodedFile } from '../utils';
 
 /**
@@ -30,7 +30,6 @@ import { validateSchema, objectToEncodedFile } from '../utils';
  * @param {String} bName name of branch
  * @param {Object} requestContent content of request
  */
-// eslint-disable-next-line import/prefer-default-export
 export const createRecord = async (bName, requestContent) => {
   try {
     // create file content: validate and encode
@@ -39,18 +38,33 @@ export const createRecord = async (bName, requestContent) => {
     const fileContent = objectToEncodedFile(payload.realm.id, payload);
 
     // create branch:
-    const originRef = await getBranch('master');
+    const originRef = await getBranch(GITHUB_REQUEST.BASE_BRANCH);
     const newBranchRef = await createBranch(bName, originRef);
 
     // // push file:
     const fileRef = await createFile(fileContent, newBranchRef);
 
     // // start pr:
-    const prRef = await createPR(fileRef, newBranchRef);
+    const prRef = await createPR(fileRef, newBranchRef, payload.requester);
 
     return prRef;
   } catch (err) {
     logger.error(`Fail to create a request record: ${err.message}`);
+    throw err;
+  }
+};
+
+/**
+ * Get list of requests:
+ * @param {String} state the state of the request PR
+ * @param {String} user the user to filter with
+ */
+export const getRecords = async (state = 'all', user = null) => {
+  try {
+    const prs = await getPRs({ state });
+    return user ? prs.filter(pr => pr.requester === user) : prs;
+  } catch (err) {
+    logger.error(`Fail to get list of ${state} requests: ${err.message}`);
     throw err;
   }
 };

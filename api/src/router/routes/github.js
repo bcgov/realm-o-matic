@@ -22,8 +22,7 @@
 
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
-import { getIssueList, getIssue } from '../../libs/gh-utils/gh-requests';
-import { createRecord } from '../../libs/gh-utils/gh-ops';
+import { createRecord, getRecords } from '../../libs/gh-utils/gh-ops';
 
 const router = new Router();
 
@@ -43,28 +42,15 @@ router.post(
 );
 
 router.get(
-  '/:issueId',
+  '/records',
   asyncMiddleware(async (req, res) => {
-    const { issueId } = req.params;
+    const { state, user } = req.query;
     try {
-      const ghIssue = await getIssue(issueId);
-      res.status(200).json(ghIssue);
+      const pendingRequests = await getRecords(state, user);
+      res.status(200).json(pendingRequests);
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).json(`Unable to fetch issue with id ${issueId}.`);
-    }
-  })
-);
-
-router.get(
-  '/',
-  asyncMiddleware(async (req, res) => {
-    try {
-      const ghIssues = await getIssueList();
-      res.status(200).json(ghIssues);
-    } catch (err) {
-      const errCode = err.status ? err.status : 500;
-      res.status(errCode).json('Unable to fetch list of open issues.');
+      res.status(errCode).json('Unable to fetch list of open PR records.');
     }
   })
 );
