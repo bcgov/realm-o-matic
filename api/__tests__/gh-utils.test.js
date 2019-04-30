@@ -20,8 +20,10 @@
 
 'use strict';
 
-import { normalizeIssue, normalizeIssues } from '../src/libs/gh-utils/gh-helpers';
+import { normalizeIssue, normalizeIssues, jsonReader } from '../src/libs/gh-utils/gh-helpers';
+import { ghClient } from '../src/libs/gh-utils/gh-requests';
 import { goodIssue, badIssue1, badIssue2, goodObject } from '../__fixtures__/utils-fixture';
+import { mockedGHFn } from '../__mocks__/gh-fn';
 
 describe('normalizeIssue test', () => {
   test('returns valid payload', () => {
@@ -72,5 +74,56 @@ describe('normalizeIssues test', () => {
 
   test('throws for invalid issues', () => {
     expect(() => normalizeIssues([goodIssue, badIssue1])).toThrow('Error: Invalid GitHub issue.');
+  });
+});
+
+describe('jsonReader test', () => {
+  test('read single key value', () => {
+    expect(jsonReader(goodObject, 'po')).toEqual(goodObject.po);
+  });
+
+  test('read array of key value', () => {
+    expect(jsonReader(goodObject, { id: 'id', owner: 'po' })).toEqual({
+      id: goodObject.id,
+      owner: goodObject.po,
+    });
+  });
+
+  test('return original object when no keys', () => {
+    expect(jsonReader(goodObject)).toEqual(goodObject);
+  });
+
+  test('throws when missing content only in path array', () => {
+    expect(() => jsonReader(goodIssue, { id: 'id', owner: 'ponot' })).toThrow(
+      'Failed to read the data with ponot'
+    );
+  });
+
+  test('throws when path is not expected', () => {
+    expect(() => jsonReader(goodIssue, ['id', 'po'])).toThrow('Failed to read the data with po');
+  });
+});
+
+describe('ghClient test', () => {
+  test('handles single object returned', async () => {
+    const data = await ghClient(mockedGHFn, { input: 'object' }, 'id');
+    expect(data).toEqual(goodObject.id);
+  });
+
+  test('handles array object returned', async () => {
+    const data = await ghClient(mockedGHFn, { input: 'array' }, 'id');
+    expect(data).toEqual([goodObject.id, goodObject.id]);
+  });
+
+  test('handles null returned', async () => {
+    await expect(ghClient(mockedGHFn, { input: 'null' }, 'id')).rejects.toEqual(
+      Error('No data returned with the request.')
+    );
+  });
+
+  test('handles unexpected returned', async () => {
+    await expect(ghClient(mockedGHFn, { input: 'random' }, 'id')).rejects.toEqual(
+      Error('GH request error.')
+    );
   });
 });

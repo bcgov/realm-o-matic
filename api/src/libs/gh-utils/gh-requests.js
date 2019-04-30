@@ -41,6 +41,7 @@ export const ghClient = async (ghFn, input, outPaths) => {
     });
 
     const { data } = res;
+    if (!data) throw Error('No data returned with the request.');
     return _.isArray(data) ? data.map(i => jsonReader(i, outPaths)) : jsonReader(data, outPaths);
   } catch (err) {
     throw err;
