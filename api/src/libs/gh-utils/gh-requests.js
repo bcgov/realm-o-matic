@@ -20,130 +20,79 @@
 
 'use strict';
 
-import { GITHUB } from '../../constants';
+import _ from 'lodash';
+import { GITHUB_REQUEST, GITHUB_JSON_PATH } from '../../constants';
 import shared from '../shared';
 import config from '../../config';
-import { normalizeIssues } from './gh-helpers';
+import { jsonReader } from './gh-helpers';
+
+/**
+ * Create GitHub client with repo properties:
+ * @param {Function} ghFn Octokit function
+ * @param {Object} input extra properties
+ * @param {Object} outPaths paths to the respose object
+ */
+export const ghClient = async (ghFn, input, outPaths) => {
+  try {
+    const res = await ghFn({
+      owner: config.get('github:owner'),
+      repo: config.get('github:repo'),
+      ...input,
+    });
+
+    const { data } = res;
+    return _.isArray(data) ? data.map(i => jsonReader(i, outPaths)) : jsonReader(data, outPaths);
+  } catch (err) {
+    throw err;
+  }
+};
 
 /**
  * Request to get a branch by name:
  * @param {String} bName name of branch
  */
-export const getBranch = async bName => {
-  try {
-    const res = await shared.gh.repos.getBranch({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-      branch: bName,
-    });
-
-    return res.data.commit.sha;
-  } catch (err) {
-    throw err;
-  }
-};
+export const getBranch = bName =>
+  ghClient(shared.gh.repos.getBranch, { branch: bName }, 'commit.sha');
 
 /**
  * Request to create a branch by name:
  * @param {String} bName name of branch
  * @param {String} base sha of base commit
  */
-export const createBranch = async (bName, base) => {
-  try {
-    const res = await shared.gh.git.createRef({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-      ref: GITHUB.branchRef(bName),
-      sha: base,
-    });
-
-    // Full branch name: e.g. 'refs/heads/xxx'
-    return res.data.ref;
-  } catch (err) {
-    throw err;
-  }
-};
+export const createBranch = (bName, base) =>
+  ghClient(shared.gh.git.createRef, { ref: GITHUB_REQUEST.branchRef(bName), sha: base }, 'ref');
 
 /**
  * Request to create and push file:
  * @param {String} bName name of branch
  * @param {Object} file file object
  */
-export const createFile = async (file, bName) => {
-  try {
-    const res = await shared.gh.repos.createFile({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-      path: GITHUB.recordPath(file.name),
-      message: GITHUB.commitMessage(file.name),
+export const createFile = (file, bName) =>
+  ghClient(
+    shared.gh.repos.createFile,
+    {
+      path: GITHUB_REQUEST.recordPath(file.name),
+      message: GITHUB_REQUEST.commitMessage(file.name),
       content: file.content,
       branch: bName,
-    });
-
-    return res.data.content.name;
-  } catch (err) {
-    throw err;
-  }
-};
+    },
+    'content.name'
+  );
 
 /**
  * Request to create pull request:
  * @param {String} bName name of branch
  * @param {String} fileName name of file
  */
-export const createPR = async (fileName, bName) => {
-  try {
-    const res = await shared.gh.pulls.create({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-      title: fileName,
-      head: bName,
-      base: GITHUB.BASE_BRANCH,
-    });
-
-    return {
-      number: res.data.number,
-      status: res.data.state,
-      fileName: res.data.title,
-    };
-  } catch (err) {
-    throw err;
-  }
-};
+export const createPR = (fileName, bName, user) =>
+  ghClient(
+    shared.gh.pulls.create,
+    { title: fileName, head: bName, base: GITHUB_REQUEST.BASE_BRANCH, body: user },
+    GITHUB_JSON_PATH.PR_PATH
+  );
 
 /**
- * Request to get list of open GitHub issues:
+ * Request to get all OPEN pull requests:
+ * @param {Object} filters filter by the state
  */
-export const getIssueList = async () => {
-  try {
-    const res = await shared.gh.issues.listForRepo({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-    });
-
-    const openIssues = normalizeIssues(res.data);
-
-    return openIssues;
-  } catch (err) {
-    throw err;
-  }
-};
-
-/**
- * Request to get a GitHub issue:
- * @param {String} issueId id of issue
- */
-export const getIssue = async issueId => {
-  try {
-    const res = await shared.gh.issues.get({
-      owner: config.get('github:owner'),
-      repo: config.get('github:repo'),
-      issue_number: issueId,
-    });
-    const openIssue = normalizeIssues(res.data);
-
-    return openIssue;
-  } catch (err) {
-    throw err;
-  }
-};
+export const getPRs = filters => ghClient(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
