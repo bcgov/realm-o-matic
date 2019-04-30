@@ -21,6 +21,7 @@
 'use strict';
 
 import _ from 'lodash';
+import jsonata from 'jsonata';
 import { errorWithCode, logger } from '@bcgov/common-nodejs-utils';
 import { realmSchema } from '../../constants';
 import { validateSchema } from '../utils';
@@ -52,4 +53,25 @@ export const normalizeIssues = data => {
     logger.error(`Fail to normalize issue: ${err.message}`);
     throw err;
   }
+};
+
+/**
+ * Get data from json object by path:
+ * @param {Object} jsonData the JSON object
+ * @param {Array} paths the path or paths to the key
+ */
+export const jsonReader = (jsonData, paths = null) => {
+  if (_.isEmpty(paths)) return jsonData;
+  if (_.isString(paths)) {
+    const value = jsonata(paths).evaluate(jsonData);
+    return value;
+  }
+  if (_.isObject(paths)) {
+    return _.mapValues(paths, p => {
+      const data = jsonata(p).evaluate(jsonData);
+      if (data === undefined) throw Error(`Failed to read the data with ${p}`);
+      return data;
+    });
+  }
+  throw Error('Cannot process this request data.');
 };
