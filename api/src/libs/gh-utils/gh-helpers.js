@@ -22,44 +22,13 @@
 
 import _ from 'lodash';
 import jsonata from 'jsonata';
-import { errorWithCode, logger } from '@bcgov/common-nodejs-utils';
-import { realmSchema } from '../../constants';
-import { validateSchema } from '../utils';
-
-// Normalize the github issue:
-export const normalizeIssue = issueBody => {
-  try {
-    const issueContent = issueBody.body;
-    const issueId = issueBody.number;
-    if (!issueContent || !issueId) throw Error('Invalid GitHub issue.');
-    const realmInfo = JSON.parse(issueContent.replace(/\r?\n|\r/g, ''));
-    const { isValid, payload } = validateSchema(realmInfo, realmSchema);
-
-    if (!isValid) throw Error(payload);
-    return { issueId, realm: payload };
-  } catch (err) {
-    throw Error(err);
-  }
-};
-
-// Get the array of normalize github issues:
-export const normalizeIssues = data => {
-  try {
-    if (!_.isEmpty(data)) {
-      return _.isArray(data) ? data.map(i => normalizeIssue(i)) : [normalizeIssue(data)];
-    }
-    throw errorWithCode('No issues found.', 404);
-  } catch (err) {
-    logger.error(`Fail to normalize issue: ${err.message}`);
-    throw err;
-  }
-};
 
 /**
  * Get data from json object by path:
  * @param {Object} jsonData the JSON object
  * @param {Array} paths the path or paths to the key
  */
+// eslint-disable-next-line import/prefer-default-export
 export const jsonReader = (jsonData, paths = null) => {
   if (_.isEmpty(paths)) return jsonData;
   if (_.isString(paths)) {
