@@ -21,25 +21,25 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { requestSchema, GITHUB_REQUEST } from '../../constants';
+import { REQUEST_SCHEMA, GITHUB_REQUEST } from '../../constants';
 import { getBranch, createBranch, createFile, createPR, getPRs } from './gh-requests';
 import { validateSchema, objectToEncodedFile } from '../utils';
 
 /**
  * Create a pr as record of request:
- * @param {String} bName name of branch
+ * @param {String} branchName name of branch
  * @param {Object} requestContent content of request
  */
-export const createRecord = async (bName, requestContent) => {
+export const createRecord = async (branchName, requestContent) => {
   try {
     // create file content: validate and encode
-    const { isValid, payload } = validateSchema(requestContent, requestSchema);
+    const { isValid, payload } = validateSchema(requestContent, REQUEST_SCHEMA);
     if (!isValid) throw Error(payload);
     const fileContent = objectToEncodedFile(payload.realm.id, payload);
 
     // create branch:
     const originRef = await getBranch(GITHUB_REQUEST.BASE_BRANCH);
-    const newBranchRef = await createBranch(bName, originRef);
+    const newBranchRef = await createBranch(branchName, originRef);
 
     // // push file:
     const fileRef = await createFile(fileContent, newBranchRef);

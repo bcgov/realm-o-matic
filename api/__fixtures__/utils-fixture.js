@@ -61,12 +61,12 @@ export const badIssue2 = {
   // missing po
 };
 
-export const ghRes = {
+export const mockedGHFnResponse = {
   id: 436374981,
   data: goodObject,
 };
 
-export const ghArrayRes = {
+export const mockedGHFnArrayOfResponse = {
   id: 436374981,
   data: [goodObject, goodObject],
 };

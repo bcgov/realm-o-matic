@@ -29,20 +29,22 @@ import { jsonReader } from './gh-helpers';
 /**
  * Create GitHub client with repo properties:
  * @param {Function} ghFn Octokit function
- * @param {Object} input extra properties
- * @param {Object} outPaths paths to the respose object
+ * @param {Object} ghFnParams extra parameters for the GitHub function
+ * @param {Object} resultQuery query expressions for the respose object
  */
-export const ghClient = async (ghFn, input, outPaths) => {
+export const ghHelper = async (ghFn, ghFnParams, resultQuery) => {
   try {
     const res = await ghFn({
       owner: config.get('github:owner'),
       repo: config.get('github:repo'),
-      ...input,
+      ...ghFnParams,
     });
 
     const { data } = res;
     if (!data) throw Error('No data returned with the request.');
-    return _.isArray(data) ? data.map(i => jsonReader(i, outPaths)) : jsonReader(data, outPaths);
+    return _.isArray(data)
+      ? data.map(i => jsonReader(i, resultQuery))
+      : jsonReader(data, resultQuery);
   } catch (err) {
     throw err;
   }
@@ -50,45 +52,49 @@ export const ghClient = async (ghFn, input, outPaths) => {
 
 /**
  * Request to get a branch by name:
- * @param {String} bName name of branch
+ * @param {String} branchName name of branch
  */
-export const getBranch = bName =>
-  ghClient(shared.gh.repos.getBranch, { branch: bName }, 'commit.sha');
+export const getBranch = branchName =>
+  ghHelper(shared.gh.repos.getBranch, { branch: branchName }, 'commit.sha');
 
 /**
  * Request to create a branch by name:
- * @param {String} bName name of branch
+ * @param {String} branchName name of branch
  * @param {String} base sha of base commit
  */
-export const createBranch = (bName, base) =>
-  ghClient(shared.gh.git.createRef, { ref: GITHUB_REQUEST.branchRef(bName), sha: base }, 'ref');
+export const createBranch = (branchName, base) =>
+  ghHelper(
+    shared.gh.git.createRef,
+    { ref: GITHUB_REQUEST.branchRef(branchName), sha: base },
+    'ref'
+  );
 
 /**
  * Request to create and push file:
- * @param {String} bName name of branch
+ * @param {String} branchName name of branch
  * @param {Object} file file object
  */
-export const createFile = (file, bName) =>
-  ghClient(
+export const createFile = (file, branchName) =>
+  ghHelper(
     shared.gh.repos.createFile,
     {
       path: GITHUB_REQUEST.recordPath(file.name),
       message: GITHUB_REQUEST.commitMessage(file.name),
       content: file.content,
-      branch: bName,
+      branch: branchName,
     },
     'content.name'
   );
 
 /**
  * Request to create pull request:
- * @param {String} bName name of branch
+ * @param {String} branchName name of branch
  * @param {String} fileName name of file
  */
-export const createPR = (fileName, bName, user) =>
-  ghClient(
+export const createPR = (fileName, branchName, user) =>
+  ghHelper(
     shared.gh.pulls.create,
-    { title: fileName, head: bName, base: GITHUB_REQUEST.BASE_BRANCH, body: user },
+    { title: fileName, head: branchName, base: GITHUB_REQUEST.BASE_BRANCH, body: user },
     GITHUB_JSON_PATH.PR_PATH
   );
 
@@ -96,4 +102,4 @@ export const createPR = (fileName, bName, user) =>
  * Request to get all OPEN pull requests:
  * @param {Object} filters filter by the state
  */
-export const getPRs = filters => ghClient(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
+export const getPRs = filters => ghHelper(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
