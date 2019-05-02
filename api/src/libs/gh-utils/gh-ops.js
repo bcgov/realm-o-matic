@@ -49,7 +49,7 @@ export const createRecord = async (branchName, requestContent) => {
 
     return prRef;
   } catch (err) {
-    logger.error(`Fail to create a request record: ${err.message}`);
+    logger.error(`Fail to create a request record at branch ${branchName}: ${err.message}`);
     throw err;
   }
 };
@@ -64,7 +64,7 @@ export const getRecords = async (state = 'all', user = null) => {
     const prs = await getPRs({ state });
     return user ? prs.filter(pr => pr.requester === user) : prs;
   } catch (err) {
-    logger.error(`Fail to get list of ${state} requests: ${err.message}`);
+    logger.error(`Fail to get list of ${state} requests ${user}: ${err.message}`);
     throw err;
   }
 };

@@ -38,9 +38,9 @@ export const jsonReader = (jsonData, paths = null) => {
   if (_.isObject(paths)) {
     return _.mapValues(paths, p => {
       const data = jsonata(p).evaluate(jsonData);
-      if (data === undefined) throw Error(`Failed to read the data with ${p}`);
+      if (data === undefined) throw Error(`Failed to read data with key: ${p}`);
       return data;
     });
   }
-  throw Error('Cannot process this request data.');
+  throw Error(`Cannot process data for the path: ${paths}.`);
 };
