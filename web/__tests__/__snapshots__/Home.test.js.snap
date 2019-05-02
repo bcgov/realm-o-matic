@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Component provide list of idps 1`] = `
+<div>
+  <p>
+    Welcome!
+  </p>
+  <button
+    class="ui button"
+    data-testid="get-idps-button"
+  >
+    get idps
+  </button>
+  <p />
+  <div
+    class="ui list"
+    role="list"
+  >
+    <div
+      class="item"
+      role="listitem"
+    >
+      abc
+    </div>
+    <div
+      class="item"
+      role="listitem"
+    >
+      def
+    </div>
+  </div>
+</div>
+`;

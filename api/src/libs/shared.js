@@ -18,11 +18,13 @@
 // Created by Jason Leach on 2018-02-14.
 //
 
-import { JWTServiceManager } from '@bcgov/nodejs-common-utils';
+import { JWTServiceManager } from '@bcgov/common-nodejs-utils';
+import Octokit from '@octokit/rest';
 import config from '../config';
 
 // Assign keys:
 const ssoKey = Symbol.for('ca.bc.gov.pathfinder.realm-o-matic-api.sso');
+const ghKey = Symbol.for('ca.bc.gov.pathfinder.realm-o-matic-api.gh');
 const gs = Object.getOwnPropertySymbols(global);
 
 // TODO: might need a client in the master realm and realm management, and update config/
@@ -36,10 +38,19 @@ if (!(gs.indexOf(ssoKey) > -1)) {
   });
 }
 
+// GitHub:
+if (!(gs.indexOf(ghKey) > -1)) {
+  global[ghKey] = new Octokit(config.get('github'));
+}
+
 const singleton = {};
 
 Object.defineProperty(singleton, 'sso', {
   get: () => global[ssoKey],
+});
+
+Object.defineProperty(singleton, 'gh', {
+  get: () => global[ghKey],
 });
 
 Object.freeze(singleton);

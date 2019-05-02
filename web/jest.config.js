@@ -16,4 +16,5 @@ module.exports = {
     '\\.module\\.(css|less)$': 'identity-obj-proxy',
     '.(css)$': 'identity-obj-proxy',
   },
+  setupFilesAfterEnv: ['./rtl.setup.js'],
 };

@@ -20,7 +20,7 @@
 
 'use strict';
 
-import { logger, started } from '@bcgov/nodejs-common-utils';
+import { logger, started } from '@bcgov/common-nodejs-utils';
 import app from './index';
 import config from './config';
 

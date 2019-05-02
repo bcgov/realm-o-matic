@@ -20,16 +20,16 @@
 
 'use strict';
 
-import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
-import { Router } from 'express';
+import Ajv from 'ajv';
 
-const router = new Router();
-
-router.get(
-  '/',
-  asyncMiddleware(async (req, res) => {
-    res.status(200).json({ idp: ['abc', '111'] });
-  })
-);
-
-module.exports = router;
+// Validate json object against a schema:
+// eslint-disable-next-line import/prefer-default-export
+export const validateSchema = (object, schema) => {
+  const ajv = new Ajv();
+  const validate = ajv.compile(schema);
+  const isValid = validate(object);
+  return {
+    isValid,
+    payload: isValid ? object : `Fail to match schema, ${ajv.errorsText(validate.errors)}`,
+  };
+};
