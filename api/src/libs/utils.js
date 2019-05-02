@@ -39,10 +39,11 @@ export const validateSchema = (object, schema) => {
 };
 
 /**
- * Json object to base64 encoded file content:
- * @param {*} input Json object
+ * Base64 encode json to an object with name and content:
+ * @param {String} name the name of the encoded content
+ * @param {Object} content the content to be encoded
  */
-export const objectToEncodedFile = (name, content) => {
+export const encodeObjectWithName = (name, content) => {
   try {
     const encodedFileContent = Buffer.from(JSON.stringify(content)).toString('base64');
     return {
