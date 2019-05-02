@@ -1,0 +1,17 @@
+
+curl -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"originBranch":"f649d99b88b5225ca50fd58dca30fea26d84690a"}' \
+  http://localhost:8000/api/v1/gh/branches/test-branch-2
+
+
+curl -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"fileContent":{"realm":{"id":"12few32f","displayName":"realm-1"}}}' \
+  http://localhost:8000/api/v1/gh/records/test-branch-2
+
+
+curl -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"fileContent":"{realm:{id:12few32f,displayName:realm-1}}"}' \
+  http://localhost:8000/api/v1/gh/records/test-branch-2
