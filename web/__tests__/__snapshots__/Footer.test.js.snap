@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer Component renders without crashing 1`] = `
+<div>
+  <footer
+    class="css-mj1bac-StyledFooter ewud6l10"
+  >
+    <div
+      class="ui container"
+    >
+      <div
+        class="ui grid"
+      >
+        <div
+          class="two wide column"
+        >
+          <a
+            href="."
+          >
+            Home
+          </a>
+        </div>
+        <div
+          class="two wide column"
+        >
+          <a
+            href="https://www2.gov.bc.ca/gov/content/home/disclaimer"
+          >
+            Disclaimer
+          </a>
+        </div>
+        <div
+          class="two wide column"
+        >
+          <a
+            href="https://www2.gov.bc.ca/gov/content/home/privacy"
+          >
+            Privacy
+          </a>
+        </div>
+        <div
+          class="two wide column"
+        >
+          <a
+            href="https://www2.gov.bc.ca/gov/content/home/accessibility"
+          >
+            Accessibility
+          </a>
+        </div>
+        <div
+          class="two wide column"
+        >
+          <a
+            href="https://www2.gov.bc.ca/gov/content/home/copyright"
+          >
+            Copyright
+          </a>
+        </div>
+        <div
+          class="two wide column"
+        >
+          <a
+            href="https://github.com/bcgov/realm-o-matic"
+          >
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

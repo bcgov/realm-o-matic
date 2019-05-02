@@ -2,9 +2,17 @@
 const { ImplicitAuthManager } = jest.requireActual('@bcgov/common-web-utils');
 
 class ImplicitAuthManagerMocked {
+  constructor() {
+    this.config = {
+      baseURL: 'https://test.com',
+      realmName: 'testRealm',
+      clientId: 'testClient',
+      kcIDPHint: null,
+    };
+  }
   // eslint-disable-next-line
   getSSOLoginURI() {
-    return 'LOGINURI';
+    return this.config.kcIDPHint ? `LOGINURI/${this.config.kcIDPHint}` : 'LOGINURI';
   }
   // eslint-disable-next-line
   getSSOLogoutURI() {

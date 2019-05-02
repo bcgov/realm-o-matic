@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthModal Component renders without crashing 1`] = `
+<div
+  class="ui page modals dimmer transition visible active"
+>
+  <div
+    class="ui tiny modal transition visible active"
+  >
+    <div
+      class="header"
+    >
+      Login first
+    </div>
+    <div
+      class="content"
+    >
+      <p>
+        Please Login Before Proceeding
+      </p>
+    </div>
+    <div
+      class="actions"
+    >
+      <a
+        href="/login/github"
+      >
+        <button
+          class="ui button"
+          data-testid="github-login-button"
+        >
+          GitHub
+        </button>
+      </a>
+      <a
+        href="/login/idir"
+      >
+        <button
+          class="ui button"
+          data-testid="idir-login-button"
+        >
+          IDIR
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+`;

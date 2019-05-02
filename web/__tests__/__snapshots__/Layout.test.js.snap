@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout Component renders without crashing 1`] = `
+<div>
+  <div
+    class="css-cz7mt-StyledApp eqxrlrr0"
+  >
+    <div />
+    <div
+      class="ui container"
+    >
+      <div />
+    </div>
+    <div />
+  </div>
+</div>
+`;

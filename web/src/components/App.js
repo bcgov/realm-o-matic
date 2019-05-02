@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, List } from 'semantic-ui-react';
-import styled from '@emotion/styled';
+import { Route, Switch } from 'react-router-dom';
 import implicitAuthManager from '../utils/auth';
-import { getIdps } from '../actionCreators';
 import { authenticateFailed, authenticateSuccess } from '../actions';
-import { TEST_IDS } from '../constants';
-
-const StyledApp = styled.div`
-  text-align: center;
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-`;
+import { Home, LoginHint } from '../containers';
+import { LoginRoute } from '../components/Auth/LoginRoute';
+import { AuthModal } from '../components/Auth/AuthModal';
+import { Layout } from './UI';
 
 export class App extends Component {
   componentDidMount = () => {
@@ -30,53 +20,25 @@ export class App extends Component {
     if (!window.location.host.match(/localhost/)) {
       implicitAuthManager.handleOnPageLoad();
     }
-    try {
-      const iamId = implicitAuthManager.idToken.data.sub;
-      const token = implicitAuthManager.idToken.bearer;
-    } catch (err) {
-      console.log('---implicitAuthManager----not logged in');
-    }
   };
 
   render() {
-    const onClick = () => {
-      this.props.getIdps();
-    };
-
-    const onClickSSO = () => {
-      window.location = implicitAuthManager.getSSOLoginURI();
-    };
-
-    const idps = this.props.idps ? this.props.idps : [];
-    const buttons = !this.props.userId ? (
-      <Button onClick={onClickSSO} data-testid={TEST_IDS.APP.LOGIG}>
-        sso login
-      </Button>
-    ) : (
-      <Button onClick={onClick} data-testid={TEST_IDS.APP.GET_IDPS}>
-        get idps
-      </Button>
-    );
-
     return (
-      <StyledApp>
-        <p>Welcome!</p>
-        {buttons}
-        <p>{this.props.errorMessage}</p>
-        <List items={idps} />
-      </StyledApp>
+      <Layout authentication={this.props.authentication}>
+        <AuthModal isAuthenticated={this.props.authentication.isAuthenticated} />
+        <Switch>
+          <Route path="/notAuthorized" component={LoginHint} />
+          <Route path="/login/:idp" component={LoginRoute} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </Layout>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.authentication.isAuthenticated,
-    email: state.authentication.email,
-    userId: state.authentication.userId,
-    errorMessage: state.getIdps.errorMessage,
-    idps: state.getIdps.idps,
-    getIdpsStarted: state.getIdps.getIdpsStarted,
+    authentication: state.authentication,
   };
 };
 
@@ -85,10 +47,13 @@ const mapDispatchToProps = dispatch => {
     {
       login: () => dispatch(authenticateSuccess()),
       logout: () => dispatch(authenticateFailed()),
-      getIdps,
     },
     dispatch
   );
+};
+
+App.propTypes = {
+  authentication: PropTypes.object.isRequired,
 };
 
 export default connect(
