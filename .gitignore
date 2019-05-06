@@ -67,3 +67,5 @@ web/semantic/tasks/
 
 # pending cicd
 pipeline/
+
+samples/
