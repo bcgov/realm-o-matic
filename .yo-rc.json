@@ -26,6 +26,25 @@
           "github_repo": "realm-o-matic",
           "jenkinsFilePath": ".jenkins/Jenkinsfile",
           "uuid": "9db5d5b2-9bfe-4a24-918f-e1fe5344b197"
+        },
+        ".": {
+          "name": "realm-o-matic",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "devhub-tools"
+            },
+            "dev": {
+              "namespace": "devhub-dev"
+            },
+            "test": {
+              "namespace": "devhub-test"
+            },
+            "prod": {
+              "namespace": "devhub-prod"
+            }
+          }
         }
       }
     }
