@@ -62,6 +62,21 @@ objects:
               secretKeyRef:
                 name: realmomatic-api-sso
                 key: API_SSO_CLIENT_SECRET
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-gh
+                key: GITHUB_TOKEN
+          - name: GITHUB_OWNER
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-gh
+                key: GITHUB_OWNER
+          - name: GITHUB_REPO
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-gh
+                key: GITHUB_REPO
     test: false
     triggers:
     - type: ConfigChange

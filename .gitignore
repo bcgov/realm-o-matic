@@ -69,3 +69,5 @@ web/semantic/tasks/
 pipeline/
 
 samples/
+api/build/
+.nvm/
