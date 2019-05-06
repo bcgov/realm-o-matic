@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: "true"
+  labels:
+    app: realm-o-matic-web-caddy
+objects:
+- apiVersion: v1
+  data:
+      Caddyfile: placeholder
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: null
+    name: realm-o-matic-web-caddy
+  type: Opaque
