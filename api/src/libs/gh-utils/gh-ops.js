@@ -21,8 +21,26 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { requestSchema, GITHUB_REQUEST } from '../../constants';
-import { getBranch, createBranch, createFile, createPR, getPRs } from './gh-requests';
+import {
+  requestSchema,
+  prSchema,
+  GITHUB_REQUEST,
+  GITHUB_LABELS,
+  KEYCLOAK_TERMS,
+} from '../../constants';
+import {
+  getBranch,
+  createBranch,
+  getPRs,
+  getPR,
+  createPR,
+  listPRFiles,
+  getFile,
+  createFile,
+  addLable,
+  mergePR,
+  deleteBranch,
+} from './gh-requests';
 import { validateSchema, objectToEncodedFile } from '../utils';
 
 /**
@@ -41,13 +59,17 @@ export const createRecord = async (bName, requestContent) => {
     const originRef = await getBranch(GITHUB_REQUEST.BASE_BRANCH);
     const newBranchRef = await createBranch(bName, originRef);
 
-    // // push file:
+    // push file:
     const fileRef = await createFile(fileContent, newBranchRef);
 
-    // // start pr:
-    const prRef = await createPR(fileRef, newBranchRef, payload.requester);
+    // start pr:
+    const pr = await createPR(fileRef, newBranchRef, payload.requester);
 
-    return prRef;
+    // if bceid is required, need to add the lable to PR
+    if (payload.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
+      await addLable(pr.number, [GITHUB_LABELS.BCEID]);
+
+    return pr.number;
   } catch (err) {
     logger.error(`Fail to create a request record: ${err.message}`);
     throw err;
@@ -55,16 +77,59 @@ export const createRecord = async (bName, requestContent) => {
 };
 
 /**
- * Get list of requests:
- * @param {String} state the state of the request PR
- * @param {String} user the user to filter with
+ * Fetch the file content from a PR
+ * @param {number} prNumber the pull request number
  */
-export const getRecords = async (state = 'all', user = null) => {
+export const getRequestContent = async prNumber => {
   try {
-    const prs = await getPRs({ state });
+    const prInfo = await getPR(prNumber);
+    const files = await listPRFiles(prNumber);
+    const prFile = await getFile(files[0], prInfo.branch);
+    const content = Buffer.from(prFile.content, 'base64').toString();
+    const contentObject = JSON.parse(content);
+    return { ...prInfo, request: contentObject };
+  } catch (err) {
+    logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
+    throw err;
+  }
+};
+
+/**
+ * Get list of requests:
+ * @param {String} state the state of the request PRs
+ * @param {String} user the user to filter with
+ * @param {Array} labels the labels to filter with
+ */
+export const getRecords = async (state = 'all', labels = [], user = null) => {
+  try {
+    // get the PR based on state and labels:
+    const prs = await getPRs({ state, labels });
+    // filter by the user if mentioned:
     return user ? prs.filter(pr => pr.requester === user) : prs;
   } catch (err) {
-    logger.error(`Fail to get list of ${state} requests: ${err.message}`);
+    logger.error(`Fail to get list of PRs: ${err.message}`);
+    throw err;
+  }
+};
+
+/**
+ * Update the state or label of a PR
+ * @param {Number} pr pull request object
+ * @param {Boolean} mergeAndClose is ready to merge and close PR
+ * @param {String} label the label to be added
+ * @param {Object} message message to comment on PR
+ */
+export const updatePRState = async (pr, mergeAndClose, label, message = null) => {
+  try {
+    const { isValid, payload } = validateSchema(pr, prSchema);
+    if (!isValid) throw Error(payload);
+    logger.info(`The request from PR ${payload.number}, returns: ${message}.`);
+    if (mergeAndClose) {
+      await mergePR(payload.number);
+      await deleteBranch(payload.branch);
+    } else await addLable(payload.number, [label]);
+  } catch (err) {
+    logger.error(`Fail to get the list of PRs: ${err.message}`);
     throw err;
   }
 };
