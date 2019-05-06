@@ -43,12 +43,12 @@ describe('jsonReader test', () => {
 
   test('throws when missing content only in path array', () => {
     expect(() => jsonReader(goodIssue, { id: 'id', owner: 'ponot' })).toThrow(
-      'Failed to read the data with ponot'
+      'Failed to read data with key: ponot'
     );
   });
 
   test('throws when path is not expected', () => {
-    expect(() => jsonReader(goodIssue, ['id', 'po'])).toThrow('Failed to read the data with po');
+    expect(() => jsonReader(goodIssue, ['id', 'po'])).toThrow('Failed to read data with key: po');
   });
 });
 
