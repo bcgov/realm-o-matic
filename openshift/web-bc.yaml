@@ -48,7 +48,7 @@ objects:
       git:
         uri: ${SOURCE_REPOSITORY_URL}
         ref: ${SOURCE_REPOSITORY_REF}
-      contextDir: ''
+      contextDir: ${SOURCE_CONTEXT_DIR}
       type: Git
     strategy:
       sourceStrategy:
@@ -140,4 +140,9 @@ parameters:
   name: SOURCE_REPOSITORY_REF
   required: true
   value: master
+- description: SOURCE_CONTEXT_DIR
+  displayName: SOURCE_CONTEXT_DIR
+  name: SOURCE_CONTEXT_DIR
+  required: true
+  value: web
   
