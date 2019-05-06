@@ -26,7 +26,7 @@ export const ACCESS_CONTROL = {
   REVIEWER_ROLE: 'devhub_kc_reviewer',
 };
 
-export const realmSchema = {
+export const REALM_SCHEMA = {
   type: 'object',
   required: ['id', 'displayName', 'adminUser', 'idps', 'po'],
   properties: {
@@ -36,4 +36,36 @@ export const realmSchema = {
     idps: { type: 'array' },
     po: { type: 'string' },
   },
+};
+
+export const REQUEST_SCHEMA = {
+  type: 'object',
+  required: ['id', 'realm'],
+  properties: {
+    id: { type: 'string' },
+    realm: REALM_SCHEMA,
+    requester: { type: 'string' },
+  },
+};
+
+export const PR_SCHEMA = {
+  type: 'object',
+  required: ['number', 'status', 'fileName'],
+  properties: {
+    number: { type: 'number' },
+    status: { type: 'string' },
+    fileName: { type: 'string' },
+  },
+};
+
+export const GITHUB_REQUEST = {
+  BASE_BRANCH: 'master',
+  branchRef: name => `refs/heads/${name}`,
+  recordPath: name => `records/${name}.json`,
+  commitMessage: request => `Requested for ${request}.`,
+};
+
+// For jsonReader:
+export const GITHUB_JSON_PATH = {
+  PR_PATH: { number: 'number', state: 'state', fileName: 'title', requester: 'body' },
 };

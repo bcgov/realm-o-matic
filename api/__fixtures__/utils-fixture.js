@@ -60,3 +60,13 @@ export const badIssue2 = {
     '{\r\n\t"id": "abcd4321",\r\n\t"displayName": "test-realm-1",\r\n\t"adminUser": "test-user",\r\n\t"idps": ["github", "idir"]}',
   // missing po
 };
+
+export const mockedGHFnResponse = {
+  id: 436374981,
+  data: goodObject,
+};
+
+export const mockedGHFnArrayOfResponse = {
+  id: 436374981,
+  data: [goodObject, goodObject],
+};
