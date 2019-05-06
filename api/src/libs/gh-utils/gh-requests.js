@@ -32,7 +32,7 @@ import { jsonReader } from './gh-helpers';
  * @param {Object} input extra properties
  * @param {Object} outPaths paths to the respose object
  */
-export const ghClient = async (ghFn, input, outPaths) => {
+export const ghClient = async (ghFn, input, outPaths = null, expectDataResponse = true) => {
   try {
     const res = await ghFn({
       owner: config.get('github:owner'),
@@ -41,7 +41,7 @@ export const ghClient = async (ghFn, input, outPaths) => {
     });
 
     const { data } = res;
-    if (!data) throw Error('No data returned with the request.');
+    if (!data && expectDataResponse) throw Error('No data returned with the request.');
     return _.isArray(data) ? data.map(i => jsonReader(i, outPaths)) : jsonReader(data, outPaths);
   } catch (err) {
     throw err;
@@ -84,16 +84,64 @@ export const createFile = (file, bName) =>
  * Request to create pull request:
  * @param {String} bName name of branch
  * @param {String} fileName name of file
+ * @param {Object} user the requester info
  */
 export const createPR = (fileName, bName, user) =>
   ghClient(
     shared.gh.pulls.create,
-    { title: fileName, head: bName, base: GITHUB_REQUEST.BASE_BRANCH, body: user },
+    { title: fileName, head: bName, base: GITHUB_REQUEST.BASE_BRANCH, body: JSON.stringify(user) },
     GITHUB_JSON_PATH.PR_PATH
   );
 
 /**
- * Request to get all OPEN pull requests:
- * @param {Object} filters filter by the state
+ * Request to get pull requests by label:
+ * Note: octokit only provides filtering with the issues endpoint
+ * @param {Object} filters filter by the labels and states
  */
-export const getPRs = filters => ghClient(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
+export const getPRs = filters =>
+  ghClient(shared.gh.issues.listForRepo, filters, GITHUB_JSON_PATH.PR_PATH);
+// export const getPRs = filters => ghClient(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
+
+/**
+ * Request to fetch a pull requests:
+ * @param {Number} prNumber number of PR
+ */
+export const getPR = prNumber =>
+  ghClient(shared.gh.pulls.get, { pull_number: prNumber }, GITHUB_JSON_PATH.PR_PATH);
+
+/**
+ * List the files in a pull request:
+ * @param {Number} prNumber number of PR
+ */
+export const listPRFiles = prNumber =>
+  ghClient(shared.gh.pulls.listFiles, { pull_number: Number(prNumber) }, 'filename');
+
+/**
+ * Fetch a file from a branch:
+ * @param {String} filePath path to file
+ * @param {String} branchRef branch where file is
+ */
+export const getFile = (filePath, branchRef) =>
+  ghClient(shared.gh.repos.getContents, { path: filePath, ref: branchRef });
+
+/**
+ * Add labels to a PR:
+ * @param {Number} prNumber number of PR
+ * @param {Array} labels array of label names
+ */
+export const addLable = (prNumber, labels) =>
+  ghClient(shared.gh.issues.addLabels, { issue_number: prNumber, labels });
+
+/**
+ * Merge a pull request:
+ * @param {Number} prNumber number of PR
+ */
+export const mergePR = prNumber =>
+  ghClient(shared.gh.pulls.merge, { pull_number: prNumber }, 'merged');
+
+/**
+ * Delete a branch:
+ * @param {String} bName name of branch
+ */
+export const deleteBranch = bName =>
+  ghClient(shared.gh.git.deleteRef, { ref: GITHUB_REQUEST.shortBranchRef(bName) }, null, false);
