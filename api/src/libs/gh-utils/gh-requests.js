@@ -90,16 +90,68 @@ export const createFile = (file, branchName) =>
  * Request to create pull request:
  * @param {String} branchName name of branch
  * @param {String} fileName name of file
+ * @param {Object} user the requester info
  */
 export const createPR = (fileName, branchName, user) =>
   ghHelper(
     shared.gh.pulls.create,
-    { title: fileName, head: branchName, base: GITHUB_REQUEST.BASE_BRANCH, body: user },
+    {
+      title: fileName,
+      head: branchName,
+      base: GITHUB_REQUEST.BASE_BRANCH,
+      body: JSON.stringify(user),
+    },
     GITHUB_JSON_PATH.PR_PATH
   );
 
 /**
- * Request to get all OPEN pull requests:
- * @param {Object} filters filter by the state
+ * Request to get pull requests by label:
+ * Note: octokit only provides filtering with the issues endpoint
+ * @param {Object} filters filter by the labels and states
  */
-export const getPRs = filters => ghHelper(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
+export const getPRs = filters =>
+  ghHelper(shared.gh.issues.listForRepo, filters, GITHUB_JSON_PATH.PR_PATH);
+
+/**
+ * Request to fetch a pull requests:
+ * @param {Number} prNumber number of PR
+ */
+export const getPR = prNumber =>
+  ghHelper(shared.gh.pulls.get, { pull_number: prNumber }, GITHUB_JSON_PATH.PR_PATH);
+
+/**
+ * List the files in a pull request:
+ * @param {Number} prNumber number of PR
+ */
+export const listPRFiles = prNumber =>
+  ghHelper(shared.gh.pulls.listFiles, { pull_number: Number(prNumber) }, 'filename');
+
+/**
+ * Fetch a file from a branch:
+ * @param {String} filePath path to file
+ * @param {String} branchRef branch where file is
+ */
+export const getFile = (filePath, branchRef) =>
+  ghHelper(shared.gh.repos.getContents, { path: filePath, ref: branchRef });
+
+/**
+ * Add labels to a PR:
+ * @param {Number} prNumber number of PR
+ * @param {Array} labels array of label names
+ */
+export const addLabel = (prNumber, labels) =>
+  ghHelper(shared.gh.issues.addLabels, { issue_number: prNumber, labels });
+
+/**
+ * Merge a pull request:
+ * @param {Number} prNumber number of PR
+ */
+export const mergePR = prNumber =>
+  ghHelper(shared.gh.pulls.merge, { pull_number: prNumber }, 'merged');
+
+/**
+ * Delete a branch:
+ * @param {String} bName name of branch
+ */
+export const deleteBranch = bName =>
+  ghHelper(shared.gh.git.deleteRef, { ref: GITHUB_REQUEST.shortBranchRef(bName) }, null, false);

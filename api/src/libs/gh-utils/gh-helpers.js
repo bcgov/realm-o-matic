@@ -36,9 +36,11 @@ export const jsonReader = (jsonData, paths = null) => {
     return value;
   }
   if (_.isObject(paths)) {
-    return _.mapValues(paths, p => {
+    const { optionals, dataStructure } = paths;
+    return _.mapValues(dataStructure, p => {
       const data = jsonata(p).evaluate(jsonData);
-      if (data === undefined) throw Error(`Failed to read data with key: ${p}`);
+      if (data === undefined && !optionals.includes(p))
+        throw Error(`Failed to read data with key: ${p}`);
       return data;
     });
   }

@@ -38,34 +38,70 @@ export const REALM_SCHEMA = {
   },
 };
 
+export const USER_SCHEMA = {
+  type: 'object',
+  required: ['username', 'email'],
+  properties: {
+    username: { type: 'string' },
+    email: { type: 'string' },
+    firstName: { type: 'string' },
+    lastName: { type: 'string' },
+  },
+};
+
 export const REQUEST_SCHEMA = {
   type: 'object',
   required: ['id', 'realm'],
   properties: {
     id: { type: 'string' },
     realm: REALM_SCHEMA,
-    requester: { type: 'string' },
+    requester: USER_SCHEMA,
   },
 };
 
 export const PR_SCHEMA = {
   type: 'object',
-  required: ['number', 'status', 'fileName'],
+  required: ['number', 'state', 'fileName', 'requester'],
   properties: {
     number: { type: 'number' },
-    status: { type: 'string' },
+    state: { type: 'string' },
+    // labels: { type: 'array' }, //TODO: when only one label, it's not an array
     fileName: { type: 'string' },
+    requester: { type: 'string' },
+    branch: { type: 'string' },
+    realm: REALM_SCHEMA,
   },
 };
 
 export const GITHUB_REQUEST = {
   BASE_BRANCH: 'master',
   branchRef: name => `refs/heads/${name}`,
+  shortBranchRef: name => `heads/${name}`,
   recordPath: name => `records/${name}.json`,
   commitMessage: request => `Requested for ${request}.`,
 };
 
 // For jsonReader:
 export const GITHUB_JSON_PATH = {
-  PR_PATH: { number: 'number', state: 'state', fileName: 'title', requester: 'body' },
+  PR_PATH: {
+    optionals: ['labels.name', 'head.ref'],
+    dataStructure: {
+      number: 'number',
+      state: 'state',
+      labels: 'labels.name',
+      fileName: 'title',
+      requester: 'body',
+      branch: 'head.ref',
+    },
+  },
+};
+
+export const GITHUB_LABELS = {
+  BCEID: 'bceid-requested',
+  FAILED: 'request-failed',
+  READY: 'ready-for-review',
+};
+
+export const KEYCLOAK_TERMS = {
+  BCEID: 'bceid',
 };

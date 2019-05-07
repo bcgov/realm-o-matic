@@ -31,7 +31,9 @@ describe('jsonReader test', () => {
   });
 
   test('read array of key value', () => {
-    expect(jsonReader(goodObject, { id: 'id', owner: 'po' })).toEqual({
+    expect(
+      jsonReader(goodObject, { optionals: [], dataStructure: { id: 'id', owner: 'po' } })
+    ).toEqual({
       id: goodObject.id,
       owner: goodObject.po,
     });
@@ -42,13 +44,27 @@ describe('jsonReader test', () => {
   });
 
   test('throws when missing content only in path array', () => {
-    expect(() => jsonReader(goodIssue, { id: 'id', owner: 'ponot' })).toThrow(
-      'Failed to read data with key: ponot'
-    );
+    expect(() =>
+      jsonReader(goodIssue, { optionals: [], dataStructure: { id: 'id', owner: 'ponot' } })
+    ).toThrow('Failed to read data with key: ponot');
+  });
+
+  test('not throw undefined value if key is optional', () => {
+    expect(
+      jsonReader(goodObject, {
+        optionals: ['notThere'],
+        dataStructure: { id: 'id', owner: 'po', sth: 'notThere' },
+      })
+    ).toEqual({
+      id: goodObject.id,
+      owner: goodObject.po,
+    });
   });
 
   test('throws when path is not expected', () => {
-    expect(() => jsonReader(goodIssue, ['id', 'po'])).toThrow('Failed to read data with key: po');
+    expect(() => jsonReader(goodIssue, { optionals: [], dataStructure: ['id', 'po'] })).toThrow(
+      'Failed to read data with key: po'
+    );
   });
 });
 

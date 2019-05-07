@@ -45,12 +45,13 @@ export const validateSchema = (object, schema) => {
  */
 export const encodeObjectWithName = (name, content) => {
   try {
+    if (!name) throw Error('Missing name for object to encode');
     const encodedFileContent = Buffer.from(JSON.stringify(content)).toString('base64');
     return {
       name,
       content: encodedFileContent,
     };
   } catch (err) {
-    throw err;
+    throw err.message;
   }
 };
