@@ -20,7 +20,7 @@
 
 'use strict';
 
-import { validateSchema } from '../src/libs/utils';
+import { validateSchema, encodeObjectWithName } from '../src/libs/utils';
 import { REALM_SCHEMA } from '../src/constants';
 import { goodObject, badObject, emptyObject } from '../__fixtures__/utils-fixture';
 
@@ -44,5 +44,20 @@ describe('validateSchema test', () => {
       isValid: false,
       payload: 'Fail to match schema, data should be object',
     });
+  });
+});
+
+describe('encodeObjectWithName test', () => {
+  test('returns encoded content and name', () => {
+    expect(encodeObjectWithName(goodObject.id, goodObject)).toEqual({
+      name: goodObject.id,
+      content: Buffer.from(JSON.stringify(goodObject)).toString('base64'),
+    });
+  });
+
+  test('throw when no name provided', () => {
+    expect(() => encodeObjectWithName(null, goodObject)).toThrow(
+      'Missing name for object to encode'
+    );
   });
 });
