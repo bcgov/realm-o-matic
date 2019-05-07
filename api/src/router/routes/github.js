@@ -61,7 +61,7 @@ router.put(
       res.status(204).end();
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).json(`Unable to update the PR ${prNumber}: ${err}`);
+      res.status(errCode).send(`Unable to update the PR ${prNumber}: ${err}`);
     }
   })
 );
@@ -79,7 +79,7 @@ router.post(
       res.status(200).json(newPr);
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).json(`Unable to start a request record: ${err}.`);
+      res.status(errCode).send(`Unable to start a request record: ${err}.`);
     }
   })
 );
@@ -96,7 +96,7 @@ router.get(
       res.status(200).json(requestInfo);
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).json(`Unable to fetch content of the request: ${err}.`);
+      res.status(errCode).send(`Unable to fetch content of the request: ${err}.`);
     }
   })
 );
@@ -116,7 +116,7 @@ router.get(
       res.status(200).json(requests);
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).json('Unable to fetch list of PR records.');
+      res.status(errCode).send('Unable to fetch list of PR records.');
     }
   })
 );
