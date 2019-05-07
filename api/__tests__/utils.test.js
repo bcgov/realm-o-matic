@@ -21,26 +21,26 @@
 'use strict';
 
 import { validateSchema } from '../src/libs/utils';
-import { realmSchema } from '../src/constants';
+import { REALM_SCHEMA } from '../src/constants';
 import { goodObject, badObject, emptyObject } from '../__fixtures__/utils-fixture';
 
 describe('validateSchema test', () => {
   test('returns valid payload', () => {
-    expect(validateSchema(goodObject, realmSchema)).toEqual({
+    expect(validateSchema(goodObject, REALM_SCHEMA)).toEqual({
       isValid: true,
       payload: goodObject,
     });
   });
 
   test('handles invalid content', () => {
-    expect(validateSchema(badObject, realmSchema)).toEqual({
+    expect(validateSchema(badObject, REALM_SCHEMA)).toEqual({
       isValid: false,
       payload: "Fail to match schema, data should have required property 'po'",
     });
   });
 
   test('handles empty content', () => {
-    expect(validateSchema(emptyObject, realmSchema)).toEqual({
+    expect(validateSchema(emptyObject, REALM_SCHEMA)).toEqual({
       isValid: false,
       payload: 'Fail to match schema, data should be object',
     });

@@ -22,8 +22,8 @@
 
 import { logger } from '@bcgov/common-nodejs-utils';
 import {
-  requestSchema,
-  prSchema,
+  PR_SCHEMA,
+  REQUEST_SCHEMA,
   GITHUB_REQUEST,
   GITHUB_LABELS,
   KEYCLOAK_TERMS,
@@ -51,7 +51,7 @@ import { validateSchema, objectToEncodedFile } from '../utils';
 export const createRecord = async (bName, requestContent) => {
   try {
     // create file content: validate and encode
-    const { isValid, payload } = validateSchema(requestContent, requestSchema);
+    const { isValid, payload } = validateSchema(requestContent, REQUEST_SCHEMA);
     if (!isValid) throw Error(payload);
     const fileContent = objectToEncodedFile(payload.realm.id, payload);
 
@@ -121,7 +121,7 @@ export const getRecords = async (state = 'all', labels = [], user = null) => {
  */
 export const updatePRState = async (pr, mergeAndClose, label, message = null) => {
   try {
-    const { isValid, payload } = validateSchema(pr, prSchema);
+    const { isValid, payload } = validateSchema(pr, PR_SCHEMA);
     if (!isValid) throw Error(payload);
     logger.info(`The request from PR ${payload.number}, returns: ${message}.`);
     if (mergeAndClose) {

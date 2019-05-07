@@ -70,12 +70,12 @@ router.put(
  * Create a record for the new request as a Pull Request:
  */
 router.post(
-  '/records/:bName',
+  '/records/:branchName',
   asyncMiddleware(async (req, res) => {
-    const { bName } = req.params;
+    const { branchName } = req.params;
     const { request } = req.body;
     try {
-      const newPr = await createRecord(bName, request);
+      const newPr = await createRecord(branchName, request);
       res.status(200).json(newPr);
     } catch (err) {
       const errCode = err.status ? err.status : 500;

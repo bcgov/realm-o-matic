@@ -26,7 +26,7 @@ export const ACCESS_CONTROL = {
   REVIEWER_ROLE: 'devhub_kc_reviewer',
 };
 
-export const realmSchema = {
+export const REALM_SCHEMA = {
   type: 'object',
   required: ['id', 'displayName', 'adminUser', 'idps', 'po'],
   properties: {
@@ -38,7 +38,8 @@ export const realmSchema = {
   },
 };
 
-export const userSchema = {
+
+export const USER_SCHEMA = {
   type: 'object',
   required: ['username', 'email'],
   properties: {
@@ -49,17 +50,17 @@ export const userSchema = {
   },
 };
 
-export const requestSchema = {
+export const REQUEST_SCHEMA = {
   type: 'object',
   required: ['id', 'realm'],
   properties: {
     id: { type: 'string' },
-    realm: realmSchema,
-    requester: userSchema,
+    realm: REALM_SCHEMA,
+    requester: USER_SCHEMA,
   },
 };
 
-export const prSchema = {
+export const PR_SCHEMA = {
   type: 'object',
   required: ['number', 'state', 'fileName', 'requester'],
   properties: {
@@ -69,6 +70,8 @@ export const prSchema = {
     fileName: { type: 'string' },
     requester: { type: 'string' },
     branch: { type: 'string' },
+    realm: REALM_SCHEMA,
+    requester: { type: 'string' },
   },
 };
 

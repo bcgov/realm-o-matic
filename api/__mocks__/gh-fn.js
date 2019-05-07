@@ -21,7 +21,7 @@
 
 'use strict';
 
-import { ghRes, ghArrayRes } from '../__fixtures__/utils-fixture';
+import { mockedGHFnResponse, mockedGHFnArrayOfResponse } from '../__fixtures__/utils-fixture';
 
 // eslint-disable-next-line import/prefer-default-export
 export const mockedGHFn = params => {
@@ -30,10 +30,10 @@ export const mockedGHFn = params => {
     let response;
     switch (input) {
       case 'array':
-        response = ghArrayRes;
+        response = mockedGHFnArrayOfResponse;
         break;
       case 'object':
-        response = ghRes;
+        response = mockedGHFnResponse;
         break;
       case 'null':
         response = '';
