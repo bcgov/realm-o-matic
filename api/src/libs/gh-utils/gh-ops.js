@@ -37,7 +37,7 @@ import {
   listPRFiles,
   getFile,
   createFile,
-  addLable,
+  addLabel,
   mergePR,
   deleteBranch,
 } from './gh-requests';
@@ -65,9 +65,9 @@ export const createRecord = async (bName, requestContent) => {
     // start pr:
     const pr = await createPR(fileRef, newBranchRef, payload.requester);
 
-    // if bceid is required, need to add the lable to PR
+    // if bceid is required, need to add the label to PR
     if (payload.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
-      await addLable(pr.number, [GITHUB_LABELS.BCEID]);
+      await addLabel(pr.number, [GITHUB_LABELS.BCEID]);
 
     return pr.number;
   } catch (err) {
@@ -127,7 +127,7 @@ export const updatePRState = async (pr, mergeAndClose, label, message = null) =>
     if (mergeAndClose) {
       await mergePR(payload.number);
       await deleteBranch(payload.branch);
-    } else await addLable(payload.number, [label]);
+    } else await addLabel(payload.number, [label]);
   } catch (err) {
     logger.error(`Fail to get the list of PRs: ${err.message}`);
     throw err;

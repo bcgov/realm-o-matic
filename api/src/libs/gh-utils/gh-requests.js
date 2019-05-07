@@ -139,7 +139,7 @@ export const getFile = (filePath, branchRef) =>
  * @param {Number} prNumber number of PR
  * @param {Array} labels array of label names
  */
-export const addLable = (prNumber, labels) =>
+export const addLabel = (prNumber, labels) =>
   ghHelper(shared.gh.issues.addLabels, { issue_number: prNumber, labels });
 
 /**
