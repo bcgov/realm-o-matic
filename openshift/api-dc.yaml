@@ -48,7 +48,7 @@ objects:
               cpu: '150m'
           env:
           - name: API_HOST
-            value: ${API_HOST_VALUE}
+            value: ${HOST_VALUE}
           - name: API_PORT
             value: ${API_PORT_VALUE}
           - name: API_SSO_URL
@@ -62,6 +62,21 @@ objects:
               secretKeyRef:
                 name: realmomatic-api-sso
                 key: API_SSO_CLIENT_SECRET
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-gh
+                key: GITHUB_TOKEN
+          - name: GITHUB_OWNER
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-gh
+                key: GITHUB_OWNER
+          - name: GITHUB_REPO
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-gh
+                key: GITHUB_REPO
     test: false
     triggers:
     - type: ConfigChange
@@ -92,7 +107,8 @@ objects:
     creationTimestamp: null
     name: ${NAME}${SUFFIX}
   spec:
-    host: ${HOST}
+    host: ${HOST_VALUE}
+    path: /api
     port:
       targetPort: api
     tls:
@@ -126,7 +142,7 @@ parameters:
   value: ''
 - description: The url of the api
   displayName: Realm-o-matic api
-  name: API_HOST_VALUE
+  name: HOST_VALUE
   required: false
   value: ''
 - description: The port of the api

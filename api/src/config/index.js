@@ -45,10 +45,10 @@ nconf.overrides({
     clientId: process.env.API_SSO_CLIENT_ID,
     clientSecret: process.env.API_SSO_CLIENT_SECRET,
     grantType: 'client_credentials',
-    tokenUrl: `${process.env.API_SSO_URL}/realms/${
+    tokenUrl: `${process.env.API_SSO_URL}/auth/realms/${
       process.env.API_SSO_REALM
     }/protocol/openid-connect/token`,
-    certsUrl: `${process.env.API_SSO_URL}/realms/${
+    certsUrl: `${process.env.API_SSO_URL}/auth/realms/${
       process.env.API_SSO_REALM
     }/protocol/openid-connect/certs`,
   },

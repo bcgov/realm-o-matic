@@ -95,7 +95,7 @@ objects:
     creationTimestamp: null
     name: ${NAME}-static${SUFFIX}
   spec:
-    host: ${HOST}
+    host: ${HOST_VALUE}
     port:
       targetPort: web
     tls:
@@ -124,7 +124,7 @@ parameters:
   value: v1.0.0
 - description: A name used for routes/services and deployment configs
   displayName: Host
-  name: HOST
+  name: HOST_VALUE
   required: false
   value: ''
 - description: A volumn used for the caddy from config map

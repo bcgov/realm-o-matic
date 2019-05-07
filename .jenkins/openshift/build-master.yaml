@@ -1,17 +1,15 @@
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   creationTimestamp: null
   name: jenkins
-labels:
-  template: realm-o-matic-api
 objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
     creationTimestamp: null
     labels:
-      shared: true
+      shared: "true"
     name: ${NAME}
   spec:
     lookupPolicy:
@@ -22,32 +20,34 @@ objects:
     creationTimestamp: null
     name: ${NAME}${SUFFIX}
   spec:
-    nodeSelector: null
+    failedBuildsHistoryLimit: 2
     output:
       to:
         kind: ImageStreamTag
         name: ${NAME}:${VERSION}
     postCommit: {}
     resources:
-      requests:
-        cpu: 1
-        memory: 2Gi
       limits:
-        cpu: 2
-        memory: 4Gi
+        cpu: "1"
+        memory: 1Gi
+      requests:
+        cpu: "1"
+        memory: 1Gi
+    runPolicy: SerialLatestOnly
     source:
+      contextDir: .jenkins/docker
       git:
-        uri: ${SOURCE_REPOSITORY_URL}
         ref: ${SOURCE_REPOSITORY_REF}
-      contextDir: ${SOURCE_CONTEXT_DIR}
+        uri: ${SOURCE_REPOSITORY_URL}
       type: Git
     strategy:
-      sourceStrategy:
+      dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: nodejs:${NODE_JS_VERSION}
-          namespace: openshift
-      type: Source
+          name: ${SOURCE_IMAGE_STREAM_TAG}
+          namespace: ${SOURCE_IMAGE_STREAM_NAMESPACE}
+      type: Docker
+    successfulBuildsHistoryLimit: 2
     triggers:
     - type: ConfigChange
     - imageChange: {}
@@ -57,34 +57,25 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: realm-o-matic-api
+  value: jenkins
 - description: A name suffix used for all objects
   displayName: Suffix
   name: SUFFIX
   required: false
-  value: -dev
+  value: ""
 - description: A version used for the image tags
   displayName: version
   name: VERSION
   required: true
   value: v1.0.0
-- description: SOURCE_REPOSITORY_URL
-  displayName: SOURCE_REPOSITORY_URL
-  name: SOURCE_REPOSITORY_URL
+- name: SOURCE_IMAGE_STREAM_NAMESPACE
   required: true
-  value: https://github.com/bcgov/realm-o-matic.git
-- description: SOURCE_REPOSITORY_REF
-  displayName: SOURCE_REPOSITORY_REF
-  name: SOURCE_REPOSITORY_REF
+  value: bcgov
+- name: SOURCE_IMAGE_STREAM_TAG
   required: true
-  value: master
-- description: SOURCE_CONTEXT_DIR
-  displayName: SOURCE_CONTEXT_DIR
-  name: SOURCE_CONTEXT_DIR
+  value: jenkins-basic:v2-latest
+- name: SOURCE_REPOSITORY_URL
   required: true
-  value: api
-- description: NODE_JS_VERSION
-  displayName: NODE_JS_VERSION
-  name: NODE_JS_VERSION
-  required: true
-  value: '10'
+- name: SOURCE_REPOSITORY_REF
+  required: false
+  value: tools

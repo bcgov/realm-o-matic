@@ -67,3 +67,7 @@ web/semantic/tasks/
 
 # pending cicd
 pipeline/
+
+samples/
+api/build/
+.nvm/
