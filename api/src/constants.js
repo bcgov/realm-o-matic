@@ -38,7 +38,6 @@ export const REALM_SCHEMA = {
   },
 };
 
-
 export const USER_SCHEMA = {
   type: 'object',
   required: ['username', 'email'],
@@ -71,7 +70,6 @@ export const PR_SCHEMA = {
     requester: { type: 'string' },
     branch: { type: 'string' },
     realm: REALM_SCHEMA,
-    requester: { type: 'string' },
   },
 };
 

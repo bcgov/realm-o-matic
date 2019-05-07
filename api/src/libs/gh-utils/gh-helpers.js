@@ -22,9 +22,6 @@
 
 import _ from 'lodash';
 import jsonata from 'jsonata';
-import { errorWithCode, logger } from '@bcgov/common-nodejs-utils';
-import { REALM_SCHEMA } from '../../constants';
-import { validateSchema } from '../utils';
 
 /**
  * Get data from json object by path:

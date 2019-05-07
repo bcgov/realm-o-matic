@@ -41,7 +41,7 @@ import {
   mergePR,
   deleteBranch,
 } from './gh-requests';
-import { validateSchema, objectToEncodedFile } from '../utils';
+import { validateSchema, encodeObjectWithName } from '../utils';
 
 /**
  * Create a pr as record of request:
@@ -53,7 +53,7 @@ export const createRecord = async (bName, requestContent) => {
     // create file content: validate and encode
     const { isValid, payload } = validateSchema(requestContent, REQUEST_SCHEMA);
     if (!isValid) throw Error(payload);
-    const fileContent = objectToEncodedFile(payload.realm.id, payload);
+    const fileContent = encodeObjectWithName(payload.realm.id, payload);
 
     // create branch:
     const originRef = await getBranch(GITHUB_REQUEST.BASE_BRANCH);

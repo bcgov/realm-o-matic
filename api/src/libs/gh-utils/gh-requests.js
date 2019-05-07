@@ -95,7 +95,12 @@ export const createFile = (file, branchName) =>
 export const createPR = (fileName, branchName, user) =>
   ghHelper(
     shared.gh.pulls.create,
-    { title: fileName, head: branchName, base: GITHUB_REQUEST.BASE_BRANCH, body: JSON.stringify(user) },
+    {
+      title: fileName,
+      head: branchName,
+      base: GITHUB_REQUEST.BASE_BRANCH,
+      body: JSON.stringify(user),
+    },
     GITHUB_JSON_PATH.PR_PATH
   );
 
