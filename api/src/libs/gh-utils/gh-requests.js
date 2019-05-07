@@ -100,7 +100,6 @@ export const createPR = (fileName, bName, user) =>
  */
 export const getPRs = filters =>
   ghClient(shared.gh.issues.listForRepo, filters, GITHUB_JSON_PATH.PR_PATH);
-// export const getPRs = filters => ghClient(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
 
 /**
  * Request to fetch a pull requests:
