@@ -15,12 +15,17 @@ const StyledApp = styled.div`
   font-size: calc(10px + 2vmin);
 `;
 
+const StyledContainer = styled(Container)`
+  margin-top: 100px;
+  margin-bottom: 50px;
+`;
+
 export const Layout = ({ authentication, children }) => {
   return (
     <BrowserRouter>
       <StyledApp>
         <Header authentication={authentication} />
-        <Container>{children}</Container>
+        <StyledContainer>{children}</StyledContainer>
         <Footer />
       </StyledApp>
     </BrowserRouter>
