@@ -22,6 +22,7 @@
 
 import dotenv from 'dotenv';
 import nconf from 'nconf';
+import url from 'url';
 
 const env = process.env.NODE_ENV || 'development';
 const defaultPort = 8000;
@@ -45,12 +46,14 @@ nconf.overrides({
     clientId: process.env.API_SSO_CLIENT_ID,
     clientSecret: process.env.API_SSO_CLIENT_SECRET,
     grantType: 'client_credentials',
-    tokenUrl: `${process.env.API_SSO_URL}/auth/realms/${
-      process.env.API_SSO_REALM
-    }/protocol/openid-connect/token`,
-    certsUrl: `${process.env.API_SSO_URL}/auth/realms/${
-      process.env.API_SSO_REALM
-    }/protocol/openid-connect/certs`,
+    tokenUrl: url.resolve(
+      process.env.API_SSO_URL ? process.env.API_SSO_URL : '',
+      `/auth/realms/${process.env.API_SSO_REALM}/protocol/openid-connect/token`
+    ),
+    certsUrl: url.resolve(
+      process.env.API_SSO_URL ? process.env.API_SSO_URL : '',
+      `/auth/realms/${process.env.API_SSO_REALM}/protocol/openid-connect/certs`
+    ),
   },
   github: {
     auth: process.env.GITHUB_TOKEN,
