@@ -104,4 +104,6 @@ export const GITHUB_LABELS = {
 
 export const KEYCLOAK_TERMS = {
   BCEID: 'bceid',
+  IDIR: 'idir',
+  GITHUB: 'github',
 };
