@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class LoginHint extends Component {
+export class Restricted extends Component {
   static displayName = '[Component LoginHint]';
 
   render() {

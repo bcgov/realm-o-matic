@@ -1,2 +1,3 @@
 export { default as Home } from './Home';
-export { LoginHint } from './LoginHint';
+export { default as Request } from './Request';
+export { Restricted } from './Restricted';

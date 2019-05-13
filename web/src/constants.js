@@ -33,6 +33,7 @@ export const API = {
       : `${window.location.origin}/api/v1/`,
   TIME_OUT: 40000,
   IDP: () => 'idps',
+  NEW_REQUEST: branchName => `gh/records/${branchName}`,
 };
 
 export const TEST_IDS = {
@@ -41,7 +42,11 @@ export const TEST_IDS = {
     LOGIN: 'login-button',
     IDIR_LOGIN: 'idir-login-button',
     GITHUB_LOGIN: 'github-login-button',
-    GET_IDPS: 'get-idps-button',
+    NEW_REQUEST: 'new-request-button',
+  },
+  REQUEST: {
+    MESSAGE: 'request-message',
+    FORM: 'request-form',
   },
 };
 

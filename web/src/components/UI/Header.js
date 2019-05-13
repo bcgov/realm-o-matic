@@ -39,7 +39,7 @@ const TextCss = css`
   margin-left: 15px !important;
   color: white !important;
 `;
-
+// TODO: fix mobile view
 export const Header = ({ authentication }) => {
   const authButtonText = authentication.isAuthenticated ? 'Logout' : 'Login';
   return (
