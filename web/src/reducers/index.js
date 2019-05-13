@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import implicitAuthManager from '../utils/auth';
-import { AUTHENTICATION, GET_IDPS } from '../actions/actionTypes';
+import { AUTHENTICATION, GET_IDPS, NEW_REQUEST } from '../actions/actionTypes';
 
 const authentication = (state = { isAuthenticated: false, email: null, userId: null }, action) => {
   switch (action.type) {
@@ -50,9 +50,38 @@ const getIdps = (state = { getIdpsStarted: false, idps: null, errorMessage: null
   }
 };
 
+const newRequest = (
+  state = { newRequestStarted: false, requestId: null, errorMessage: null },
+  action
+) => {
+  switch (action.type) {
+    case NEW_REQUEST.START:
+      return {
+        newRequestStarted: true,
+        requestId: null,
+        errorMessage: null,
+      };
+    case NEW_REQUEST.SUCCESS:
+      return {
+        newRequestStarted: false,
+        requestId: action.payload.requestId,
+        errorMessage: null,
+      };
+    case NEW_REQUEST.ERROR:
+      return {
+        newRequestStarted: false,
+        requestId: null,
+        errorMessage: action.payload.errorMessage,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   authentication,
   getIdps,
+  newRequest,
 });
 
 export default rootReducer;
