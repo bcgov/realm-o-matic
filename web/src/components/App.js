@@ -29,6 +29,7 @@ export class App extends Component {
         <Switch>
           <Route path="/notAuthorized" component={Restricted} />
           <Route path="/login/:idp" component={LoginRoute} />
+          {/* TODO: use it as /request/:id to make a unique page for redirecting ? */}
           <Route path="/request" component={Request} />
           <Route path="/" component={Home} />
         </Switch>

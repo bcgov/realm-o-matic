@@ -1,59 +1,17 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as Survey from 'survey-react';
-import 'survey-react/survey.css';
 import styled from '@emotion/styled';
 import { TEST_IDS } from '../constants/ui';
 import { formJson } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';
-
-const StyledForm = styled.div`
-  text-align: left;
-
-  .form-body {
-    border-top: 2px solid #003366 !important;
-  }
-
-  .BC-Gov-PrimaryButton {
-    background-color: #003366 !important;
-    font-size: 1em !important;
-    border-radius: 4px !important;
-  }
-
-  .BC-Gov-SecondaryButton {
-    font-size: 1em !important;
-    background: none !important;
-    border-radius: 4px !important;
-    border: 1px solid #003366 !important;
-    color: #003366 !important;
-  }
-
-  .form-title {
-    font-size: 1.5em !important;
-  }
-
-  .sv_progress_bar {
-    background-color: #003366 !important;
-  }
-`;
+import { RequestForm } from '../components/RequestForm';
 
 const StyledMessage = styled.div`
   padding: 10px;
   color: #003366;
 `;
-
-const surveyCss = {
-  body: 'sv_body form-body',
-  pageTitle: 'sv_page_title form-title',
-  navigation: {
-    complete: 'btn sv_complete_btn BC-Gov-PrimaryButton',
-    prev: 'btn sv_prev_btn BC-Gov-SecondaryButton',
-    next: 'btn sv_next_btn BC-Gov-SecondaryButton',
-    start: 'btn sv_start_btn BC-Gov-PrimaryButton',
-  },
-};
 
 export class Request extends Component {
   static displayName = '[Component Request]';
@@ -61,39 +19,28 @@ export class Request extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: {
-        realmId: null,
-        requesterEmail: null,
-        requesterIDIR: null,
-      },
-      displayMode: 'write',
+      formData: null,
+      isDisplayMode: false,
     };
   }
 
-  // Setup the prefill info:
-  // TODO: should be another action to prefill
-  componentWillMount = () => {
-    this.setState({
-      formData: {
-        realmId: randomRealmId(8),
-        requesterEmail: 'this.props.email',
-        requesterIDIR: 'this.props.userId',
-      },
-    });
-  };
-
   render() {
-    const { newRequestStarted, requestId, errorMessage, newRequest } = this.props;
-    // setup survey form:
-    const survey = new Survey.Model(formJson);
-    survey.data = this.state.formData;
-    survey.mode = this.state.displayMode;
-
+    const { email, userId, newRequestStarted, requestId, errorMessage, newRequest } = this.props;
     const onComplete = result => {
-      // TODO: window.scrollTo(0, 0);
-      this.setState({ formData: result.data, displayMode: 'display' });
+      this.setState({
+        formData: result.data,
+        isDisplayMode: true,
+      });
       newRequest(result.data);
     };
+
+    const initInfo = this.state.formData
+      ? this.state.formData
+      : {
+          realmId: randomRealmId(8),
+          requesterEmail: email,
+          requesterIDIR: userId,
+        };
 
     const message = requestId ? `Your request has been submitted as ${requestId}.` : errorMessage;
 
@@ -107,9 +54,12 @@ export class Request extends Component {
       <div>
         {statusMessage}
         <h2>Realm Request Form</h2>
-        <StyledForm data-testid={TEST_IDS.REQUEST.FORM}>
-          <Survey.Survey model={survey} css={surveyCss} onComplete={onComplete} />
-        </StyledForm>
+        <RequestForm
+          formModal={formJson}
+          initialInfo={initInfo}
+          isDisplayMode={this.state.isDisplayMode}
+          onComplete={onComplete}
+        />
       </div>
     );
   }
