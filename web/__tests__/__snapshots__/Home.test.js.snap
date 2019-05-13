@@ -1,33 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home Component provide list of idps 1`] = `
+exports[`Home Component has link to create a new request 1`] = `
 <div>
   <p>
     Welcome!
   </p>
-  <button
-    class="ui button"
-    data-testid="get-idps-button"
+  <a
+    data-testid="new-request-button"
+    href="/request"
   >
-    get idps
-  </button>
+    <button
+      class="ui button"
+      data-testid="startRequest"
+    >
+      Start Request
+    </button>
+  </a>
   <p />
   <div
     class="ui list"
     role="list"
-  >
-    <div
-      class="item"
-      role="listitem"
-    >
-      abc
-    </div>
-    <div
-      class="item"
-      role="listitem"
-    >
-      def
-    </div>
-  </div>
+  />
 </div>
 `;

@@ -1,7 +1,8 @@
 import React from 'react';
 import 'jest-dom/extend-expect';
-import { render, fireEvent } from 'react-testing-library';
-import { TEST_IDS } from '../src/constants';
+import { render } from 'react-testing-library';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { TEST_IDS } from '../src/constants/ui';
 import { Home } from '../src/containers/Home';
 
 describe('Home Component', () => {
@@ -17,17 +18,14 @@ describe('Home Component', () => {
     getIdps: () => {},
   };
 
-  it('provide list of idps', async () => {
-    const { getByText, getByTestId, container, rerender } = render(<Home {...defaultProps} />);
+  it('has link to create a new request', async () => {
+    const { getByTestId, container } = render(
+      <Router>
+        <Home {...defaultProps} />
+      </Router>
+    );
 
-    expect(getByTestId(TEST_IDS.APP.GET_IDPS)).toHaveTextContent('get idps');
-
-    fireEvent.click(getByText('get idps'));
-
-    rerender(<Home {...{ idps: ['abc', 'def'] }} />);
-
-    getByText('abc');
-    getByText('def');
+    expect(getByTestId(TEST_IDS.APP.NEW_REQUEST)).toHaveTextContent('Start Request');
     expect(container.firstChild).toMatchSnapshot();
   });
 });

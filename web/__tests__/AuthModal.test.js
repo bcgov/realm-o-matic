@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 // eslint-disable-next-line
 import Portal from 'semantic-ui-react/dist/commonjs/addons/Portal/Portal';
 import { AuthModal } from '../src/components/Auth/AuthModal';
-import { TEST_IDS } from '../src/constants';
+import { TEST_IDS } from '../src/constants/ui';
 
 jest.mock('semantic-ui-react/dist/commonjs/addons/Portal/Portal', () => ({ children }) => children);
 

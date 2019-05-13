@@ -3,7 +3,7 @@
 exports[`Footer Component renders without crashing 1`] = `
 <div>
   <footer
-    class="css-mj1bac-StyledFooter ewud6l10"
+    class="css-e54x5j-StyledFooter ewud6l10"
   >
     <div
       class="ui container"
@@ -12,7 +12,7 @@ exports[`Footer Component renders without crashing 1`] = `
         class="ui grid"
       >
         <div
-          class="two wide column"
+          class="two wide computer six wide mobile column"
         >
           <a
             href="."
@@ -21,7 +21,7 @@ exports[`Footer Component renders without crashing 1`] = `
           </a>
         </div>
         <div
-          class="two wide column"
+          class="two wide computer six wide mobile column"
         >
           <a
             href="https://www2.gov.bc.ca/gov/content/home/disclaimer"
@@ -30,7 +30,7 @@ exports[`Footer Component renders without crashing 1`] = `
           </a>
         </div>
         <div
-          class="two wide column"
+          class="two wide computer six wide mobile column"
         >
           <a
             href="https://www2.gov.bc.ca/gov/content/home/privacy"
@@ -39,7 +39,7 @@ exports[`Footer Component renders without crashing 1`] = `
           </a>
         </div>
         <div
-          class="two wide column"
+          class="two wide computer six wide mobile column"
         >
           <a
             href="https://www2.gov.bc.ca/gov/content/home/accessibility"
@@ -48,7 +48,7 @@ exports[`Footer Component renders without crashing 1`] = `
           </a>
         </div>
         <div
-          class="two wide column"
+          class="two wide computer six wide mobile column"
         >
           <a
             href="https://www2.gov.bc.ca/gov/content/home/copyright"
@@ -57,7 +57,7 @@ exports[`Footer Component renders without crashing 1`] = `
           </a>
         </div>
         <div
-          class="two wide column"
+          class="two wide computer six wide mobile column"
         >
           <a
             href="https://github.com/bcgov/realm-o-matic"

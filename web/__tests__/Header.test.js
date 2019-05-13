@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-testing-library';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from '../src/components/UI/Header';
-import { TEST_IDS } from '../src/constants';
+import { TEST_IDS } from '../src/constants/ui';
 
 describe('Header Component', () => {
   const authed = {
