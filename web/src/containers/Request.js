@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from '@emotion/styled';
+import Scroll from 'react-scroll';
 import { TEST_IDS } from '../constants/ui';
 import { formJson } from '../constants/form';
 import { newRequest } from '../actionCreators';
@@ -26,11 +27,15 @@ export class Request extends Component {
 
   render() {
     const { email, userId, newRequestStarted, requestId, errorMessage, newRequest } = this.props;
+    const scroll = Scroll.animateScroll;
+
     const onComplete = result => {
       this.setState({
         formData: result.data,
         isDisplayMode: true,
       });
+      // Scroll to top:
+      scroll.scrollToTop();
       newRequest(result.data);
     };
 
@@ -39,6 +44,7 @@ export class Request extends Component {
       : {
           realmId: randomRealmId(8),
           requesterEmail: email,
+          // TODO: use idir username instead of id
           requesterIDIR: userId,
         };
 

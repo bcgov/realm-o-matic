@@ -51,10 +51,6 @@ const formCss = {
 };
 
 export const RequestForm = ({ formModal, initialInfo, isDisplayMode, onComplete }) => {
-  const completeAction = onComplete => {
-    // TODO: scroll to top
-    onComplete();
-  };
   // setup survey form:
   const requestForm = new Survey.Model(formModal);
   requestForm.data = initialInfo;
@@ -62,7 +58,7 @@ export const RequestForm = ({ formModal, initialInfo, isDisplayMode, onComplete 
 
   return (
     <StyledForm data-testid={TEST_IDS.REQUEST.FORM}>
-      <Survey.Survey model={requestForm} css={formCss} onComplete={completeAction} />
+      <Survey.Survey model={requestForm} css={formCss} onComplete={onComplete} />
     </StyledForm>
   );
 };
