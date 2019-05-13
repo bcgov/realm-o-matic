@@ -5,9 +5,9 @@ import { Menu, Container, Dropdown } from 'semantic-ui-react';
 import styled from '@emotion/styled';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { APP_INFO } from '../../constants';
+import { APP_INFO } from '../../constants/ui';
 import logo from '../../assets/bcgovlogo.svg';
-import { TEST_IDS } from '../../constants';
+import { TEST_IDS } from '../../constants/ui';
 
 const StyledHeader = styled(Menu)`
   &&& {

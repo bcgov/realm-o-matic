@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Container } from 'semantic-ui-react';
 import styled from '@emotion/styled';
-import { FOOTER_LINKS } from '../../constants';
+import { FOOTER_LINKS } from '../../constants/ui';
 
 const StyledFooter = styled.footer`
   position: fixed;

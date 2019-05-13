@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
 import styled from '@emotion/styled';
-import { TEST_IDS } from '../constants';
+import { TEST_IDS } from '../constants/ui';
 import { formJson } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';

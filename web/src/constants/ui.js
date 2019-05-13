@@ -18,24 +18,6 @@
 // Created by Shelly Xue Han
 //
 
-import config from './config.json';
-
-export const SSO_CONFIG = {
-  baseURL: process.env.REACT_APP_SSO_BASE_URL || config.ssoBaseUrl,
-  realmName: process.env.REACT_APP_SSO_REALM_NAME || config.ssoRealmName,
-  clientId: process.env.REACT_APP_SSO_CLIENT_ID || config.ssoClientId,
-};
-
-export const API = {
-  BASE_URL: () =>
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8000/api/v1/'
-      : `${window.location.origin}/api/v1/`,
-  TIME_OUT: 40000,
-  IDP: () => 'idps',
-  NEW_REQUEST: branchName => `gh/records/${branchName}`,
-};
-
 export const TEST_IDS = {
   APP: {
     LOGO: 'gov-logo',
@@ -52,11 +34,6 @@ export const TEST_IDS = {
 
 export const APP_INFO = {
   NAME: 'Realm-o-Matic',
-};
-
-export const SSO_IDP = {
-  GITHUB: 'github',
-  IDIR: 'idir',
 };
 
 export const FOOTER_LINKS = [

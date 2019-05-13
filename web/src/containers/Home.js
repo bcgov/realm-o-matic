@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, List } from 'semantic-ui-react';
-import { TEST_IDS } from '../constants';
+import { TEST_IDS } from '../constants/ui';
 import { getIdps } from '../actionCreators';
 
 export class Home extends Component {

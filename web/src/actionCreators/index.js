@@ -8,7 +8,7 @@ import {
   newRequestError,
 } from '../actions';
 import implicitAuthManager from '../utils/auth';
-import { API } from '../constants';
+import { API } from '../constants/request';
 import { generateRequestPayload } from '../utils/requestHelpers';
 
 /**
