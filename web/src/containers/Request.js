@@ -18,13 +18,24 @@ const StyledForm = styled.div`
 
   .BC-Gov-PrimaryButton {
     background-color: #003366 !important;
-    font-size: 1.2em !important;
+    font-size: 1em !important;
+    border-radius: 4px !important;
+  }
+
+  .BC-Gov-SecondaryButton {
+    font-size: 1em !important;
+    background: none !important;
+    border-radius: 4px !important;
+    border: 1px solid #003366 !important;
+    color: #003366 !important;
   }
 
   .form-title {
-    font-weight: bold !important;
     font-size: 1.5em !important;
-    text-align: center !important;
+  }
+
+  .sv_progress_bar {
+    background-color: #003366 !important;
   }
 `;
 
@@ -38,6 +49,9 @@ const surveyCss = {
   pageTitle: 'sv_page_title form-title',
   navigation: {
     complete: 'btn sv_complete_btn BC-Gov-PrimaryButton',
+    prev: 'btn sv_prev_btn BC-Gov-SecondaryButton',
+    next: 'btn sv_next_btn BC-Gov-SecondaryButton',
+    start: 'btn sv_start_btn BC-Gov-PrimaryButton',
   },
 };
 
@@ -48,13 +62,25 @@ export class Request extends Component {
     super(props);
     this.state = {
       formData: {
-        realmId: randomRealmId(8),
-        requesterEmail: 'this.props.email',
-        requesterIDIR: 'this.props.userId',
+        realmId: null,
+        requesterEmail: null,
+        requesterIDIR: null,
       },
       displayMode: 'write',
     };
   }
+
+  // Setup the prefill info:
+  // TODO: should be another action to prefill
+  componentWillMount = () => {
+    this.setState({
+      formData: {
+        realmId: randomRealmId(8),
+        requesterEmail: 'this.props.email',
+        requesterIDIR: 'this.props.userId',
+      },
+    });
+  };
 
   render() {
     const { newRequestStarted, requestId, errorMessage, newRequest } = this.props;
@@ -80,6 +106,7 @@ export class Request extends Component {
     return (
       <div>
         {statusMessage}
+        <h2>Realm Request Form</h2>
         <StyledForm data-testid={TEST_IDS.REQUEST.FORM}>
           <Survey.Survey model={survey} css={surveyCss} onComplete={onComplete} />
         </StyledForm>

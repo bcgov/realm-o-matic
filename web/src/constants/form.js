@@ -19,7 +19,9 @@
 //
 
 const basicInfo = {
-  questions: [
+  name: 'realmInfo',
+  title: 'Realm Information',
+  elements: [
     {
       type: 'text',
       name: 'realmId',
@@ -33,6 +35,37 @@ const basicInfo = {
       title: 'The realm display name',
       isRequired: true,
     },
+    {
+      type: 'text',
+      name: 'adminUser',
+      title: 'The administrator of the realm (IDIR username)',
+      isRequired: true,
+    },
+    {
+      type: 'checkbox',
+      name: 'idps',
+      title: 'Required identity providers',
+      isRequired: true,
+      choices: ['IDIR', 'GitHub', 'BCeID'],
+    },
+    {
+      type: 'text',
+      name: 'po',
+      title: 'The product owner of project',
+      isRequired: true,
+      validators: [
+        {
+          type: 'email',
+        },
+      ],
+    },
+  ],
+};
+
+const requesterInfo = {
+  name: 'requesterInfo',
+  title: 'Requester Information',
+  elements: [
     {
       type: 'panel',
       name: 'requester',
@@ -68,56 +101,26 @@ const basicInfo = {
         {
           type: 'text',
           name: 'requesterFirstName',
-          // startWithNewLine: false,
           title: 'First Name (optional)',
           colCount: 0,
         },
       ],
       title: 'Requester Information',
     },
-    {
-      type: 'text',
-      name: 'adminUser',
-      title: 'The administrator of the realm (IDIR username)',
-      isRequired: true,
-    },
-    {
-      type: 'checkbox',
-      name: 'idps',
-      title: 'Required identity providers',
-      isRequired: true,
-      choices: ['IDIR', 'GitHub', 'BCeID'],
-    },
-    {
-      type: 'text',
-      name: 'po',
-      title: 'The product owner of project',
-      isRequired: true,
-      validators: [
-        {
-          type: 'email',
-        },
-      ],
-    },
   ],
 };
 
 export const formJson = {
-  pages: [
-    {
-      title: 'Realm Request',
-      showQuestionNumbers: 'off',
-      ...basicInfo,
-    },
-  ],
-  // completedHtml: '<p><h4>Your request has been submitted!</h4></p>',
+  showProgressBar: 'top',
+  showQuestionNumbers: 'off',
+  pages: [basicInfo, requesterInfo],
 };
 
 export const formDataToRequest = {
   id: 'id',
   realm: {
     id: 'realmId',
-    displayName: 'displayName111',
+    displayName: 'displayName',
     adminUser: 'adminUser',
     idps: 'idps',
     po: 'po',
