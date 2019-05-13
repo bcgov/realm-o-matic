@@ -60,7 +60,9 @@ export const newRequest = requestInfo => {
 
     try {
       const requestData = generateRequestPayload(requestInfo);
-      const res = await axiSSO.post(API.NEW_REQUEST(requestData.realm.id), requestData);
+      const res = await axiSSO.post(API.NEW_REQUEST(requestData.realm.id), {
+        request: requestData,
+      });
       const newRequest = res.data;
       return dispatch(newRequestSuccess(newRequest));
     } catch (err) {
