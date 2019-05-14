@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'semantic-ui-react';
-import { TEST_IDS, SSO_IDP } from '../../constants';
+import { SSO_IDP } from '../../constants/auth';
+import { TEST_IDS } from '../../constants/ui';
 
 export const AuthModal = ({ isAuthenticated }) => {
   return (

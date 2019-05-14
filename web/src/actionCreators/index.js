@@ -1,7 +1,15 @@
 import axios from 'axios';
-import { getIdpsStart, getIdpsSuccess, getIdpsError } from '../actions';
+import {
+  getIdpsStart,
+  getIdpsSuccess,
+  getIdpsError,
+  newRequestStart,
+  newRequestSuccess,
+  newRequestError,
+} from '../actions';
 import implicitAuthManager from '../utils/auth';
-import { API } from '../constants';
+import { API } from '../constants/request';
+import { generateRequestPayload } from '../utils/requestHelpers';
 
 /**
  * Set Authorization Header
@@ -25,6 +33,9 @@ const axiSSO = axios.create({
   headers: { Accept: 'application/json', Authorization: authorizationHeader() },
 });
 
+/**
+ * Get list of idps avaible
+ */
 export const getIdps = () => {
   return async (dispatch, getState) => {
     dispatch(getIdpsStart());
@@ -36,6 +47,27 @@ export const getIdps = () => {
     } catch (err) {
       const errMsg = `Fail to get IDPs as ${err}`;
       return dispatch(getIdpsError(errMsg));
+    }
+  };
+};
+
+/**
+ * Start a new request record
+ */
+export const newRequest = requestInfo => {
+  return async (dispatch, getState) => {
+    dispatch(newRequestStart());
+
+    try {
+      const requestData = generateRequestPayload(requestInfo);
+      const res = await axiSSO.post(API.NEW_REQUEST(requestData.realm.id), {
+        request: requestData,
+      });
+      const newRequest = res.data;
+      return dispatch(newRequestSuccess(newRequest));
+    } catch (err) {
+      const errMsg = `Fail to start the request: ${err}`;
+      return dispatch(newRequestError(errMsg));
     }
   };
 };

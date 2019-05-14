@@ -18,40 +18,22 @@
 // Created by Shelly Xue Han
 //
 
-import config from './config.json';
-
-export const SSO_CONFIG = {
-  baseURL: process.env.REACT_APP_SSO_BASE_URL || config.ssoBaseUrl,
-  realmName: process.env.REACT_APP_SSO_REALM_NAME || config.ssoRealmName,
-  clientId: process.env.REACT_APP_SSO_CLIENT_ID || config.ssoClientId,
-};
-
-export const API = {
-  BASE_URL: () =>
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8000/api/v1/'
-      : `${window.location.origin}/api/v1/`,
-  TIME_OUT: 40000,
-  IDP: () => 'idps',
-};
-
 export const TEST_IDS = {
   APP: {
     LOGO: 'gov-logo',
     LOGIN: 'login-button',
     IDIR_LOGIN: 'idir-login-button',
     GITHUB_LOGIN: 'github-login-button',
-    GET_IDPS: 'get-idps-button',
+    NEW_REQUEST: 'new-request-button',
+  },
+  REQUEST: {
+    MESSAGE: 'request-message',
+    FORM: 'request-form',
   },
 };
 
 export const APP_INFO = {
   NAME: 'Realm-o-Matic',
-};
-
-export const SSO_IDP = {
-  GITHUB: 'github',
-  IDIR: 'idir',
 };
 
 export const FOOTER_LINKS = [

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
-import { Home, LoginHint } from '../containers';
+import { Home, Restricted, Request } from '../containers';
 import { LoginRoute } from '../components/Auth/LoginRoute';
 import { AuthModal } from '../components/Auth/AuthModal';
 import { Layout } from './UI';
@@ -27,8 +27,10 @@ export class App extends Component {
       <Layout authentication={this.props.authentication}>
         <AuthModal isAuthenticated={this.props.authentication.isAuthenticated} />
         <Switch>
-          <Route path="/notAuthorized" component={LoginHint} />
+          <Route path="/notAuthorized" component={Restricted} />
           <Route path="/login/:idp" component={LoginRoute} />
+          {/* TODO: use it as /request/:id to make a unique page for redirecting ? */}
+          <Route path="/request" component={Request} />
           <Route path="/" component={Home} />
         </Switch>
       </Layout>

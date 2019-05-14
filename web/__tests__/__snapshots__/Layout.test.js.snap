@@ -7,7 +7,7 @@ exports[`Layout Component renders without crashing 1`] = `
   >
     <div />
     <div
-      class="ui container"
+      class="ui container css-1ubbv4r-StyledContainer eqxrlrr1"
     >
       <div />
     </div>

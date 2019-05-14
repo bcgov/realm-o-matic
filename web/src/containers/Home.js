@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, List } from 'semantic-ui-react';
-import { TEST_IDS } from '../constants';
+import { TEST_IDS } from '../constants/ui';
 import { getIdps } from '../actionCreators';
 
 export class Home extends Component {
   static displayName = '[Component Home]';
 
   render() {
-    const onClick = () => {
-      this.props.getIdps();
-    };
-
     const idps = this.props.idps ? this.props.idps : [];
 
     return (
       <div>
         <p>Welcome!</p>
-        <Button onClick={onClick} data-testid={TEST_IDS.APP.GET_IDPS}>
-          get idps
-        </Button>
+        <Link to="/request" data-testid={TEST_IDS.APP.NEW_REQUEST}>
+          <Button data-testid="startRequest">Start Request</Button>
+        </Link>
         <p>{this.props.errorMessage}</p>
         <List items={idps} />
       </div>

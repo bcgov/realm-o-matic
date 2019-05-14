@@ -20,7 +20,7 @@
 
 'use strict';
 
-import * as ncu from '@bcgov/common-nodejs-utils';
+import * as cnu from '@bcgov/common-nodejs-utils';
 
 // public certificate
 const pem = `
@@ -44,7 +44,7 @@ const token = {
 };
 
 /* eslint-disable-next-line no-unused-vars */
-ncu.getJwtCertificate = ssoCertificateUrl =>
+cnu.getJwtCertificate = ssoCertificateUrl =>
   Promise.resolve({
     certificate: pem,
     algorithm: 'RS256',
@@ -56,6 +56,6 @@ class JWTServiceManager {
   }
 }
 
-ncu.JWTServiceManager = JWTServiceManager;
+cnu.JWTServiceManager = JWTServiceManager;
 
-module.exports = ncu;
+module.exports = cnu;
