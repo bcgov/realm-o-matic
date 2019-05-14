@@ -7,30 +7,32 @@ import { TEST_IDS } from '../constants/ui';
 const StyledForm = styled.div`
   text-align: left;
 
-  .form-body {
-    border-top: 2px solid #003366 !important;
+  .sv_body.form-body {
+    border-top: 2px solid #003366;
   }
 
-  .BC-Gov-PrimaryButton {
-    background-color: #003366 !important;
-    font-size: 1em !important;
-    border-radius: 4px !important;
+  .btn.sv_complete_btn.BC-Gov-PrimaryButton,
+  .btn.sv_start_btn.BC-Gov-PrimaryButton {
+    background-color: #003366;
+    font-size: 1em;
+    border-radius: 4px;
   }
 
-  .BC-Gov-SecondaryButton {
-    font-size: 1em !important;
-    background: none !important;
-    border-radius: 4px !important;
-    border: 1px solid #003366 !important;
-    color: #003366 !important;
+  .btn.sv_prev_btn.BC-Gov-SecondaryButton,
+  .btn.sv_next_btn.BC-Gov-SecondaryButton {
+    font-size: 1em;
+    background: none;
+    border-radius: 4px;
+    border: 1px solid #003366;
+    color: #003366;
   }
 
-  .form-title {
+  .sv_page_title.form-title {
     font-size: 1.5em !important;
   }
 
-  .sv_progress_bar {
-    background-color: #003366 !important;
+  .sv_progress_bar[role='progressbar'] {
+    background-color: #003366;
   }
 
   input[type='text']:disabled {
