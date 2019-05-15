@@ -7,15 +7,15 @@ import { TEST_IDS } from '../constants/ui';
 import { formJson } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';
-import { RequestForm } from '../components/RequestForm';
+import { RequestForm } from '../components/Request/RequestForm';
 
 const StyledMessage = styled.div`
   padding: 10px;
   color: #003366;
 `;
 
-export class Request extends Component {
-  static displayName = '[Component Request]';
+export class NewRequest extends Component {
+  static displayName = '[Component NewRequest]';
 
   constructor(props) {
     super(props);
@@ -44,7 +44,6 @@ export class Request extends Component {
       : {
           realmId: randomRealmId(8),
           requesterEmail: email,
-          // TODO: use idir username instead of id
           requesterIDIR: userId,
         };
 
@@ -89,4 +88,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Request);
+)(NewRequest);
