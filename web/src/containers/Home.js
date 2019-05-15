@@ -6,7 +6,7 @@ import { Button, Loader } from 'semantic-ui-react';
 import styled from '@emotion/styled';
 import { TEST_IDS } from '../constants/ui';
 import { RequestList } from '../components/Request/RequestList';
-import { getRequests } from '../actionCreators';
+import { getRequestsAction } from '../actionCreators';
 
 const StyledLoader = styled(Loader)`
   font-size: 1rem;
@@ -17,7 +17,7 @@ export class Home extends Component {
   static displayName = '[Component Home]';
 
   componentDidMount = () => {
-    this.props.getRequests({ user: this.props.userId });
+    this.props.getRequestsAction({ user: this.props.userId });
   };
 
   render() {
@@ -25,10 +25,20 @@ export class Home extends Component {
     let requestsList = null;
     if (requests === null || getRequestsStarted) {
       requestsList = (
-        <StyledLoader active size="small" inline="centered" content="Loading requests..." />
+        <StyledLoader
+          active
+          size="small"
+          inline="centered"
+          content="Loading requests..."
+          data-testid={TEST_IDS.APP.LOADER}
+        />
       );
     } else if (requests.length === 0) {
-      requestsList = <p>You do not have any realm requests yet, start a new request.</p>;
+      requestsList = (
+        <p data-testid={TEST_IDS.APP.EMPTY}>
+          You do not have any realm requests yet, start a new request.
+        </p>
+      );
     } else {
       requestsList = <RequestList requests={requests} />;
     }
@@ -61,7 +71,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      getRequests,
+      getRequestsAction,
     },
     dispatch
   );

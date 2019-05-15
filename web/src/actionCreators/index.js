@@ -57,7 +57,7 @@ export const getIdps = () => {
 /**
  * Get list of request records
  */
-export const getRequests = filters => {
+export const getRequestsAction = filters => {
   return async (dispatch, getState) => {
     dispatch(getRequestsStart());
 
