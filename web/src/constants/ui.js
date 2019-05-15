@@ -19,12 +19,17 @@
 //
 
 export const TEST_IDS = {
+  AUTH: {
+    MODAL: 'login-modal',
+    IDIR_LOGIN: 'idir-login-button',
+    GITHUB_LOGIN: 'github-login-button',
+  },
   APP: {
     LOGO: 'gov-logo',
     LOGIN: 'login-button',
-    IDIR_LOGIN: 'idir-login-button',
-    GITHUB_LOGIN: 'github-login-button',
     NEW_REQUEST: 'new-request-button',
+    LOADER: 'load-indicator',
+    EMPTY: 'empty-content',
   },
   REQUEST: {
     MESSAGE: 'request-message',
