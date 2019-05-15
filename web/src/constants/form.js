@@ -38,7 +38,7 @@ const basicInfo = {
     {
       type: 'text',
       name: 'adminUser',
-      title: 'The administrator of the realm (IDIR username)',
+      title: 'The administrator of the realm (IDIR user ID)',
       isRequired: true,
     },
     {
@@ -86,7 +86,7 @@ const requesterInfo = {
         {
           type: 'text',
           name: 'requesterIDIR',
-          title: 'IDIR Username',
+          title: 'IDIR User ID',
           // startWithNewLine: false,
           isRequired: true,
           enableIf: 'false',
@@ -126,7 +126,7 @@ export const formDataToRequest = {
     po: 'po',
   },
   requester: {
-    username: 'requesterIDIR',
+    id: 'requesterIDIR',
     email: 'requesterEmail',
     firstName: 'requesterFirstName',
     lastName: 'requesterLastName',
@@ -138,7 +138,7 @@ export const requestToFormData = {
   realmId: 'realm.id',
   displayName: 'realm.displayName',
   requesterEmail: 'requester.email',
-  requesterIDIR: 'requester.username',
+  requesterIDIR: 'requester.id',
   requesterLastName: 'requester.lastName',
   requesterFirstName: 'requester.firstName',
   adminUser: 'realm.adminUser',

@@ -17,8 +17,8 @@ describe('AuthModal Component', () => {
     );
 
     getByText('Login first');
-    expect(getByTestId(TEST_IDS.APP.GITHUB_LOGIN)).toHaveTextContent('GitHub');
-    expect(getByTestId(TEST_IDS.APP.IDIR_LOGIN)).toHaveTextContent('IDIR');
+    expect(getByTestId(TEST_IDS.AUTH.GITHUB_LOGIN)).toHaveTextContent('GitHub');
+    expect(getByTestId(TEST_IDS.AUTH.IDIR_LOGIN)).toHaveTextContent('IDIR');
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -28,7 +28,7 @@ describe('AuthModal Component', () => {
         <AuthModal isAuthenticated={false} />
       </BrowserRouter>
     );
-    const githubButton = getByTestId(TEST_IDS.APP.GITHUB_LOGIN);
+    const githubButton = getByTestId(TEST_IDS.AUTH.GITHUB_LOGIN);
 
     fireEvent.click(githubButton);
     expect(window.location.href).toContain('/login/github');

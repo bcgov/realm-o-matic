@@ -13,6 +13,7 @@ export const AuthModal = ({ isAuthenticated }) => {
       closeOnDimmerClick={false}
       size="tiny"
       dimmer="blurring"
+      data-testid={TEST_IDS.AUTH.MODAL}
     >
       <Modal.Header>Login first</Modal.Header>
       <Modal.Content>
@@ -20,10 +21,10 @@ export const AuthModal = ({ isAuthenticated }) => {
       </Modal.Content>
       <Modal.Actions>
         <Link to={{ pathname: `/login/${SSO_IDP.GITHUB}` }}>
-          <Button data-testid={TEST_IDS.APP.GITHUB_LOGIN}>GitHub</Button>
+          <Button data-testid={TEST_IDS.AUTH.GITHUB_LOGIN}>GitHub</Button>
         </Link>
         <Link to={{ pathname: `/login/${SSO_IDP.IDIR}` }}>
-          <Button data-testid={TEST_IDS.APP.IDIR_LOGIN}>IDIR</Button>
+          <Button data-testid={TEST_IDS.AUTH.IDIR_LOGIN}>IDIR</Button>
         </Link>
       </Modal.Actions>
     </Modal>

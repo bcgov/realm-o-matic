@@ -97,7 +97,7 @@ export const getRequestContent = async prNumber => {
 /**
  * Get list of requests:
  * @param {String} state the state of the request PRs
- * @param {String} user the user to filter with
+ * @param {String} user the user to filter with, value as the user ID
  * @param {Array} labels the labels to filter with
  */
 export const getRecords = async (state = 'all', labels = [], user = null) => {
