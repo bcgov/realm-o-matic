@@ -2,7 +2,7 @@ import React from 'react';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
 import styled from '@emotion/styled';
-import { TEST_IDS } from '../constants/ui';
+import { TEST_IDS } from '../../constants/ui';
 
 const StyledForm = styled.div`
   text-align: left;
