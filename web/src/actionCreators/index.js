@@ -3,6 +3,9 @@ import {
   getIdpsStart,
   getIdpsSuccess,
   getIdpsError,
+  getRequestsStart,
+  getRequestsSuccess,
+  getRequestsError,
   newRequestStart,
   newRequestSuccess,
   newRequestError,
@@ -47,6 +50,27 @@ export const getIdps = () => {
     } catch (err) {
       const errMsg = `Fail to get IDPs as ${err}`;
       return dispatch(getIdpsError(errMsg));
+    }
+  };
+};
+
+/**
+ * Get list of request records
+ */
+export const getRequests = filters => {
+  return async (dispatch, getState) => {
+    dispatch(getRequestsStart());
+
+    try {
+      const res = await axiSSO.get(API.REQUESTS(), {
+        params: filters,
+      });
+
+      const requests = res.data.requests;
+      return dispatch(getRequestsSuccess(requests));
+    } catch (err) {
+      const errMsg = `Fail to get requests from ${filters}`;
+      return dispatch(getRequestsError(errMsg));
     }
   };
 };

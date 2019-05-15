@@ -1,4 +1,4 @@
-import { AUTHENTICATION, GET_IDPS, NEW_REQUEST } from './actionTypes';
+import { AUTHENTICATION, GET_IDPS, GET_REQUESTS, NEW_REQUEST } from './actionTypes';
 
 export const authenticateSuccess = () => {
   return {
@@ -54,6 +54,30 @@ export const newRequestSuccess = requestId => {
 export const newRequestError = errorMessage => {
   return {
     type: NEW_REQUEST.ERROR,
+    payload: {
+      errorMessage,
+    },
+  };
+};
+
+export const getRequestsStart = () => {
+  return {
+    type: GET_REQUESTS.START,
+  };
+};
+
+export const getRequestsSuccess = requests => {
+  return {
+    type: GET_REQUESTS.SUCCESS,
+    payload: {
+      requests,
+    },
+  };
+};
+
+export const getRequestsError = errorMessage => {
+  return {
+    type: GET_REQUESTS.ERROR,
     payload: {
       errorMessage,
     },
