@@ -8,14 +8,19 @@ const StyledList = styled.div`
 `;
 
 export const RequestList = ({ requests }) => {
-  const onRowClick = (id, e) => {
+  const onClick = rowKey => {
     // TODO: redirect on click
-    console.log('click on row with id:', e);
+    console.log('click on row with id:', rowKey);
   };
 
   const content = requests.map(request => {
     return (
-      <Table.Row key={request.number} onClick={onRowClick}>
+      <Table.Row
+        key={request.number}
+        onClick={() => {
+          onClick(request.number);
+        }}
+      >
         <Table.Cell>{request.realm.displayName}</Table.Cell>
         <Table.Cell>{request.fileName}</Table.Cell>
         <Table.Cell>{request.state}</Table.Cell>
@@ -24,7 +29,7 @@ export const RequestList = ({ requests }) => {
   });
   return (
     <StyledList>
-      <Table striped selectable padded data-testid={TEST_IDS.REQUEST.FORM_LIST}>
+      <Table striped selectable data-testid={TEST_IDS.REQUEST.FORM_LIST}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Realm Display Name</Table.HeaderCell>

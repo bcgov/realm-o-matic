@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home Component has link to create a new request 1`] = `
+exports[`Home Component blocks when not authed 1`] = `
 <div>
-  <p>
+  <h2>
     Welcome!
-  </p>
+  </h2>
   <a
     data-testid="new-request-button"
-    href="/request"
+    href="/Request/new"
   >
     <button
       class="ui button"
@@ -18,8 +18,36 @@ exports[`Home Component has link to create a new request 1`] = `
   </a>
   <p />
   <div
-    class="ui list"
-    role="list"
-  />
+    class="ui small active text centered inline loader css-micwn4-StyledLoader e1c48y920"
+    data-testid="load-indicator"
+  >
+    Loading requests...
+  </div>
+</div>
+`;
+
+exports[`Home Component has link to create a new request 1`] = `
+<div>
+  <h2>
+    Welcome!
+  </h2>
+  <a
+    data-testid="new-request-button"
+    href="/Request/new"
+  >
+    <button
+      class="ui button"
+      data-testid="startRequest"
+    >
+      Start Request
+    </button>
+  </a>
+  <p />
+  <div
+    class="ui small active text centered inline loader css-micwn4-StyledLoader e1c48y920"
+    data-testid="load-indicator"
+  >
+    Loading requests...
+  </div>
 </div>
 `;
