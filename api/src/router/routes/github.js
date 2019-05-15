@@ -105,7 +105,7 @@ router.get(
  * Get list of PRs based on the state and label
  * @param {String} state open, closed or all
  * @param {Array} labels array of label to filter with
- * @param {String} user requester
+ * @param {String} user requester user ID
  */
 router.get(
   '/records',

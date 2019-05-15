@@ -40,9 +40,9 @@ export const REALM_SCHEMA = {
 
 export const USER_SCHEMA = {
   type: 'object',
-  required: ['username', 'email'],
+  required: ['id', 'email'],
   properties: {
-    username: { type: 'string' },
+    id: { type: 'string' },
     email: { type: 'string' },
     firstName: { type: 'string' },
     lastName: { type: 'string' },
