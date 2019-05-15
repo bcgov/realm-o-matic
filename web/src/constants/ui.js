@@ -29,6 +29,7 @@ export const TEST_IDS = {
   REQUEST: {
     MESSAGE: 'request-message',
     FORM: 'request-form',
+    FORM_LIST: 'request-list',
   },
 };
 
