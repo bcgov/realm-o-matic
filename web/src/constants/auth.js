@@ -30,3 +30,9 @@ export const SSO_IDP = {
   GITHUB: 'github',
   IDIR: 'idir',
 };
+
+export const ACCESS_CONTROL = {
+  REQUESTER_ROLE: 'devhub_kc_requester',
+  REVIEWER_ROLE: 'devhub_kc_reviewer',
+  NO_ROLE: 'unauthorized',
+};
