@@ -1,3 +1,4 @@
+import React from 'react';
 import { LoginRoute } from '../src/components/Auth/LoginRoute';
 
 describe('LoginRoute Component', () => {
@@ -26,14 +27,14 @@ describe('LoginRoute Component', () => {
   it('sets the window location without idp', () => {
     expect(window.location.assign).not.toHaveBeenCalled();
     const redirect = LoginRoute(paraWithoutIdp);
-    expect(redirect).toBe(null);
+    expect(redirect).toEqual(<div>Your are being redirected to KeyCloak login page...</div>);
     expect(window.location.assign).toBeCalledWith('LOGINURI');
   });
 
   it('sets the window location with idp', () => {
     expect(window.location.assign).not.toHaveBeenCalled();
     const redirect2 = LoginRoute(paraWithIdp);
-    expect(redirect2).toBe(null);
+    expect(redirect2).toEqual(<div>Your are being redirected to KeyCloak login page...</div>);
     expect(window.location.assign).toBeCalledWith('LOGINURI/testIdp');
   });
 });
