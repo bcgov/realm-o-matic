@@ -16,6 +16,7 @@ import {
 import implicitAuthManager from '../utils/auth';
 import { API } from '../constants/request';
 import { generateRequestPayload } from '../utils/requestHelpers';
+import { ACCESS_CONTROL } from '../constants/auth';
 
 /**
  * Set Authorization Header
@@ -42,19 +43,23 @@ const axiSSO = axios.create({
 /**
  * Get user authorization status
  */
-export const authorizationAction = (id, roles) => {
+export const authorizationAction = (id, roles = []) => {
   return async (dispatch, getState) => {
     dispatch(authorizationStart());
 
     try {
+      // TODO: axios does not contain the token in header until refreshing page
       const res = await axiSSO.get(API.AUTHORIZATION(id), {
         params: {
-          roles,
+          roles: JSON.stringify(roles),
         },
       });
-      const authorizationCode = res.authCode;
+      const authorizationCode = res.data;
       return dispatch(authorizationSuccess(authorizationCode));
     } catch (err) {
+      // authmware in api throws 401 for no role user:
+      if (err.response.status === 401)
+        return dispatch(authorizationSuccess(ACCESS_CONTROL.NO_ROLE));
       const errMsg = `Fail to get IDPs as ${err}`;
       return dispatch(authorizationError(errMsg));
     }
@@ -91,10 +96,10 @@ export const getRequestsAction = filters => {
         params: filters,
       });
 
-      const requests = res.data.requests;
+      const requests = res.data;
       return dispatch(getRequestsSuccess(requests));
     } catch (err) {
-      const errMsg = `Fail to get requests from ${filters}`;
+      const errMsg = `Fail to get requests: ${err}`;
       return dispatch(getRequestsError(errMsg));
     }
   };
