@@ -5,6 +5,7 @@ import {
   GET_IDPS,
   GET_REQUESTS,
   NEW_REQUEST,
+  AUTHORIZATION,
 } from '../actions/actionTypes';
 
 const authentication = (state = { isAuthenticated: false, userInfo: {}, userId: null }, action) => {
@@ -30,6 +31,34 @@ const authentication = (state = { isAuthenticated: false, userInfo: {}, userId: 
         isAuthenticated: false,
         userInfo: {},
         userId: null,
+      };
+    default:
+      return state;
+  }
+};
+
+const authorization = (
+  state = { authorizationStarted: false, authCode: null, errorMessage: null },
+  action
+) => {
+  switch (action.type) {
+    case AUTHORIZATION.START:
+      return {
+        authorizationStarted: true,
+        authCode: 'unauthed',
+        errorMessage: null,
+      };
+    case AUTHORIZATION.SUCCESS:
+      return {
+        authorizationStarted: false,
+        authCode: action.payload.authCode,
+        errorMessage: null,
+      };
+    case AUTHORIZATION.ERROR:
+      return {
+        authorizationStarted: false,
+        authCode: null,
+        errorMessage: action.payload.errorMessage,
       };
     default:
       return state;
@@ -122,6 +151,7 @@ const rootReducer = combineReducers({
   getIdps,
   getRequests,
   newRequest,
+  authorization,
 });
 
 export default rootReducer;

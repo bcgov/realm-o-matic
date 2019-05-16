@@ -3,6 +3,9 @@ import {
   getIdpsStart,
   getIdpsSuccess,
   getIdpsError,
+  authorizationStart,
+  authorizationSuccess,
+  authorizationError,
   getRequestsStart,
   getRequestsSuccess,
   getRequestsError,
@@ -35,6 +38,28 @@ const axiSSO = axios.create({
   timeout: API.TIME_OUT,
   headers: { Accept: 'application/json', Authorization: authorizationHeader() },
 });
+
+/**
+ * Get user authorization status
+ */
+export const authorizationAction = (id, roles) => {
+  return async (dispatch, getState) => {
+    dispatch(authorizationStart());
+
+    try {
+      const res = await axiSSO.get(API.AUTHORIZATION(id), {
+        params: {
+          roles,
+        },
+      });
+      const authorizationCode = res.authCode;
+      return dispatch(authorizationSuccess(authorizationCode));
+    } catch (err) {
+      const errMsg = `Fail to get IDPs as ${err}`;
+      return dispatch(authorizationError(errMsg));
+    }
+  };
+};
 
 /**
  * Get list of idps avaible
