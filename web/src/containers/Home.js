@@ -11,14 +11,21 @@ import { getRequestsAction } from '../actionCreators';
 export class Home extends Component {
   static displayName = '[Component Home]';
 
-  componentDidMount = () => {
-    this.props.getRequestsAction({ user: this.props.userId });
-  };
-
   render() {
-    const { requests, getRequestsStarted, errorMessage } = this.props;
+    const {
+      isAuthenticated,
+      userId,
+      requests,
+      getRequestsStarted,
+      errorMessage,
+      getRequestsAction,
+    } = this.props;
+    if (isAuthenticated && !getRequestsStarted && !requests && !errorMessage)
+      getRequestsAction({ user: userId });
+
     let requestsList = null;
-    if (requests === null || getRequestsStarted) {
+    if (errorMessage) requestsList = errorMessage;
+    else if (requests === null || getRequestsStarted) {
       requestsList = <SpinLoader text="Loading requests..." />;
     } else if (requests.length === 0) {
       requestsList = (

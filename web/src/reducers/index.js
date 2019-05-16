@@ -45,7 +45,7 @@ const authorization = (
     case AUTHORIZATION.START:
       return {
         authorizationStarted: true,
-        authCode: 'unauthed',
+        authCode: null,
         errorMessage: null,
       };
     case AUTHORIZATION.SUCCESS:
