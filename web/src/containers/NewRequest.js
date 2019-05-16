@@ -26,7 +26,7 @@ export class NewRequest extends Component {
   }
 
   render() {
-    const { email, userId, newRequestStarted, requestId, errorMessage, newRequest } = this.props;
+    const { userInfo, userId, newRequestStarted, requestId, errorMessage, newRequest } = this.props;
     const scroll = Scroll.animateScroll;
 
     const onComplete = result => {
@@ -43,7 +43,7 @@ export class NewRequest extends Component {
       ? this.state.formData
       : {
           realmId: randomRealmId(8),
-          requesterEmail: email,
+          requesterEmail: userInfo.email,
           requesterIDIR: userId,
         };
 
@@ -73,7 +73,7 @@ export class NewRequest extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
-    email: state.authentication.email,
+    userInfo: state.authentication.userInfo,
     userId: state.authentication.userId,
     errorMessage: state.newRequest.errorMessage,
     requestId: state.newRequest.requestId,

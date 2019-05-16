@@ -46,7 +46,7 @@ export class Home extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
-    email: state.authentication.email,
+    userInfo: state.authentication.userInfo,
     userId: state.authentication.userId,
     // get Requests:
     errorMessage: state.getRequests.errorMessage,

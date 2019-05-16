@@ -1,23 +1,34 @@
 import { combineReducers } from 'redux';
 import implicitAuthManager from '../utils/auth';
-import { AUTHENTICATION, GET_IDPS, GET_REQUESTS, NEW_REQUEST } from '../actions/actionTypes';
+import {
+  AUTHENTICATION,
+  GET_IDPS,
+  GET_REQUESTS,
+  NEW_REQUEST,
+} from '../actions/actionTypes';
 
-const authentication = (state = { isAuthenticated: false, email: null, userId: null }, action) => {
+const authentication = (state = { isAuthenticated: false, userInfo: {}, userId: null }, action) => {
   switch (action.type) {
     case AUTHENTICATION.SUCCESS:
       return {
         ...state,
         ...{
           isAuthenticated: true,
-          email: implicitAuthManager.idToken.data.email,
           userId: implicitAuthManager.idToken.data.sub,
+          userInfo: {
+            username: implicitAuthManager.idToken.data.preferred_username,
+            email: implicitAuthManager.idToken.data.email,
+            lName: implicitAuthManager.idToken.data.family_name,
+            fName: implicitAuthManager.idToken.data.given_name,
+            roles: implicitAuthManager.idToken.data.roles,
+          },
         },
       };
     case AUTHENTICATION.FAILED:
       implicitAuthManager.clearAuthLocalStorage();
       return {
         isAuthenticated: false,
-        email: null,
+        userInfo: {},
         userId: null,
       };
     default:
