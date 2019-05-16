@@ -24,6 +24,7 @@ export const ACCESS_CONTROL = {
   SA_ROLE: 'devhub_kc_web',
   REQUESTER_ROLE: 'devhub_kc_requester',
   REVIEWER_ROLE: 'devhub_kc_reviewer',
+  NO_ROLE: 'unauthorized',
 };
 
 export const REALM_SCHEMA = {
