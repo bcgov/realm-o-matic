@@ -22,7 +22,7 @@ export const SpinLoader = ({ text }) => {
 };
 
 SpinLoader.propTypes = {
-  authentication: PropTypes.object.isRequired,
+  text: PropTypes.string,
 };
 
 export default SpinLoader;
