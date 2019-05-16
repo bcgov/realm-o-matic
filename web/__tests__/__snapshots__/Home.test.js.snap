@@ -44,7 +44,7 @@ exports[`Home Component has link to create a new request 1`] = `
   </a>
   <p />
   <div
-    class="ui small active text centered inline loader css-micwn4-StyledLoader e1c48y920"
+    class="ui small active text centered inline loader css-micwn4-StyledLoader e1eih1xm0"
     data-testid="load-indicator"
   >
     Loading requests...
