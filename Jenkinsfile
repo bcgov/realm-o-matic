@@ -11,7 +11,7 @@ pipeline {
                 script {
                     abortAllPreviousBuildInProgress(currentBuild)
                 }
-                echo "Building ..."
+                echo "Building ... pr=${CHANGE_ID}"
                 sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID}"
                 // TODO: need to distingrish web and api changes:
                 // sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID} --projectSet=all"
