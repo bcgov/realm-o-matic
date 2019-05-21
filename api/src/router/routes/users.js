@@ -28,7 +28,7 @@ const router = new Router();
 
 /**
  * Get the user authorization status
- * TODO: more auth logic
+ * TODO: more auth logic, this is temporary:
  */
 router.get(
   '/auth/:userId',
