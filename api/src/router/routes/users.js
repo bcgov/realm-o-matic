@@ -37,10 +37,11 @@ router.get(
     const { roles } = req.query;
     try {
       let authorizationCode = ACCESS_CONTROL.NO_ROLE;
-      if (roles.includes(ACCESS_CONTROL.REVIEWER_ROLE))
+      if (roles.includes(ACCESS_CONTROL.REVIEWER_ROLE)) {
         authorizationCode = ACCESS_CONTROL.REVIEWER_ROLE;
-      else if (roles.includes(ACCESS_CONTROL.REQUESTER_ROLE))
+      } else if (roles.includes(ACCESS_CONTROL.REQUESTER_ROLE)) {
         authorizationCode = ACCESS_CONTROL.REQUESTER_ROLE;
+      }
 
       res.status(200).json(authorizationCode);
     } catch (err) {
