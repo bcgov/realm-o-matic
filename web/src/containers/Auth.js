@@ -28,20 +28,18 @@ export class Auth extends Component {
     else if (
       authCode === ACCESS_CONTROL.REQUESTER_ROLE ||
       authCode === ACCESS_CONTROL.REVIEWER_ROLE
-    )
+    ) {
       redirect = <Redirect to="/home" />;
+    }
 
-    const content = isAuthenticated ? (
-      authorizationStarted ? (
-        <SpinLoader text="Loading your user info..." />
-      ) : errorMessage ? (
-        <p>{errorMessage}</p>
-      ) : (
-        redirect
-      )
-    ) : (
-      <AuthModal isAuthenticated={isAuthenticated} />
-    );
+    let content;
+    if (!isAuthenticated) {
+      content = <AuthModal isAuthenticated={isAuthenticated} />;
+    } else {
+      if (authorizationStarted) content = <SpinLoader text="Loading your user info..." />;
+      else if (errorMessage) content = <p>{errorMessage}</p>;
+      else content = redirect;
+    }
     return <div>{content}</div>;
   }
 }
