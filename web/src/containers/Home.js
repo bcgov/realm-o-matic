@@ -2,37 +2,31 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Loader } from 'semantic-ui-react';
-import styled from '@emotion/styled';
+import { Button } from 'semantic-ui-react';
 import { TEST_IDS } from '../constants/ui';
 import { RequestList } from '../components/Request/RequestList';
+import { SpinLoader } from '../components/UI';
 import { getRequestsAction } from '../actionCreators';
-
-const StyledLoader = styled(Loader)`
-  font-size: 1rem;
-  padding: 0;
-`;
 
 export class Home extends Component {
   static displayName = '[Component Home]';
 
-  componentDidMount = () => {
-    this.props.getRequestsAction({ user: this.props.userId });
-  };
-
   render() {
-    const { requests, getRequestsStarted, errorMessage } = this.props;
+    const {
+      isAuthenticated,
+      userId,
+      requests,
+      getRequestsStarted,
+      errorMessage,
+      getRequestsAction,
+    } = this.props;
+    if (isAuthenticated && !getRequestsStarted && !requests && !errorMessage)
+      getRequestsAction({ user: userId });
+
     let requestsList = null;
-    if (requests === null || getRequestsStarted) {
-      requestsList = (
-        <StyledLoader
-          active
-          size="small"
-          inline="centered"
-          content="Loading requests..."
-          data-testid={TEST_IDS.APP.LOADER}
-        />
-      );
+    if (errorMessage) requestsList = errorMessage;
+    else if (requests === null || getRequestsStarted) {
+      requestsList = <SpinLoader text="Loading requests..." />;
     } else if (requests.length === 0) {
       requestsList = (
         <p data-testid={TEST_IDS.APP.EMPTY}>
@@ -59,7 +53,7 @@ export class Home extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
-    email: state.authentication.email,
+    userInfo: state.authentication.userInfo,
     userId: state.authentication.userId,
     // get Requests:
     errorMessage: state.getRequests.errorMessage,

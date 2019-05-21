@@ -145,3 +145,7 @@ export const requestToFormData = {
   idps: 'realm.adminUser',
   po: 'realm.po',
 };
+
+export const realmId = {
+  digit: 8,
+};

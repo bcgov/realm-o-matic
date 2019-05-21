@@ -5,6 +5,7 @@ import { Modal, Button } from 'semantic-ui-react';
 import { SSO_IDP } from '../../constants/auth';
 import { TEST_IDS } from '../../constants/ui';
 
+// TODO: may remove the prop isAuthenticated
 export const AuthModal = ({ isAuthenticated }) => {
   return (
     <Modal

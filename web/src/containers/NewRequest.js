@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import Scroll from 'react-scroll';
 import { TEST_IDS } from '../constants/ui';
-import { formJson } from '../constants/form';
+import { formJson, realmId } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';
 import { RequestForm } from '../components/Request/RequestForm';
@@ -26,7 +26,7 @@ export class NewRequest extends Component {
   }
 
   render() {
-    const { email, userId, newRequestStarted, requestId, errorMessage, newRequest } = this.props;
+    const { userInfo, userId, newRequestStarted, requestId, errorMessage, newRequest } = this.props;
     const scroll = Scroll.animateScroll;
 
     const onComplete = result => {
@@ -42,8 +42,8 @@ export class NewRequest extends Component {
     const initInfo = this.state.formData
       ? this.state.formData
       : {
-          realmId: randomRealmId(8),
-          requesterEmail: email,
+          realmId: randomRealmId(realmId.digit),
+          requesterEmail: userInfo.email,
           requesterIDIR: userId,
         };
 
@@ -73,7 +73,7 @@ export class NewRequest extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
-    email: state.authentication.email,
+    userInfo: state.authentication.userInfo,
     userId: state.authentication.userId,
     errorMessage: state.newRequest.errorMessage,
     requestId: state.newRequest.requestId,

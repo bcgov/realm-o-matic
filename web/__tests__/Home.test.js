@@ -29,14 +29,16 @@ describe('Home Component', () => {
 
   const AUTH_PROPS_0 = {
     isAuthenticated: true,
-    email: '123@email.com',
+    userInfo: {
+      email: '123@email.com',
+    },
     userId: '123',
     errorMessage: null,
   };
 
   const AUTH_PROPS_1 = {
     isAuthenticated: false,
-    email: null,
+    userInfo: {},
     userId: null,
     errorMessage: null,
   };
