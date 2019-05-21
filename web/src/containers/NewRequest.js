@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import Scroll from 'react-scroll';
 import { TEST_IDS } from '../constants/ui';
-import { formJson } from '../constants/form';
+import { formJson, realmId } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';
 import { RequestForm } from '../components/Request/RequestForm';
@@ -42,7 +42,7 @@ export class NewRequest extends Component {
     const initInfo = this.state.formData
       ? this.state.formData
       : {
-          realmId: randomRealmId(8),
+          realmId: randomRealmId(realmId.digit),
           requesterEmail: userInfo.email,
           requesterIDIR: userId,
         };
