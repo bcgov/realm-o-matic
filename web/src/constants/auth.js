@@ -18,13 +18,7 @@
 // Created by Shelly Xue Han
 //
 
-// import config from '../config.json';
-
-const config = {
-  ssoRealmName: '{{.Env.REACT_APP_SSO_REALM_NAME}}',
-  ssoClientId: '{{.Env.REACT_APP_SSO_CLIENT_ID}}',
-  ssoBaseUrl: '{{.Env.REACT_APP_SSO_BASE_URL}}',
-};
+import config from '../config.json';
 
 export const SSO_CONFIG = {
   baseURL: process.env.REACT_APP_SSO_BASE_URL || config.ssoBaseUrl,
