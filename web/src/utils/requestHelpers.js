@@ -1,5 +1,4 @@
 import _ from 'lodash';
-// import jp from 'jsonpath';
 import uuidv4 from 'uuid/v4';
 import { formDataToRequest, requestToFormData } from '../constants/form';
 
