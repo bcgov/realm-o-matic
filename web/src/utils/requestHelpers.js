@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import jsonata from 'jsonata';
+import jp from 'jsonpath';
 import uuidv4 from 'uuid/v4';
 import { formDataToRequest, requestToFormData } from '../constants/form';
 
@@ -28,7 +28,9 @@ export const normalizeData = (inputData, schema) => {
     return _.mapValues(schema, p => {
       if (_.isObject(p)) return normalizeData(inputData, p);
       else {
-        const data = jsonata(p).evaluate(inputData);
+        // NOTE: query always returns an array, taking the first item from it:
+        const result = jp.query(inputData, `$..${p}`);
+        const data = result[0];
         if (data === undefined) throw Error(`Failed to read data with key: ${p}`);
         return data;
       }
