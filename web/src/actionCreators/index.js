@@ -60,7 +60,7 @@ export const authorizationAction = (id, roles = []) => {
       // authmware in api throws 401 for no role user:
       if (err.response.status === 401)
         return dispatch(authorizationSuccess(ACCESS_CONTROL.NO_ROLE));
-      const errMsg = `Fail to get IDPs as ${err}`;
+      const errMsg = `Fail to authorize: ${err}, please refresh page.`;
       return dispatch(authorizationError(errMsg));
     }
   };
