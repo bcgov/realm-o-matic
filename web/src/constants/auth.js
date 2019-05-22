@@ -25,7 +25,9 @@ export const CADDY_ENV_VAR = {
 };
 
 export const SSO_CONFIG = {
-  baseURL: process.env.REACT_APP_SSO_BASE_URL || CADDY_ENV_VAR.ssoBaseUrl,
+  // baseURL: process.env.REACT_APP_SSO_BASE_URL || CADDY_ENV_VAR.ssoBaseUrl,
+  testVar: CADDY_ENV_VAR.ssoBaseUrl,
+  baseURL: 'https://sso-dev.pathfinder.gov.bc.ca',
   realmName: process.env.REACT_APP_SSO_REALM_NAME || CADDY_ENV_VAR.ssoRealmName,
   clientId: process.env.REACT_APP_SSO_CLIENT_ID || CADDY_ENV_VAR.ssoClientId,
 };
