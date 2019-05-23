@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import { TEST_IDS } from '../constants/ui';
+import { ACCESS_CONTROL } from '../constants/auth';
 import { RequestList } from '../components/Request/RequestList';
 import { SpinLoader } from '../components/UI';
 import { getRequestsAction } from '../actionCreators';
@@ -19,9 +20,13 @@ export class Home extends Component {
       getRequestsStarted,
       errorMessage,
       getRequestsAction,
+      authCode,
     } = this.props;
-    if (isAuthenticated && !getRequestsStarted && !requests && !errorMessage)
-      getRequestsAction({ userId });
+
+    if (isAuthenticated && authCode && !getRequestsStarted && !requests && !errorMessage) {
+      const filter = authCode === ACCESS_CONTROL.REQUESTER_ROLE ? { userId } : null;
+      getRequestsAction(filter);
+    }
 
     let requestsList = null;
     if (errorMessage) requestsList = errorMessage;
@@ -34,7 +39,9 @@ export class Home extends Component {
         </p>
       );
     } else {
-      requestsList = <RequestList requests={requests} />;
+      requestsList = (
+        <RequestList requests={requests} isAdmin={authCode === ACCESS_CONTROL.REVIEWER_ROLE} />
+      );
     }
 
     return (
@@ -55,6 +62,9 @@ const mapStateToProps = state => {
     isAuthenticated: state.authentication.isAuthenticated,
     userInfo: state.authentication.userInfo,
     userId: state.authentication.userId,
+    // authorization:
+    // TODO: this gets null when refreshed, use a private route hoc
+    authCode: state.authorization.authCode,
     // get Requests:
     errorMessage: state.getRequests.errorMessage,
     requests: state.getRequests.requests,

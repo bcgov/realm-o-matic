@@ -9,7 +9,7 @@ import { authorizationAction } from '../actionCreators';
 
 export class Auth extends Component {
   static displayName = '[Component Auth]';
-  render() {
+  componentDidMount = () => {
     const {
       isAuthenticated,
       userInfo,
@@ -19,9 +19,12 @@ export class Auth extends Component {
       errorMessage,
       authorizationAction,
     } = this.props;
-
-    if (isAuthenticated && !authorizationStarted && !authCode && !errorMessage)
+    if (isAuthenticated && !authorizationStarted && !authCode && !errorMessage) {
       authorizationAction(userId, userInfo.roles);
+    }
+  };
+  render() {
+    const { isAuthenticated, authorizationStarted, authCode, errorMessage } = this.props;
 
     let redirect = null;
     if (authCode === ACCESS_CONTROL.NO_ROLE) redirect = <Redirect to="/notAuthorized" />;
