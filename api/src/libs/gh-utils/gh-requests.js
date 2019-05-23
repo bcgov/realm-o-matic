@@ -89,17 +89,17 @@ export const createFile = (file, branchName) =>
 /**
  * Request to create pull request:
  * @param {String} branchName name of branch
- * @param {String} fileName name of file
- * @param {Object} user the requester info
+ * @param {String} displayName display name of the realm
+ * @param {Object} baseInfo PR ID with realm ID and requester info
  */
-export const createPR = (fileName, branchName, user) =>
+export const createPR = (displayName, branchName, baseInfo) =>
   ghHelper(
     shared.gh.pulls.create,
     {
-      title: fileName,
+      title: displayName,
       head: branchName,
       base: GITHUB_REQUEST.BASE_BRANCH,
-      body: JSON.stringify(user),
+      body: JSON.stringify(baseInfo),
     },
     GITHUB_JSON_PATH.PR_PATH
   );

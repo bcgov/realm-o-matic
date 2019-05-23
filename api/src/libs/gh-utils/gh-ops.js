@@ -23,6 +23,7 @@
 import { logger } from '@bcgov/common-nodejs-utils';
 import {
   PR_SCHEMA,
+  PR_CONTENT_SCHEMA,
   REQUEST_SCHEMA,
   GITHUB_REQUEST,
   GITHUB_LABELS,
@@ -60,10 +61,15 @@ export const createRecord = async (bName, requestContent) => {
     const newBranchRef = await createBranch(bName, originRef);
 
     // push file:
-    const fileRef = await createFile(fileContent, newBranchRef);
+    await createFile(fileContent, newBranchRef);
 
     // start pr:
-    const pr = await createPR(fileRef, newBranchRef, payload.requester);
+    const prContent = {
+      id: payload.id,
+      realmId: payload.realm.id,
+      requester: payload.requester,
+    };
+    const pr = await createPR(payload.realm.displayName, newBranchRef, prContent);
 
     // if bceid is required, need to add the label to PR
     if (payload.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
@@ -96,16 +102,42 @@ export const getRequestContent = async prNumber => {
 
 /**
  * Get list of requests:
+ * 1. request to get all PRs based on state and labels
+ * 2. validate PR and the content
+ * 3. filter by user if needed
  * @param {String} state the state of the request PRs
- * @param {String} user the user to filter with, value as the user ID
+ * @param {String} userId the user to filter with, value as the user ID
  * @param {Array} labels the labels to filter with
  */
-export const getRecords = async (state = 'all', labels = [], user = null) => {
+export const getRecords = async (state = 'all', labels = [], userId = null) => {
   try {
     // get the PR based on state and labels:
     const prs = await getPRs({ state, labels });
-    // filter by the user if mentioned:
-    return user ? prs.filter(pr => pr.requester === user) : prs;
+
+    // Validate and filter PRs:
+    const resultPrs = prs.reduce((accuPrs, pr) => {
+      let resultPr = [];
+      // check if pr is valid:
+      const { isValid, payload } = validateSchema(pr, PR_SCHEMA);
+
+      if (isValid) {
+        try {
+          // check if pr content is valid, need to parse the content as it's string:
+          const content = validateSchema(JSON.parse(payload.prContent), PR_CONTENT_SCHEMA);
+          if (content.isValid) {
+            resultPr = [{ ...payload, ...{ prContent: content.payload } }];
+            // filter by user:
+            if (userId && content.payload.requester.id !== userId) resultPr = [];
+          }
+        } catch (err) {
+          // do nothing to filter out this item
+        }
+      }
+
+      return [...accuPrs, ...resultPr];
+    }, []);
+
+    return resultPrs;
   } catch (err) {
     logger.error(`Fail to get list of PRs: ${err.message}`);
     throw err;

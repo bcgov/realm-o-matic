@@ -22,6 +22,8 @@
 
 import Ajv from 'ajv';
 
+const ajv = new Ajv();
+
 /**
  * Validate json object:
  * @param {Object} object the content to validate
@@ -29,7 +31,6 @@ import Ajv from 'ajv';
  * @returns {Object} validation result and content/error message
  */
 export const validateSchema = (object, schema) => {
-  const ajv = new Ajv();
   const validate = ajv.compile(schema);
   const isValid = validate(object);
   return {

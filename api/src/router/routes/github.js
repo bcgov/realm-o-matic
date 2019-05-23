@@ -105,14 +105,14 @@ router.get(
  * Get list of PRs based on the state and label
  * @param {String} state open, closed or all
  * @param {Array} labels array of label to filter with
- * @param {String} user requester user ID
+ * @param {String} useId requester use ID
  */
 router.get(
   '/records',
   asyncMiddleware(async (req, res) => {
-    const { state, labels, user } = req.query;
+    const { state, labels, userId } = req.query;
     try {
-      const requests = await getRecords(state, labels, user);
+      const requests = await getRecords(state, labels, userId);
       res.status(200).json(requests);
     } catch (err) {
       const errCode = err.status ? err.status : 500;
