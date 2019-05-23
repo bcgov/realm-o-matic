@@ -10,7 +10,7 @@ import { LoginRoute } from '../components/Auth/LoginRoute';
 import { Layout } from './UI';
 
 export class App extends Component {
-  componentDidMount = () => {
+  componentWillMount = () => {
     implicitAuthManager.registerHooks({
       onAuthenticateSuccess: () => this.props.login(),
       onAuthenticateFail: () => this.props.logout(),
