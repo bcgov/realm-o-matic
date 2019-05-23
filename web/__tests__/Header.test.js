@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-testing-library';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from '../src/components/UI/Header';
-import { TEST_IDS } from '../src/constants/ui';
+import { TEST_IDS, APP_INFO } from '../src/constants/ui';
 
 describe('Header Component', () => {
   const authed = {
@@ -17,6 +17,7 @@ describe('Header Component', () => {
     );
 
     expect(getByTestId(TEST_IDS.APP.LOGIN)).toHaveTextContent('Logout');
+    expect(getByTestId(TEST_IDS.APP.NAME)).toHaveTextContent(APP_INFO.NAME);
     getByTestId(TEST_IDS.APP.LOGO);
     expect(container).toMatchSnapshot();
   });

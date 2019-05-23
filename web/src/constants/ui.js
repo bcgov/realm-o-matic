@@ -25,6 +25,7 @@ export const TEST_IDS = {
     GITHUB_LOGIN: 'github-login-button',
   },
   APP: {
+    NAME: 'app-name',
     LOGO: 'gov-logo',
     LOGIN: 'login-button',
     NEW_REQUEST: 'new-request-button',

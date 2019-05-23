@@ -26,7 +26,8 @@ const StyledItem = styled(Menu.Item)`
 
 const StyledImage = styled.img`
   padding: 0;
-  margin: 5px 0;
+  margin: 5px 0 !important;
+  width: 80px !important;
 `;
 
 const DropdownCss = css`
@@ -46,11 +47,14 @@ export const Header = ({ authentication }) => {
     <StyledHeader fixed="top">
       <Container>
         <StyledItem>
-          <Link to={{ pathname: '/' }} data-testid={TEST_IDS.APP.LOGO}>
-            <StyledImage src={logo} className="logo" alt="logo" width="80" />
+          <StyledImage src={logo} alt="logo" data-testid={TEST_IDS.APP.LOGO} />
+        </StyledItem>
+        <StyledItem>
+          <Link to={{ pathname: '/' }} css={TextCss} data-testid={TEST_IDS.APP.NAME}>
+            {APP_INFO.NAME}
           </Link>
         </StyledItem>
-        <StyledItem css={TextCss}>{APP_INFO.NAME}</StyledItem>
+
         <StyledItem position="right">
           <Dropdown item simple text="Account" css={DropdownCss}>
             <Dropdown.Menu>
