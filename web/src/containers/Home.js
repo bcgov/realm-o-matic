@@ -21,7 +21,7 @@ export class Home extends Component {
       getRequestsAction,
     } = this.props;
     if (isAuthenticated && !getRequestsStarted && !requests && !errorMessage)
-      getRequestsAction({ user: userId });
+      getRequestsAction({ userId });
 
     let requestsList = null;
     if (errorMessage) requestsList = errorMessage;
