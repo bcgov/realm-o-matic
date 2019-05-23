@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
 import { Auth, Home, Restricted, NewRequest } from '../containers';
-import { LoginRoute } from '../components/Auth/LoginRoute';
+import { LoginRoute, ProtectedRoute } from './Auth';
 import { Layout } from './UI';
 
 export class App extends Component {
@@ -27,10 +27,18 @@ export class App extends Component {
         <Switch>
           <Route path="/notAuthorized" component={Restricted} />
           <Route path="/login/:idp" component={LoginRoute} />
-          <Route path="/Request/new" component={NewRequest} />
+          <ProtectedRoute
+            path="/Request/new"
+            component={NewRequest}
+            authCode={this.props.authorization.authCode}
+          />
           {/* TODO: use it as /request/:id to make a unique page for redirecting ? */}
           {/* <Route path="/Request/:id" component={Request} /> */}
-          <Route path="/home" component={Home} />
+          <ProtectedRoute
+            path="/home"
+            component={Home}
+            authCode={this.props.authorization.authCode}
+          />
           <Route path="/" component={Auth} />
         </Switch>
       </Layout>
