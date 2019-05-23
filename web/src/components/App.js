@@ -11,7 +11,6 @@ import { Layout } from './UI';
 
 export class App extends Component {
   componentDidMount = () => {
-    console.log(implicitAuthManager.config);
     implicitAuthManager.registerHooks({
       onAuthenticateSuccess: () => this.props.login(),
       onAuthenticateFail: () => this.props.logout(),
