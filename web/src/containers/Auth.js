@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { ACCESS_CONTROL } from '../constants/auth';
 import { SpinLoader } from '../components/UI';
-import { AuthModal } from '../components/Auth/AuthModal';
+import { AuthModal } from '../components/Auth';
 import { authorizationAction } from '../actionCreators';
 
 export class Auth extends Component {
