@@ -5,9 +5,12 @@ import { TEST_IDS } from '../../constants/ui';
 
 const StyledList = styled.div`
   font-size: 1rem;
+  .hide {
+    display: none;
+  }
 `;
 
-export const RequestList = ({ requests }) => {
+export const RequestList = ({ requests, isAdmin }) => {
   const onClick = rowKey => {
     // TODO: redirect on click
     console.log('click on row with id:', rowKey);
@@ -18,12 +21,15 @@ export const RequestList = ({ requests }) => {
       <Table.Row
         key={request.number}
         onClick={() => {
-          onClick(request.number);
+          onClick(request.prContent.id);
         }}
       >
-        <Table.Cell>{request.realm.displayName}</Table.Cell>
-        <Table.Cell>{request.fileName}</Table.Cell>
+        <Table.Cell>{request.realmName}</Table.Cell>
+        <Table.Cell>{request.prContent.realmId}</Table.Cell>
         <Table.Cell>{request.state}</Table.Cell>
+        <Table.Cell className={isAdmin ? null : 'hide'}>
+          {request.prContent.requester.email}
+        </Table.Cell>
       </Table.Row>
     );
   });
@@ -35,6 +41,7 @@ export const RequestList = ({ requests }) => {
             <Table.HeaderCell>Realm Display Name</Table.HeaderCell>
             <Table.HeaderCell>Realm ID</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell className={isAdmin ? null : 'hide'}>Requester</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
