@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Table } from 'semantic-ui-react';
 import { TEST_IDS } from '../../constants/ui';
@@ -49,4 +50,9 @@ export const RequestList = ({ requests, isAdmin }) => {
       </Table>
     </StyledList>
   );
+};
+
+RequestList.propTypes = {
+  requests: PropTypes.array.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };

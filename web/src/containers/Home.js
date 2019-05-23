@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -79,6 +80,17 @@ const mapDispatchToProps = dispatch => {
     },
     dispatch
   );
+};
+
+Home.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  userInfo: PropTypes.object,
+  userId: PropTypes.string,
+  authorizationStarted: PropTypes.bool,
+  authCode: PropTypes.string,
+  requests: PropTypes.array,
+  getRequestsStarted: PropTypes.bool,
+  errorMessage: PropTypes.string,
 };
 
 export default connect(

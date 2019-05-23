@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
 import styled from '@emotion/styled';
@@ -63,4 +64,11 @@ export const RequestForm = ({ formModal, initialInfo, isDisplayMode, onComplete 
       <Survey.Survey model={requestForm} css={formCss} onComplete={onComplete} />
     </StyledForm>
   );
+};
+
+RequestForm.propTypes = {
+  formModal: PropTypes.object.isRequired,
+  initialInfo: PropTypes.object.isRequired,
+  isDisplayMode: PropTypes.bool.isRequired,
+  onComplete: PropTypes.func.isRequired,
 };

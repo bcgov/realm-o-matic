@@ -67,6 +67,9 @@ const mapDispatchToProps = dispatch => {
 
 App.propTypes = {
   authentication: PropTypes.object.isRequired,
+  authorization: PropTypes.object.isRequired,
+  getRequests: PropTypes.object.isRequired,
+  newRequest: PropTypes.object.isRequired,
 };
 
 export default connect(
