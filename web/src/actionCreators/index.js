@@ -12,6 +12,9 @@ import {
   newRequestStart,
   newRequestSuccess,
   newRequestError,
+  getRecordStart,
+  getRecordSuccess,
+  getRecordError,
 } from '../actions';
 import implicitAuthManager from '../utils/auth';
 import { API } from '../constants/request';
@@ -122,6 +125,25 @@ export const newRequest = requestInfo => {
     } catch (err) {
       const errMsg = `Fail to start the request: ${err}`;
       return dispatch(newRequestError(errMsg));
+    }
+  };
+};
+
+/**
+ * Get details of a record
+ */
+export const getRecordAction = number => {
+  return async (dispatch, getState) => {
+    dispatch(getRecordStart());
+
+    try {
+      const res = await axiSSO.get(API.REQUESTS(number));
+      const record = res.data;
+      // TODO: transform the data:
+      return dispatch(getRecordSuccess(record));
+    } catch (err) {
+      const errMsg = `Fail to fetch the record: ${err}`;
+      return dispatch(getRecordError(errMsg));
     }
   };
 };

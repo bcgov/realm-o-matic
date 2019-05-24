@@ -6,6 +6,7 @@ import {
   GET_REQUESTS,
   NEW_REQUEST,
   AUTHORIZATION,
+  GET_RECORD,
 } from '../actions/actionTypes';
 
 const authentication = (state = { isAuthenticated: false, userInfo: {}, userId: null }, action) => {
@@ -146,12 +147,41 @@ const newRequest = (
   }
 };
 
+const getRecord = (
+  state = { getRecordStarted: false, recordInfo: null, errorMessage: null },
+  action
+) => {
+  switch (action.type) {
+    case GET_RECORD.START:
+      return {
+        getRecordStarted: true,
+        recordInfo: null,
+        errorMessage: null,
+      };
+    case GET_RECORD.SUCCESS:
+      return {
+        getRecordStarted: false,
+        recordInfo: action.payload.recordInfo,
+        errorMessage: null,
+      };
+    case GET_RECORD.ERROR:
+      return {
+        getRecordStarted: false,
+        recordInfo: null,
+        errorMessage: action.payload.errorMessage,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   authentication,
   getIdps,
   getRequests,
   newRequest,
   authorization,
+  getRecord,
 });
 
 export default rootReducer;
