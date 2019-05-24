@@ -105,12 +105,10 @@ export const createPR = (displayName, branchName, baseInfo) =>
   );
 
 /**
- * Request to get pull requests by label:
- * Note: octokit only provides filtering with the issues endpoint
- * @param {Object} filters filter by the labels and states
+ * Request to get pull requests:
+ * @param {Object} filters filter by the state and the base branch
  */
-export const getPRs = filters =>
-  ghHelper(shared.gh.issues.listForRepo, filters, GITHUB_JSON_PATH.PR_PATH);
+export const getPRs = filters => ghHelper(shared.gh.pulls.list, filters, GITHUB_JSON_PATH.PR_PATH);
 
 /**
  * Request to fetch a pull requests:

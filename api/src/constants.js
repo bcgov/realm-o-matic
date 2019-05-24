@@ -65,7 +65,8 @@ export const PR_SCHEMA = {
   required: ['number', 'state', 'realmName', 'prContent'],
   properties: {
     number: { type: 'number' },
-    state: { type: 'string' },
+    prState: { type: 'string' },
+    prMerged: { type: 'string' },
     // labels: { type: 'array' }, //TODO: when only one label, it's not an array
     realmName: { type: 'string' },
     prContent: { type: 'string' },
@@ -97,7 +98,8 @@ export const GITHUB_JSON_PATH = {
     optionals: ['labels.name', 'head.ref'],
     dataStructure: {
       number: 'number',
-      state: 'state',
+      prState: 'state',
+      prMerged: 'merged_at',
       labels: 'labels.name',
       realmName: 'title',
       prContent: 'body',

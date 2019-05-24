@@ -23,7 +23,6 @@
 import { logger } from '@bcgov/common-nodejs-utils';
 import {
   PR_SCHEMA,
-  PR_CONTENT_SCHEMA,
   REQUEST_SCHEMA,
   GITHUB_REQUEST,
   GITHUB_LABELS,
@@ -42,6 +41,7 @@ import {
   mergePR,
   deleteBranch,
 } from './gh-requests';
+import { prParser } from './gh-helpers';
 import { validateSchema, encodeObjectWithName } from '../utils';
 
 /**
@@ -89,7 +89,15 @@ export const createRecord = async (bName, requestContent) => {
 export const getRequestContent = async prNumber => {
   try {
     const prInfo = await getPR(prNumber);
+    // TODO: identify status based on state and merged:
+
+    // if PR still open (the branch exists):
     const files = await listPRFiles(prNumber);
+
+    // if PR closed (branch deleted):
+    // 1. get from master by name of file
+    // 2. show nothing if rejected
+
     const prFile = await getFile(files[0], prInfo.branch);
     const content = Buffer.from(prFile.content, 'base64').toString();
     const contentObject = JSON.parse(content);
@@ -102,38 +110,22 @@ export const getRequestContent = async prNumber => {
 
 /**
  * Get list of requests:
- * 1. request to get all PRs based on state and labels
+ * 1. request to get all PRs based on state and base branch
  * 2. validate PR and the content
- * 3. filter by user if needed
- * @param {String} state the state of the request PRs
+ * 3. filter by labels and user if needed
+ * @param {String} prState the state of the request PRs
  * @param {String} userId the user to filter with, value as the user ID
  * @param {Array} labels the labels to filter with
  */
-export const getRecords = async (state = 'all', labels = [], userId = null) => {
+export const getRecords = async (prState = 'all', labels = [], userId = null) => {
   try {
     // get the PR based on state and labels:
-    const prs = await getPRs({ state, labels });
+    const prs = await getPRs({ prState, base: 'master' });
 
     // Validate and filter PRs:
     const resultPrs = prs.reduce((accuPrs, pr) => {
-      let resultPr = [];
-      // check if pr is valid:
-      const { isValid, payload } = validateSchema(pr, PR_SCHEMA);
-
-      if (isValid) {
-        try {
-          // check if pr content is valid, need to parse the content as it's string:
-          const content = validateSchema(JSON.parse(payload.prContent), PR_CONTENT_SCHEMA);
-          if (content.isValid) {
-            resultPr = [{ ...payload, ...{ prContent: content.payload } }];
-            // filter by user:
-            if (userId && content.payload.requester.id !== userId) resultPr = [];
-          }
-        } catch (err) {
-          // do nothing to filter out this item
-        }
-      }
-
+      const target = prParser(pr, labels, userId);
+      const resultPr = target ? [target] : [];
       return [...accuPrs, ...resultPr];
     }, []);
 

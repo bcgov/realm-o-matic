@@ -20,6 +20,7 @@
 
 'use strict';
 
+import _ from 'lodash';
 import Ajv from 'ajv';
 
 const ajv = new Ajv();
@@ -55,4 +56,15 @@ export const encodeObjectWithName = (name, content) => {
   } catch (err) {
     throw err.message;
   }
+};
+
+/**
+ * Match the input and target:
+ * @param {object} input the input object
+ * @param {object} target the target to match
+ */
+export const isMatch = (input, target) => {
+  if (_.isEmpty(target)) return true;
+  if (_.isArray(input)) return _.intersection(input, target) !== [];
+  return input === target;
 };
