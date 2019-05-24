@@ -65,6 +65,10 @@ export const encodeObjectWithName = (name, content) => {
  */
 export const isMatch = (input, target) => {
   if (_.isEmpty(target)) return true;
-  if (_.isArray(input)) return _.intersection(input, target) !== [];
+  if (_.isArray(target)) {
+    const arrayInput = _.isArray(input) ? input : [input];
+    const matches = _.intersection(arrayInput, target);
+    return !_.isEmpty(matches);
+  }
   return input === target;
 };
