@@ -30,7 +30,6 @@ import { PR_SCHEMA, PR_CONTENT_SCHEMA } from '../../constants';
  * @param {Object} jsonData the JSON object
  * @param {Array} paths the path or paths to the key
  */
-// eslint-disable-next-line import/prefer-default-export
 export const jsonReader = (jsonData, paths = null) => {
   if (_.isEmpty(paths)) return jsonData;
   if (_.isString(paths)) {

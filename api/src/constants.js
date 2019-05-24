@@ -62,7 +62,7 @@ export const REQUEST_SCHEMA = {
 
 export const PR_SCHEMA = {
   type: 'object',
-  required: ['number', 'state', 'realmName', 'prContent'],
+  required: ['number', 'prState', 'realmName', 'prContent'],
   properties: {
     number: { type: 'number' },
     prState: { type: 'string' },

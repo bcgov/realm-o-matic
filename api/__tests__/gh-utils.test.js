@@ -20,9 +20,16 @@
 
 'use strict';
 
-import { jsonReader } from '../src/libs/gh-utils/gh-helpers';
+import { jsonReader, prParser } from '../src/libs/gh-utils/gh-helpers';
 import { ghHelper } from '../src/libs/gh-utils/gh-requests';
-import { goodIssue, goodObject } from '../__fixtures__/utils-fixture';
+import {
+  goodIssue,
+  goodObject,
+  pr,
+  prMissing,
+  user,
+  prContent,
+} from '../__fixtures__/utils-fixture';
 import { mockedGHFn } from '../__mocks__/gh-fn';
 
 describe('jsonReader test', () => {
@@ -89,5 +96,32 @@ describe('ghHelper test', () => {
     await expect(ghHelper(mockedGHFn, { input: 'random' }, 'id')).rejects.toEqual(
       Error('GH request error.')
     );
+  });
+});
+
+describe('prParser test', () => {
+  test('return input when no filter', async () => {
+    const target = prParser(pr);
+    expect(target).toEqual({ ...pr, ...{ prContent } });
+  });
+
+  test('return input when matching filter', async () => {
+    const target = prParser(pr, pr.labels, user.id);
+    expect(target).toEqual({ ...pr, ...{ prContent } });
+  });
+
+  test('not return when labels not matching', async () => {
+    const target = prParser(pr, ['not exsiting']);
+    expect(target).toBeNull();
+  });
+
+  test('not return when userId not matching', async () => {
+    const target = prParser(pr, 'no such user id');
+    expect(target).toBeNull();
+  });
+
+  test('return input in other cases', async () => {
+    const target = prParser(prMissing, pr.labels, user.id);
+    expect(target).toEqual({ ...prMissing, ...{ prContent } });
   });
 });
