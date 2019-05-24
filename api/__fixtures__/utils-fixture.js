@@ -87,7 +87,7 @@ export const pr = {
 export const prMissing = {
   number: 123,
   prState: '123',
-  prMerged: '123',
+  prMerged: null,
   labels: '1',
   realmName: '123',
   prContent: JSON.stringify(prContent),

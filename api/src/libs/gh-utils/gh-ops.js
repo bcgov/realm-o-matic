@@ -120,15 +120,13 @@ export const getRequestContent = async prNumber => {
 export const getRecords = async (prState = 'all', labels = [], userId = null) => {
   try {
     // get the PR based on state and labels:
-    const prs = await getPRs({ prState, base: 'master' });
-
+    const prs = await getPRs({ state: prState, base: 'master' });
     // Validate and filter PRs:
     const resultPrs = prs.reduce((accuPrs, pr) => {
       const target = prParser(pr, labels, userId);
       const resultPr = target ? [target] : [];
       return [...accuPrs, ...resultPr];
     }, []);
-
     return resultPrs;
   } catch (err) {
     logger.error(`Fail to get list of PRs: ${err.message}`);

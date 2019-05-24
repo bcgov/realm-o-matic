@@ -66,7 +66,7 @@ export const PR_SCHEMA = {
   properties: {
     number: { type: 'number' },
     prState: { type: 'string' },
-    prMerged: { type: 'string' },
+    // prMerged: { type: 'string' }, // TODO: happens with null value
     // labels: { type: 'array' }, //TODO: when only one label, it's not an array
     realmName: { type: 'string' },
     prContent: { type: 'string' },
