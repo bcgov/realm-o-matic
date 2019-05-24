@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Table } from 'semantic-ui-react';
 import { TEST_IDS } from '../../constants/ui';
+import { getPrStatus } from '../../constants/form';
 
 const StyledList = styled.div`
   font-size: 1rem;
@@ -27,7 +28,7 @@ export const RequestList = ({ requests, isAdmin }) => {
       >
         <Table.Cell>{request.realmName}</Table.Cell>
         <Table.Cell>{request.prContent.realmId}</Table.Cell>
-        <Table.Cell>{request.state}</Table.Cell>
+        <Table.Cell>{getPrStatus(request.prState, request.prMerged)}</Table.Cell>
         <Table.Cell className={isAdmin ? null : 'hide'}>
           {request.prContent.requester.email}
         </Table.Cell>
