@@ -138,16 +138,16 @@ export const formDataToRequest = {
 };
 
 export const requestToFormData = {
-  id: 'request.id',
-  realmId: 'request.realm.id',
-  displayName: 'request.realm.displayName',
-  requesterEmail: 'request.requester.email',
-  requesterIDIR: 'request.requester.id',
-  requesterLastName: 'request.requester.lastName',
-  requesterFirstName: 'request.requester.firstName',
-  adminUser: 'request.realm.adminUser',
-  idps: 'request.realm.idps',
-  po: 'request.realm.po',
+  id: 'id',
+  realmId: 'realm.id',
+  displayName: 'realm.displayName',
+  requesterEmail: 'requester.email',
+  requesterIDIR: 'requester.id',
+  requesterLastName: 'requester.lastName',
+  requesterFirstName: 'requester.firstName',
+  adminUser: 'realm.adminUser',
+  idps: 'realm.idps',
+  po: 'realm.po',
 };
 
 export const realmId = {
@@ -172,6 +172,7 @@ export const getPrStatus = (state, merged) => {
     case 'closed':
       return isMerged ? prStatus.SUCCESS : prStatus.FAILED;
     default:
-      throw Error(`Unknow PR state: ${state}!`);
+      // throw Error(`Unknow PR state: ${state}!`);
+      return 'unknown';
   }
 };
