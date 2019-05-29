@@ -95,7 +95,6 @@ const requesterInfo = {
         {
           type: 'text',
           name: 'requesterLastName',
-          // title: 'Last Name (optional)',
           title: 'Last Name',
           isRequired: true,
           colCount: 0,
@@ -103,7 +102,6 @@ const requesterInfo = {
         {
           type: 'text',
           name: 'requesterFirstName',
-          // title: 'First Name (optional)',
           title: 'First Name',
           isRequired: true,
           colCount: 0,

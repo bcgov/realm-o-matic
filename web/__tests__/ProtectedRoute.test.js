@@ -4,8 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { ProtectedRoute } from '../src/components/Auth';
 import { ACCESS_CONTROL } from '../src/constants/auth';
 
-// jest.mock('../src/containers/Auth.js', () => <h1>123</h1>);
-
 afterEach(cleanup);
 
 describe('ProtectedRoute Component', () => {
@@ -24,7 +22,7 @@ describe('ProtectedRoute Component', () => {
     expect(container).toMatchSnapshot();
   });
 
-  // Issue with testing on redirec: Maximum update depth exceeded.
+  // TODO: Issue with testing on redirec: Maximum update depth exceeded.
   it.skip('redirects without correct role', () => {
     const { container } = render(
       <BrowserRouter>
