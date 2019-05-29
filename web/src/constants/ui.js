@@ -36,6 +36,9 @@ export const TEST_IDS = {
     MESSAGE: 'request-message',
     FORM: 'request-form',
     FORM_LIST: 'request-list',
+    APPROVAL: 'request-approval',
+    REJECT: 'request-rejection',
+    CANCEL: 'go-back',
   },
 };
 

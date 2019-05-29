@@ -53,7 +53,7 @@ export class Home extends Component {
       <div>
         <h2>Welcome!</h2>
         <Link to="/Request/new" data-testid={TEST_IDS.APP.NEW_REQUEST}>
-          <Button data-testid="startRequest">Start Request</Button>
+          <Button>Start Request</Button>
         </Link>
         <p>{errorMessage}</p>
         {requestsList}
