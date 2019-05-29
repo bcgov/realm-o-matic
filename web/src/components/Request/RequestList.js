@@ -12,10 +12,9 @@ const StyledList = styled.div`
   }
 `;
 
-export const RequestList = ({ requests, isAdmin }) => {
+export const RequestList = ({ requests, isAdmin, history }) => {
   const onClick = rowKey => {
-    // TODO: redirect on click
-    console.log('click on row with id:', rowKey);
+    history.push(`/Request/${rowKey}`);
   };
 
   const content = requests.map(request => {
@@ -23,7 +22,8 @@ export const RequestList = ({ requests, isAdmin }) => {
       <Table.Row
         key={request.number}
         onClick={() => {
-          onClick(request.prContent.id);
+          onClick(request.number);
+          // onClick(request.prContent.id);
         }}
       >
         <Table.Cell>{request.realmName}</Table.Cell>
@@ -56,4 +56,5 @@ export const RequestList = ({ requests, isAdmin }) => {
 RequestList.propTypes = {
   requests: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 };

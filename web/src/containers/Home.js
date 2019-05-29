@@ -41,7 +41,11 @@ export class Home extends Component {
       );
     } else {
       requestsList = (
-        <RequestList requests={requests} isAdmin={authCode === ACCESS_CONTROL.REVIEWER_ROLE} />
+        <RequestList
+          requests={requests}
+          isAdmin={authCode === ACCESS_CONTROL.REVIEWER_ROLE}
+          history={this.props.history}
+        />
       );
     }
 
@@ -64,7 +68,6 @@ const mapStateToProps = state => {
     userInfo: state.authentication.userInfo,
     userId: state.authentication.userId,
     // authorization:
-    // TODO: this gets null when refreshed, use a private route hoc
     authCode: state.authorization.authCode,
     // get Requests:
     errorMessage: state.getRequests.errorMessage,
