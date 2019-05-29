@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
-import { Auth, Home, Restricted, NewRequest } from '../containers';
+import { Auth, Home, Restricted, NewRequest, ReviewRequest } from '../containers';
 import { LoginRoute, ProtectedRoute } from './Auth';
 import { Layout } from './UI';
 
@@ -32,8 +32,8 @@ export class App extends Component {
             component={NewRequest}
             authCode={this.props.authorization.authCode}
           />
-          {/* TODO: use it as /request/:id to make a unique page for redirecting ? */}
-          {/* <Route path="/Request/:id" component={Request} /> */}
+          {/* TODO: use nunmber or ID ? */}
+          <Route path="/Request/:id" component={ReviewRequest} />
           <ProtectedRoute
             path="/home"
             component={Home}
@@ -52,6 +52,7 @@ const mapStateToProps = state => {
     getRequests: state.getRequests,
     authorization: state.authorization,
     newRequest: state.newRequest,
+    getRecord: state.getRecord,
   };
 };
 

@@ -18,7 +18,8 @@ import {
 } from '../actions';
 import implicitAuthManager from '../utils/auth';
 import { API } from '../constants/request';
-import { generateRequestPayload } from '../utils/requestHelpers';
+import { requestToFormData } from '../constants/form';
+import { generateRequestPayload, flattenObject, normalizeData } from '../utils/requestHelpers';
 import { ACCESS_CONTROL } from '../constants/auth';
 
 /**
@@ -138,9 +139,11 @@ export const getRecordAction = number => {
 
     try {
       const res = await axiSSO.get(API.REQUESTS(number));
-      const record = res.data;
-      // TODO: transform the data:
-      return dispatch(getRecordSuccess(record));
+      const record = res.data.prContent;
+      // Transform the data:
+      const flattenRecord = flattenObject(record);
+      const normalizaedReocrd = normalizeData(flattenRecord, requestToFormData);
+      return dispatch(getRecordSuccess(normalizaedReocrd));
     } catch (err) {
       const errMsg = `Fail to fetch the record: ${err}`;
       return dispatch(getRecordError(errMsg));

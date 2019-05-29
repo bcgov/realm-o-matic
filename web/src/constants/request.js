@@ -25,7 +25,7 @@ export const API = {
       : `${window.location.origin}/api/v1/`,
   TIME_OUT: 40000,
   IDP: () => 'idps',
-  REQUESTS: () => 'gh/records',
+  REQUESTS: number => `gh/records/${number ? number : ''}`,
   NEW_REQUEST: branchName => `gh/records/${branchName}`,
   AUTHORIZATION: userId => `users/auth/${userId}`,
 };
