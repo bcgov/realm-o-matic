@@ -56,5 +56,5 @@ export const RequestList = ({ requests, isAdmin, history }) => {
 RequestList.propTypes = {
   requests: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
 };
