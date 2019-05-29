@@ -101,7 +101,7 @@ export const getRequestContent = async prNumber => {
     const prFile = await getFile(files[0], prInfo.branch);
     const content = Buffer.from(prFile.content, 'base64').toString();
     const contentObject = JSON.parse(content);
-    return { ...prInfo, request: contentObject };
+    return { ...prInfo, prContent: contentObject };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
     throw err;
