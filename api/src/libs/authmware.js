@@ -26,13 +26,10 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import { ACCESS_CONTROL } from '../constants';
 import config from '../config';
 
-// Match the user role from client, accept either requester or reviewer:
+// Match user role to any acceptable roles:
 export const isAuthorized = jwtPayload => {
-  return (
-    jwtPayload.roles &&
-    (jwtPayload.roles.includes(ACCESS_CONTROL.REQUESTER_ROLE) ||
-      jwtPayload.roles.includes(ACCESS_CONTROL.REVIEWER_ROLE))
-  );
+  const roles = Object.values(ACCESS_CONTROL);
+  return jwtPayload.roles && roles.some(r => jwtPayload.roles.indexOf(r) >= 0);
 };
 
 // authenicating app:

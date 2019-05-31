@@ -22,13 +22,14 @@
 
 import _ from 'lodash';
 import jsonata from 'jsonata';
+import { validateSchema, isMatch } from '../utils';
+import { PR_SCHEMA, PR_CONTENT_SCHEMA } from '../../constants';
 
 /**
  * Get data from json object by path:
  * @param {Object} jsonData the JSON object
  * @param {Array} paths the path or paths to the key
  */
-// eslint-disable-next-line import/prefer-default-export
 export const jsonReader = (jsonData, paths = null) => {
   if (_.isEmpty(paths)) return jsonData;
   if (_.isString(paths)) {
@@ -45,4 +46,41 @@ export const jsonReader = (jsonData, paths = null) => {
     });
   }
   throw Error(`Cannot process data for the path: ${paths}.`);
+};
+
+/**
+ * Filter a list of PRs and validate the structure of data:
+ * @param {Object} pr the pull request
+ * @param {Array} labels to filter with
+ * @param {String} userId to filter with
+ * @returns resultPr
+ */
+export const prParser = (pr, labels = [], userId = null) => {
+  let resultPr = null;
+  // check if pr is valid:
+  const { isValid, payload } = validateSchema(pr, PR_SCHEMA);
+
+  if (isValid) {
+    // Turn the PR labels attribute to an array, e.g.: ['x', 'x'] or [undefined]:
+    const prArray = payload.labels;
+    payload.labels = Array.isArray(prArray) ? prArray : [prArray];
+
+    // filter by labels if specified, or no filter:
+    if (isMatch(payload.labels, labels)) {
+      // Avoid error for JSON.parse
+      try {
+        // check if pr content is valid, need to parse the content as it's string:
+        const content = validateSchema(JSON.parse(payload.prContent), PR_CONTENT_SCHEMA);
+        if (content.isValid) {
+          // filter by user:
+          resultPr = isMatch(content.payload.requester.id, userId)
+            ? { ...payload, ...{ prContent: content.payload } }
+            : null;
+        }
+      } catch (err) {
+        // do nothing to filter out this item
+      }
+    }
+  }
+  return resultPr;
 };

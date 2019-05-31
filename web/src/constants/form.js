@@ -95,13 +95,15 @@ const requesterInfo = {
         {
           type: 'text',
           name: 'requesterLastName',
-          title: 'Last Name (optional)',
+          title: 'Last Name',
+          isRequired: true,
           colCount: 0,
         },
         {
           type: 'text',
           name: 'requesterFirstName',
-          title: 'First Name (optional)',
+          title: 'First Name',
+          isRequired: true,
           colCount: 0,
         },
       ],
@@ -113,7 +115,7 @@ const requesterInfo = {
 export const formJson = {
   showProgressBar: 'top',
   showQuestionNumbers: 'off',
-  pages: [basicInfo, requesterInfo],
+  pages: [basicInfo, requesterInfo], //TODO: add the progress and history page
 };
 
 export const formDataToRequest = {
@@ -142,10 +144,33 @@ export const requestToFormData = {
   requesterLastName: 'requester.lastName',
   requesterFirstName: 'requester.firstName',
   adminUser: 'realm.adminUser',
-  idps: 'realm.adminUser',
+  idps: 'realm.idps',
   po: 'realm.po',
 };
 
 export const realmId = {
   digit: 8,
+};
+
+export const prStatus = {
+  OPEN: 'Open',
+  SUCCESS: 'Success',
+  FAILED: 'Failed',
+  // for BCeID flow:
+  PROCESSING: 'Processing',
+  REJECT: 'Reject',
+};
+
+// TODO: missing BCeID flow:
+export const getPrStatus = (state, merged) => {
+  const isMerged = merged ? true : false;
+  switch (state) {
+    case 'open':
+      return prStatus.OPEN;
+    case 'closed':
+      return isMerged ? prStatus.SUCCESS : prStatus.FAILED;
+    default:
+      // throw Error(`Unknow PR state: ${state}!`);
+      return 'unknown';
+  }
 };

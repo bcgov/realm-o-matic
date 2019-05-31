@@ -61,6 +61,39 @@ export const badIssue2 = {
   // missing po
 };
 
+export const user = {
+  id: '123',
+  email: '123',
+  firstName: '123',
+  lastName: '123',
+};
+
+export const prContent = {
+  id: '123',
+  realmId: '123',
+  requester: user,
+};
+
+export const pr = {
+  number: 123,
+  prState: '123',
+  prMerged: '123',
+  labels: ['1', '2', '3'],
+  realmName: '123',
+  prContent: JSON.stringify(prContent),
+  branch: '123',
+};
+
+export const prMissing = {
+  number: 123,
+  prState: '123',
+  prMerged: null,
+  labels: '1',
+  realmName: '123',
+  prContent: JSON.stringify(prContent),
+  branch: undefined,
+};
+
 export const mockedGHFnResponse = {
   id: 436374981,
   data: goodObject,

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { TEST_IDS } from '../../constants/ui';
 
 const StyledLoader = styled(Loader)`
-  font-size: 1rem;
+  font-size: 15px !important;
   padding: 0;
 `;
 

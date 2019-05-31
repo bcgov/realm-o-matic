@@ -62,15 +62,25 @@ export const REQUEST_SCHEMA = {
 
 export const PR_SCHEMA = {
   type: 'object',
-  required: ['number', 'state', 'fileName', 'requester'],
+  required: ['number', 'prState', 'realmName', 'prContent'],
   properties: {
     number: { type: 'number' },
-    state: { type: 'string' },
+    prState: { type: 'string' },
+    // prMerged: { type: 'string' }, // TODO: happens with null value
     // labels: { type: 'array' }, //TODO: when only one label, it's not an array
-    fileName: { type: 'string' },
-    requester: { type: 'string' },
+    realmName: { type: 'string' },
+    prContent: { type: 'string' },
     branch: { type: 'string' },
-    realm: REALM_SCHEMA,
+  },
+};
+
+export const PR_CONTENT_SCHEMA = {
+  type: 'object',
+  required: ['id', 'realmId', 'requester'],
+  properties: {
+    id: { type: 'string' },
+    realmId: { type: 'string' },
+    requester: USER_SCHEMA,
   },
 };
 
@@ -88,10 +98,11 @@ export const GITHUB_JSON_PATH = {
     optionals: ['labels.name', 'head.ref'],
     dataStructure: {
       number: 'number',
-      state: 'state',
+      prState: 'state',
+      prMerged: 'merged_at',
       labels: 'labels.name',
-      fileName: 'title',
-      requester: 'body',
+      realmName: 'title',
+      prContent: 'body',
       branch: 'head.ref',
     },
   },

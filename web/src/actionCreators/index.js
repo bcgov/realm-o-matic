@@ -12,10 +12,14 @@ import {
   newRequestStart,
   newRequestSuccess,
   newRequestError,
+  getRecordStart,
+  getRecordSuccess,
+  getRecordError,
 } from '../actions';
 import implicitAuthManager from '../utils/auth';
 import { API } from '../constants/request';
-import { generateRequestPayload } from '../utils/requestHelpers';
+import { requestToFormData } from '../constants/form';
+import { generateRequestPayload, flattenObject, normalizeData } from '../utils/requestHelpers';
 import { ACCESS_CONTROL } from '../constants/auth';
 
 /**
@@ -60,7 +64,7 @@ export const authorizationAction = (id, roles = []) => {
       // authmware in api throws 401 for no role user:
       if (err.response.status === 401)
         return dispatch(authorizationSuccess(ACCESS_CONTROL.NO_ROLE));
-      const errMsg = `Fail to get IDPs as ${err}`;
+      const errMsg = `Fail to authorize: ${err}, please refresh page.`;
       return dispatch(authorizationError(errMsg));
     }
   };
@@ -122,6 +126,27 @@ export const newRequest = requestInfo => {
     } catch (err) {
       const errMsg = `Fail to start the request: ${err}`;
       return dispatch(newRequestError(errMsg));
+    }
+  };
+};
+
+/**
+ * Get details of a record
+ */
+export const getRecordAction = number => {
+  return async (dispatch, getState) => {
+    dispatch(getRecordStart());
+
+    try {
+      const res = await axiSSO.get(API.REQUESTS(number));
+      const record = res.data.prContent;
+      // Transform the data:
+      const flattenRecord = flattenObject(record);
+      const normalizaedReocrd = normalizeData(flattenRecord, requestToFormData);
+      return dispatch(getRecordSuccess(normalizaedReocrd));
+    } catch (err) {
+      const errMsg = `Fail to fetch the record: ${err}`;
+      return dispatch(getRecordError(errMsg));
     }
   };
 };

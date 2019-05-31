@@ -44,7 +44,12 @@
             "prod": {
               "namespace": "devhub-prod"
             }
-          }
+          },
+          "jenkinsJobName": "app",
+          "github_owner": "bcgov",
+          "github_repo": "realm-o-matic",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "24d58602-f531-46b9-b07a-94f3b73d7e4f"
         }
       }
     }

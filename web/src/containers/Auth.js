@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { ACCESS_CONTROL } from '../constants/auth';
 import { SpinLoader } from '../components/UI';
-import { AuthModal } from '../components/Auth/AuthModal';
+import { AuthModal } from '../components/Auth';
 import { authorizationAction } from '../actionCreators';
 
 export class Auth extends Component {
   static displayName = '[Component Auth]';
-  render() {
+  componentDidMount = () => {
     const {
       isAuthenticated,
       userInfo,
@@ -19,9 +20,12 @@ export class Auth extends Component {
       errorMessage,
       authorizationAction,
     } = this.props;
-
-    if (isAuthenticated && !authorizationStarted && !authCode && !errorMessage)
+    if (isAuthenticated && !authorizationStarted && !authCode && !errorMessage) {
       authorizationAction(userId, userInfo.roles);
+    }
+  };
+  render() {
+    const { isAuthenticated, authorizationStarted, authCode, errorMessage } = this.props;
 
     let redirect = null;
     if (authCode === ACCESS_CONTROL.NO_ROLE) redirect = <Redirect to="/notAuthorized" />;
@@ -64,6 +68,15 @@ const mapDispatchToProps = dispatch => {
     },
     dispatch
   );
+};
+
+Auth.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  userInfo: PropTypes.object,
+  userId: PropTypes.string,
+  authorizationStarted: PropTypes.bool,
+  authCode: PropTypes.string,
+  errorMessage: PropTypes.string,
 };
 
 export default connect(

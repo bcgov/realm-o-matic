@@ -9,21 +9,36 @@ describe('Home Component', () => {
   const REQUESTS = [
     {
       number: '123',
-      realm: { displayName: '123' },
-      fileName: 'fewgfw123',
+      realmName: 'realm 1',
       state: 'open',
+      prContent: {
+        realmId: 'fewgfw123',
+        requester: {
+          email: '1@email.com',
+        },
+      },
     },
     {
       number: '345',
-      realm: { displayName: '345' },
-      fileName: 'fewgfw123',
+      realmName: 'realm 2',
       state: 'closed',
+      prContent: {
+        realmId: 'fewgfw345',
+        requester: {
+          email: '1@email.com',
+        },
+      },
     },
     {
       number: '777',
-      realm: { displayName: '777' },
-      fileName: 'fewgfw777',
+      realmName: 'realm 3',
       state: 'open',
+      prContent: {
+        realmId: 'fewgfw777',
+        requester: {
+          email: '1@email.com',
+        },
+      },
     },
   ];
 
@@ -85,7 +100,9 @@ describe('Home Component', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  // TODO: create test for RequestList
   it('displays in different request list cases', async () => {
+    // loading records:
     const { getByTestId, rerender } = render(
       <Router>
         <Home {...{ ...AUTH_PROPS_0, ...REQUEST_PROPS_0 }} />
@@ -94,6 +111,7 @@ describe('Home Component', () => {
 
     expect(getByTestId(TEST_IDS.APP.LOADER)).not.toBeNull();
 
+    // show list of records:
     rerender(
       <Router>
         <Home {...{ ...AUTH_PROPS_0, ...REQUEST_PROPS_1 }} />
@@ -102,6 +120,7 @@ describe('Home Component', () => {
 
     expect(getByTestId(TEST_IDS.REQUEST.FORM_LIST)).not.toBeNull();
 
+    // show message saying no records found:
     rerender(
       <Router>
         <Home {...{ ...AUTH_PROPS_0, ...REQUEST_PROPS_2 }} />

@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
-import { Auth, Home, Restricted, NewRequest } from '../containers';
-import { LoginRoute } from '../components/Auth/LoginRoute';
+import { Auth, Home, Restricted, NewRequest, ReviewRequest } from '../containers';
+import { LoginRoute, ProtectedRoute } from './Auth';
 import { Layout } from './UI';
 
 export class App extends Component {
-  componentDidMount = () => {
+  componentWillMount = () => {
     implicitAuthManager.registerHooks({
       onAuthenticateSuccess: () => this.props.login(),
       onAuthenticateFail: () => this.props.logout(),
@@ -27,10 +27,18 @@ export class App extends Component {
         <Switch>
           <Route path="/notAuthorized" component={Restricted} />
           <Route path="/login/:idp" component={LoginRoute} />
-          <Route path="/Request/new" component={NewRequest} />
-          {/* TODO: use it as /request/:id to make a unique page for redirecting ? */}
-          {/* <Route path="/Request/:id" component={Request} /> */}
-          <Route path="/home" component={Home} />
+          <ProtectedRoute
+            path="/Request/new"
+            component={NewRequest}
+            authCode={this.props.authorization.authCode}
+          />
+          {/* TODO: use nunmber or ID ? */}
+          <Route path="/Request/:id" component={ReviewRequest} />
+          <ProtectedRoute
+            path="/home"
+            component={Home}
+            authCode={this.props.authorization.authCode}
+          />
           <Route path="/" component={Auth} />
         </Switch>
       </Layout>
@@ -44,6 +52,7 @@ const mapStateToProps = state => {
     getRequests: state.getRequests,
     authorization: state.authorization,
     newRequest: state.newRequest,
+    getRecord: state.getRecord,
   };
 };
 
@@ -59,6 +68,9 @@ const mapDispatchToProps = dispatch => {
 
 App.propTypes = {
   authentication: PropTypes.object.isRequired,
+  authorization: PropTypes.object.isRequired,
+  getRequests: PropTypes.object.isRequired,
+  newRequest: PropTypes.object.isRequired,
 };
 
 export default connect(

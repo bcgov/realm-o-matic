@@ -11,22 +11,23 @@ exports[`Header Component renders without crashing 1`] = `
       <div
         class="item css-1mhg2ut-StyledItem em87vhj1"
       >
-        <a
+        <img
+          alt="logo"
+          class="css-1dodcdk-StyledImage em87vhj2"
           data-testid="gov-logo"
-          href="/"
-        >
-          <img
-            alt="logo"
-            class="logo css-bro51y-StyledImage em87vhj2"
-            src="bcgovlogo.svg"
-            width="80"
-          />
-        </a>
+          src="bcgovlogo.svg"
+        />
       </div>
       <div
-        class="item css-16ynqqp-StyledItem-TextCss em87vhj1"
+        class="item css-1mhg2ut-StyledItem em87vhj1"
       >
-        Realm-o-Matic
+        <a
+          class="css-39fbxr-TextCss"
+          data-testid="app-name"
+          href="/"
+        >
+          Realm-o-Matic
+        </a>
       </div>
       <div
         class="right item css-1mhg2ut-StyledItem em87vhj1"

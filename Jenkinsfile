@@ -7,20 +7,11 @@ pipeline {
         stage('Build') {
             agent { label 'build' }
             steps {
-                script {
-                    def filesInThisCommitAsString = sh(script:"git diff --name-only HEAD~1..HEAD | grep -v '^.jenkins/' || echo -n ''", returnStatus: false, returnStdout: true).trim()
-                    def hasChangesInPath = (filesInThisCommitAsString.length() > 0)
-                    echo "${filesInThisCommitAsString}"
-                    if (!currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') && !hasChangesInPath){
-                        currentBuild.rawBuild.delete()
-                        error("No changes detected in the path ('^.jenkins/')")
-                    }
-                }
                 echo "Aborting all running jobs ..."
                 script {
                     abortAllPreviousBuildInProgress(currentBuild)
                 }
-                echo "Building ..."
+                echo "Building ... pr=${CHANGE_ID}"
                 sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID}"
                 // TODO: need to distingrish web and api changes:
                 // sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID} --projectSet=all"

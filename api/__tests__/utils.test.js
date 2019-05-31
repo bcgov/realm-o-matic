@@ -20,7 +20,7 @@
 
 'use strict';
 
-import { validateSchema, encodeObjectWithName } from '../src/libs/utils';
+import { validateSchema, encodeObjectWithName, isMatch } from '../src/libs/utils';
 import { REALM_SCHEMA } from '../src/constants';
 import { goodObject, badObject, emptyObject } from '../__fixtures__/utils-fixture';
 
@@ -59,5 +59,34 @@ describe('encodeObjectWithName test', () => {
     expect(() => encodeObjectWithName(null, goodObject)).toThrow(
       'Missing name for object to encode'
     );
+  });
+});
+
+describe('isMatch test', () => {
+  const testString = 'abc';
+  const testArray = ['abc', 123];
+  const targetArray = ['abc', 'def'];
+  test('returns true if no target', () => {
+    expect(isMatch(testArray, [])).toBe(true);
+  });
+
+  test('checks if string matches', () => {
+    expect(isMatch(testString, testString)).toBe(true);
+  });
+
+  test('checks if string matches any in array', () => {
+    expect(isMatch(testString, targetArray)).toBe(true);
+  });
+
+  test('checks if array matches', () => {
+    expect(isMatch(testArray, targetArray)).toBe(true);
+  });
+
+  test('checks if empty array not match', () => {
+    expect(isMatch([], targetArray)).toBe(false);
+  });
+
+  test('checks if undefined array not match', () => {
+    expect(isMatch([undefined], targetArray)).toBe(false);
   });
 });

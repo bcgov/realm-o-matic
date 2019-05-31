@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import jsonata from 'jsonata';
 import uuidv4 from 'uuid/v4';
 import { formDataToRequest, requestToFormData } from '../constants/form';
 
@@ -19,6 +18,25 @@ export const randomRealmId = length => {
 };
 
 /**
+ * Flatten an object with paths for keys
+ * https://bit.ly/2neWfJ2
+ * @param {Object} inputData the object to be flattened
+ * @param {String} prefix prefix for all key path, default as none
+ * @returns {Object} nested object to be flat object with key like 'key1.key2.key3'
+ */
+export const flattenObject = (inputData, prefix = '') =>
+  Object.keys(inputData).reduce((result, k) => {
+    // setup key path:
+    const pre = prefix.length ? prefix + '.' : '';
+    // if the current item is an object (but not an array or null), then loop through:
+    if (typeof inputData[k] === 'object' && !Array.isArray(inputData[k]) && inputData[k])
+      Object.assign(result, flattenObject(inputData[k], pre + k));
+    // else, combine key path:
+    else result[pre + k] = inputData[k];
+    return result;
+  }, {});
+
+/**
  * Normalize the data between request and form input
  * @param {Object} inputData data to be matched for schema
  * @param {Object} schema data schema
@@ -28,9 +46,8 @@ export const normalizeData = (inputData, schema) => {
     return _.mapValues(schema, p => {
       if (_.isObject(p)) return normalizeData(inputData, p);
       else {
-        const data = jsonata(p).evaluate(inputData);
-        if (data === undefined) throw Error(`Failed to read data with key: ${p}`);
-        return data;
+        const data = inputData[p];
+        return data ? data : null;
       }
     });
   }

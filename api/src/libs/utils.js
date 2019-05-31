@@ -20,7 +20,10 @@
 
 'use strict';
 
+import _ from 'lodash';
 import Ajv from 'ajv';
+
+const ajv = new Ajv();
 
 /**
  * Validate json object:
@@ -29,7 +32,6 @@ import Ajv from 'ajv';
  * @returns {Object} validation result and content/error message
  */
 export const validateSchema = (object, schema) => {
-  const ajv = new Ajv();
   const validate = ajv.compile(schema);
   const isValid = validate(object);
   return {
@@ -54,4 +56,19 @@ export const encodeObjectWithName = (name, content) => {
   } catch (err) {
     throw err.message;
   }
+};
+
+/**
+ * Match the input and target:
+ * @param {object} input the input object
+ * @param {object} target the target to match
+ */
+export const isMatch = (input, target) => {
+  if (_.isEmpty(target)) return true;
+  if (_.isArray(target)) {
+    const arrayInput = _.isArray(input) ? input : [input];
+    const matches = _.intersection(arrayInput, target);
+    return !_.isEmpty(matches);
+  }
+  return input === target;
 };

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProtectedRoute Component render content when user has correct role 1`] = `
+<div>
+  <h1>
+    test content
+  </h1>
+</div>
+`;

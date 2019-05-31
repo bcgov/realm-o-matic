@@ -3,14 +3,25 @@ kind: Template
 metadata:
   creationTimestamp: null
   name: "true"
-  labels:
-    app: realm-o-matic-web-caddy
 objects:
 - apiVersion: v1
   data:
-      Caddyfile: placeholder
+    Caddyfile: |
+      0.0.0.0:2015
+      root /var/www/html/build
+      log stdout
+      errors stdout
+      rewrite {
+        if  {path} not_match ^\/0.0.0.0
+        to  {path} {path}/ /?_url={uri}
+      }
+      templates {
+        ext  .js
+      }
   kind: ConfigMap
   metadata:
     creationTimestamp: null
     name: realm-o-matic-web-caddy
+    labels:
+      app: realm-o-matic-web-static
   type: Opaque

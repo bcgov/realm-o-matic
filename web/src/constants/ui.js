@@ -25,6 +25,7 @@ export const TEST_IDS = {
     GITHUB_LOGIN: 'github-login-button',
   },
   APP: {
+    NAME: 'app-name',
     LOGO: 'gov-logo',
     LOGIN: 'login-button',
     NEW_REQUEST: 'new-request-button',
@@ -35,6 +36,9 @@ export const TEST_IDS = {
     MESSAGE: 'request-message',
     FORM: 'request-form',
     FORM_LIST: 'request-list',
+    APPROVAL: 'request-approval',
+    REJECT: 'request-rejection',
+    CANCEL: 'go-back',
   },
 };
 

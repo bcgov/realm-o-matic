@@ -41,6 +41,7 @@ import {
   mergePR,
   deleteBranch,
 } from './gh-requests';
+import { prParser } from './gh-helpers';
 import { validateSchema, encodeObjectWithName } from '../utils';
 
 /**
@@ -60,10 +61,15 @@ export const createRecord = async (bName, requestContent) => {
     const newBranchRef = await createBranch(bName, originRef);
 
     // push file:
-    const fileRef = await createFile(fileContent, newBranchRef);
+    await createFile(fileContent, newBranchRef);
 
     // start pr:
-    const pr = await createPR(fileRef, newBranchRef, payload.requester);
+    const prContent = {
+      id: payload.id,
+      realmId: payload.realm.id,
+      requester: payload.requester,
+    };
+    const pr = await createPR(payload.realm.displayName, newBranchRef, prContent);
 
     // if bceid is required, need to add the label to PR
     if (payload.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
@@ -83,11 +89,19 @@ export const createRecord = async (bName, requestContent) => {
 export const getRequestContent = async prNumber => {
   try {
     const prInfo = await getPR(prNumber);
+    // TODO: identify status based on state and merged:
+
+    // if PR still open (the branch exists):
     const files = await listPRFiles(prNumber);
+
+    // if PR closed (branch deleted):
+    // 1. get from master by name of file
+    // 2. show nothing if rejected
+
     const prFile = await getFile(files[0], prInfo.branch);
     const content = Buffer.from(prFile.content, 'base64').toString();
     const contentObject = JSON.parse(content);
-    return { ...prInfo, request: contentObject };
+    return { ...prInfo, prContent: contentObject };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
     throw err;
@@ -96,16 +110,24 @@ export const getRequestContent = async prNumber => {
 
 /**
  * Get list of requests:
- * @param {String} state the state of the request PRs
- * @param {String} user the user to filter with, value as the user ID
+ * 1. request to get all PRs based on state and base branch
+ * 2. validate PR and the content
+ * 3. filter by labels and user if needed
+ * @param {String} prState the state of the request PRs
+ * @param {String} userId the user to filter with, value as the user ID
  * @param {Array} labels the labels to filter with
  */
-export const getRecords = async (state = 'all', labels = [], user = null) => {
+export const getRecords = async (prState = 'all', labels = [], userId = null) => {
   try {
     // get the PR based on state and labels:
-    const prs = await getPRs({ state, labels });
-    // filter by the user if mentioned:
-    return user ? prs.filter(pr => pr.requester === user) : prs;
+    const prs = await getPRs({ state: prState, base: 'master' });
+    // Validate and filter PRs:
+    const resultPrs = prs.reduce((accuPrs, pr) => {
+      const target = prParser(pr, labels, userId);
+      const resultPr = target ? [target] : [];
+      return [...accuPrs, ...resultPr];
+    }, []);
+    return resultPrs;
   } catch (err) {
     logger.error(`Fail to get list of PRs: ${err.message}`);
     throw err;

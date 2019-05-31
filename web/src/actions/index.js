@@ -1,4 +1,11 @@
-import { AUTHENTICATION, GET_IDPS, GET_REQUESTS, NEW_REQUEST, AUTHORIZATION } from './actionTypes';
+import {
+  AUTHENTICATION,
+  GET_IDPS,
+  GET_REQUESTS,
+  NEW_REQUEST,
+  AUTHORIZATION,
+  GET_RECORD,
+} from './actionTypes';
 
 export const authenticateSuccess = () => {
   return {
@@ -102,6 +109,30 @@ export const authorizationSuccess = authCode => {
 export const authorizationError = errorMessage => {
   return {
     type: AUTHORIZATION.ERROR,
+    payload: {
+      errorMessage,
+    },
+  };
+};
+
+export const getRecordStart = () => {
+  return {
+    type: GET_RECORD.START,
+  };
+};
+
+export const getRecordSuccess = recordInfo => {
+  return {
+    type: GET_RECORD.SUCCESS,
+    payload: {
+      recordInfo,
+    },
+  };
+};
+
+export const getRecordError = errorMessage => {
+  return {
+    type: GET_RECORD.ERROR,
     payload: {
       errorMessage,
     },
