@@ -23,7 +23,6 @@ export const RequestList = ({ requests, isAdmin, history }) => {
         key={request.number}
         onClick={() => {
           onClick(request.number);
-          // onClick(request.prContent.id);
         }}
       >
         <Table.Cell>{request.realmName}</Table.Cell>

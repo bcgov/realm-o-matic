@@ -49,7 +49,7 @@ export const jsonReader = (jsonData, paths = null) => {
 };
 
 /**
- * Validate and filter PR:
+ * Filter a list of PRs and validate the structure of data:
  * @param {Object} pr the pull request
  * @param {Array} labels to filter with
  * @param {String} userId to filter with
