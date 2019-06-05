@@ -35,7 +35,7 @@ import {
   getPR,
   createPR,
   listPRFiles,
-  getFile,
+  getFileBlob,
   createFile,
   addLabel,
   mergePR,
@@ -88,19 +88,16 @@ export const createRecord = async (bName, requestContent) => {
  */
 export const getRequestContent = async prNumber => {
   try {
+    // Get PR info:
     const prInfo = await getPR(prNumber);
-    // TODO: identify status based on state and merged:
-
-    // if PR still open (the branch exists):
+    // Get files in the PR:
     const files = await listPRFiles(prNumber);
-
-    // if PR closed (branch deleted):
-    // 1. get from master by name of file
-    // 2. show nothing if rejected
-
-    const prFile = await getFile(files[0], prInfo.branch);
+    // Get file content (there should be only one file):
+    const prFile = await getFileBlob(files[0].fileSha);
+    // Decode content:
     const content = Buffer.from(prFile.content, 'base64').toString();
     const contentObject = JSON.parse(content);
+    // Return the PR with the file:
     return { ...prInfo, prContent: contentObject };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);

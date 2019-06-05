@@ -106,6 +106,12 @@ export const GITHUB_JSON_PATH = {
       branch: 'head.ref',
     },
   },
+  PR_FILE_PATH: {
+    dataStructure: {
+      filename: 'filename',
+      fileSha: 'sha',
+    },
+  },
 };
 
 export const GITHUB_LABELS = {
