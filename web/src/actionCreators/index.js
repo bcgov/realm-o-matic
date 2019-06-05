@@ -41,7 +41,8 @@ const authorizationHeader = () => {
 const axiSSO = axios.create({
   baseURL: API.BASE_URL(),
   timeout: API.TIME_OUT,
-  headers: { Accept: 'application/json', Authorization: authorizationHeader() },
+  // TODO: cannot preset authorizatino token in the header
+  // headers: { Accept: 'application/json', Authorization: `Bearer ${implicitAuthManager.idToken ? implicitAuthManager.idToken.bearer : null}` },
 });
 
 /**
@@ -54,6 +55,7 @@ export const authorizationAction = (id, roles = []) => {
     try {
       // TODO: axios does not contain the token in header until refreshing page
       const res = await axiSSO.get(API.AUTHORIZATION(id), {
+        headers: { Accept: 'application/json', Authorization: `Bearer ${implicitAuthManager.idToken ? implicitAuthManager.idToken.bearer : null}` },
         params: {
           roles: JSON.stringify(roles),
         },
@@ -76,9 +78,10 @@ export const authorizationAction = (id, roles = []) => {
 export const getIdps = () => {
   return async (dispatch, getState) => {
     dispatch(getIdpsStart());
-
     try {
-      const res = await axiSSO.get(API.IDP());
+      const res = await axiSSO.get(API.IDP(), {
+        headers: { Accept: 'application/json', Authorization: `Bearer ${implicitAuthManager.idToken ? implicitAuthManager.idToken.bearer : null}` },
+      });
       const idps = res.data.idp;
       return dispatch(getIdpsSuccess(idps));
     } catch (err) {
@@ -97,6 +100,7 @@ export const getRequestsAction = filters => {
 
     try {
       const res = await axiSSO.get(API.REQUESTS(), {
+        headers: { Accept: 'application/json', Authorization: `Bearer ${implicitAuthManager.idToken ? implicitAuthManager.idToken.bearer : null}` },
         params: filters,
       });
 
@@ -119,6 +123,7 @@ export const newRequest = requestInfo => {
     try {
       const requestData = generateRequestPayload(requestInfo);
       const res = await axiSSO.post(API.NEW_REQUEST(requestData.realm.id), {
+        headers: { Accept: 'application/json', Authorization: `Bearer ${implicitAuthManager.idToken ? implicitAuthManager.idToken.bearer : null}` },
         request: requestData,
       });
       const newRequest = res.data;
@@ -138,7 +143,9 @@ export const getRecordAction = number => {
     dispatch(getRecordStart());
 
     try {
-      const res = await axiSSO.get(API.REQUESTS(number));
+      const res = await axiSSO.get(API.REQUESTS(number), {
+        headers: { Accept: 'application/json', Authorization: `Bearer ${implicitAuthManager.idToken ? implicitAuthManager.idToken.bearer : null}` },
+      });
       const record = res.data.prContent;
       // Transform the data:
       const flattenRecord = flattenObject(record);
