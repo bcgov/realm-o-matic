@@ -23,26 +23,24 @@ import { generateRequestPayload, flattenObject, normalizeData } from '../utils/r
 import { ACCESS_CONTROL } from '../constants/auth';
 
 /**
- * Set Authorization Header
- */
-const authorizationHeader = () => {
-  try {
-    return `Bearer ${implicitAuthManager.idToken.bearer}`;
-  } catch (err) {
-    // throw Error('No JWT for authentication.');
-    console.log('No JWT for authentication.');
-  }
-  return null;
-};
-
-/**
  * Setup SSO Axios request
  */
 const axiSSO = axios.create({
   baseURL: API.BASE_URL(),
   timeout: API.TIME_OUT,
-  headers: { Accept: 'application/json', Authorization: authorizationHeader() },
 });
+
+// Dynamically set the header:
+axiSSO.interceptors.request.use(
+  config => {
+    const token = implicitAuthManager.idToken.bearer;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
 
 /**
  * Get user authorization status
@@ -52,7 +50,6 @@ export const authorizationAction = (id, roles = []) => {
     dispatch(authorizationStart());
 
     try {
-      // TODO: axios does not contain the token in header until refreshing page
       const res = await axiSSO.get(API.AUTHORIZATION(id), {
         params: {
           roles: JSON.stringify(roles),
@@ -76,7 +73,6 @@ export const authorizationAction = (id, roles = []) => {
 export const getIdps = () => {
   return async (dispatch, getState) => {
     dispatch(getIdpsStart());
-
     try {
       const res = await axiSSO.get(API.IDP());
       const idps = res.data.idp;

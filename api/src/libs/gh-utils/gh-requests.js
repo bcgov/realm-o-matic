@@ -122,7 +122,12 @@ export const getPR = prNumber =>
  * @param {Number} prNumber number of PR
  */
 export const listPRFiles = prNumber =>
-  ghHelper(shared.gh.pulls.listFiles, { pull_number: Number(prNumber) }, 'filename');
+  ghHelper(
+    shared.gh.pulls.listFiles,
+    { pull_number: Number(prNumber) },
+    GITHUB_JSON_PATH.PR_FILE_PATH
+  );
+// ghHelper(shared.gh.pulls.listFiles, { pull_number: Number(prNumber) }, 'filename');
 
 /**
  * Fetch a file from a branch:
@@ -131,6 +136,12 @@ export const listPRFiles = prNumber =>
  */
 export const getFile = (filePath, branchRef) =>
   ghHelper(shared.gh.repos.getContents, { path: filePath, ref: branchRef });
+
+/**
+ * Fetch a file blobs in PR:
+ * @param {String} fileSha sha
+ */
+export const getFileBlob = fileSha => ghHelper(shared.gh.git.getBlob, { file_sha: fileSha });
 
 /**
  * Add labels to a PR:

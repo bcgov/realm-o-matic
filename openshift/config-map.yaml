@@ -23,5 +23,5 @@ objects:
     creationTimestamp: null
     name: realm-o-matic-web-caddy
     labels:
-      app: realm-o-matic-web-static
+      app: realm-o-matic
   type: Opaque
