@@ -38,20 +38,13 @@ const basicInfo = {
     {
       type: 'text',
       name: 'adminUser',
-      title: 'The administrator of the realm (IDIR user ID)',
+      title: 'Technical lead (administrator) of the realm (IDIR user ID)',
       isRequired: true,
-    },
-    {
-      type: 'checkbox',
-      name: 'idps',
-      title: 'Required identity providers',
-      isRequired: true,
-      choices: ['IDIR', 'GitHub', 'BCeID'],
     },
     {
       type: 'text',
       name: 'po',
-      title: 'The product owner of project',
+      title: 'Email of product owner',
       isRequired: true,
       validators: [
         {
@@ -107,7 +100,65 @@ const requesterInfo = {
           colCount: 0,
         },
       ],
-      title: 'Requester Information',
+      title: 'Please provide your information as a requester',
+    },
+  ],
+};
+
+const idpInfo = {
+  name: 'idpInfo',
+  title: 'Identity Provider Information',
+  elements: [
+    {
+      type: 'checkbox',
+      name: 'idps',
+      title: 'Required identity providers',
+      isRequired: true,
+      choices: ['IDIR', 'GitHub', 'BCeID', 'BCSC'],
+    },
+    {
+      type: 'panel',
+      name: 'bceidInfo',
+      visibleIf: '{idps} contains BCeID',
+      elements: [
+        {
+          type: 'text',
+          name: 'appUrl',
+          title: 'URL of Service or Application',
+          isRequired: true,
+        },
+        {
+          type: 'text',
+          inputType: 'number',
+          name: 'userAmount',
+          title: 'Estimated volume of initial users',
+          isRequired: true,
+        },
+        {
+          type: 'text',
+          inputType: 'number',
+          name: 'forecastAmount',
+          title: 'Forecast of anticipated growth over the next 3 years',
+          isRequired: true,
+        },
+        // TODO: better sytle date picker
+        {
+          type: 'text',
+          inputType: 'date',
+          name: 'prodDate',
+          dateFormat: 'mm/dd/yy',
+          title: 'Date of	release in production environment',
+          isRequired: true,
+        },
+        {
+          type: 'text',
+          inputType: 'date',
+          name: 'useDate',
+          dateFormat: 'mm/dd/yy',
+          title: 'Date of first use by citizens / end users',
+          isRequired: true,
+        },
+      ],
     },
   ],
 };
@@ -115,7 +166,7 @@ const requesterInfo = {
 export const formJson = {
   showProgressBar: 'top',
   showQuestionNumbers: 'off',
-  pages: [basicInfo, requesterInfo], //TODO: add the progress and history page
+  pages: [basicInfo, idpInfo, requesterInfo], //TODO: add the progress and history page
 };
 
 export const formDataToRequest = {
@@ -132,6 +183,14 @@ export const formDataToRequest = {
     email: 'requesterEmail',
     firstName: 'requesterFirstName',
     lastName: 'requesterLastName',
+  },
+  // optional:
+  bceid: {
+    appUrl: 'appUrl',
+    userAmount: 'userAmount',
+    forecastAmount: 'forecastAmount',
+    prodDate: 'prodDate',
+    useDate: 'useDate',
   },
 };
 
