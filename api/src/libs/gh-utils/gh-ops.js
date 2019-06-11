@@ -21,13 +21,12 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
+import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS, KEYCLOAK_TERMS } from '../../constants';
 import {
-  PR_SCHEMA,
-  REQUEST_SCHEMA,
-  GITHUB_REQUEST,
-  GITHUB_LABELS,
-  KEYCLOAK_TERMS,
-} from '../../constants';
+  FORM_CONTENT_TO_REQUEST,
+  REQUEST_TO_FORM_CONTENT,
+  FORM_CONTENT_SCHEMA,
+} from '../../constants/form';
 import {
   getBranch,
   createBranch,
@@ -42,7 +41,7 @@ import {
   deleteBranch,
 } from './gh-requests';
 import { prParser } from './gh-helpers';
-import { validateSchema, encodeObjectWithName } from '../utils';
+import { validateSchema, encodeObjectWithName, normalizeData, flattenObject } from '../utils';
 
 /**
  * Create a pr as record of request:
@@ -51,10 +50,11 @@ import { validateSchema, encodeObjectWithName } from '../utils';
  */
 export const createRecord = async (bName, requestContent) => {
   try {
-    // create file content: validate and encode
-    const { isValid, payload } = validateSchema(requestContent, REQUEST_SCHEMA);
+    // create file content: validate, normalized and encode
+    const { isValid, payload } = validateSchema(requestContent, FORM_CONTENT_SCHEMA);
     if (!isValid) throw Error(payload);
-    const fileContent = encodeObjectWithName(payload.realm.id, payload);
+    const normalizedContent = normalizeData(payload, FORM_CONTENT_TO_REQUEST);
+    const fileContent = encodeObjectWithName(normalizedContent.realm.id, normalizedContent);
 
     // create branch:
     const originRef = await getBranch(GITHUB_REQUEST.BASE_BRANCH);
@@ -65,14 +65,14 @@ export const createRecord = async (bName, requestContent) => {
 
     // start pr:
     const prContent = {
-      id: payload.id,
-      realmId: payload.realm.id,
-      requester: payload.requester,
+      id: normalizedContent.id,
+      realmId: normalizedContent.realm.id,
+      requester: normalizedContent.requester,
     };
-    const pr = await createPR(payload.realm.displayName, newBranchRef, prContent);
+    const pr = await createPR(normalizedContent.realm.displayName, newBranchRef, prContent);
 
     // if bceid is required, need to add the label to PR
-    if (payload.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
+    if (normalizedContent.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
       await addLabel(pr.number, [GITHUB_LABELS.BCEID]);
 
     return pr.number;
@@ -97,8 +97,11 @@ export const getRequestContent = async prNumber => {
     // Decode content:
     const content = Buffer.from(prFile.content, 'base64').toString();
     const contentObject = JSON.parse(content);
+    // Flatten and normalize the content to display in the frontend:
+    const flattenRecord = flattenObject(contentObject);
+    const normalizedReocrd = normalizeData(flattenRecord, REQUEST_TO_FORM_CONTENT);
     // Return the PR with the file:
-    return { ...prInfo, prContent: contentObject };
+    return { ...prInfo, prContent: normalizedReocrd };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
     throw err;
