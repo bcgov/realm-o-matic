@@ -80,18 +80,20 @@ export const isMatch = (input, target) => {
  * @param {String} prefix prefix for all key path, default as none
  * @returns {Object} nested object to be flat object with key like 'key1.key2.key3'
  */
-export const flattenObject = (inputData, prefix = '') =>
-  Object.keys(inputData).reduce((output, k) => {
+export const flattenObject = (inputData, prefix = '') => {
+  if (!_.isPlainObject(inputData)) return inputData;
+
+  return Object.keys(inputData).reduce((output, k) => {
     const result = output;
     // setup key path:
     const pre = prefix.length ? `${prefix}.` : '';
     // if the current item is an object (but not an array or null), then loop through:
-    if (typeof inputData[k] === 'object' && !Array.isArray(inputData[k]) && inputData[k])
-      Object.assign(result, flattenObject(inputData[k], pre + k));
+    if (_.isPlainObject(inputData[k])) Object.assign(result, flattenObject(inputData[k], pre + k));
     // else, combine key path:
     else result[pre + k] = inputData[k];
     return result;
   }, {});
+};
 
 /**
  * Normalize the data between request and form data

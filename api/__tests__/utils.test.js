@@ -111,6 +111,13 @@ describe('flattenObject test', () => {
     expect(flattenObject(nestedObject)).toStrictEqual(flattenedObject);
   });
 
+  test('flatten non object inputs', () => {
+    expect(flattenObject('123')).toStrictEqual('123');
+    expect(flattenObject(['123'])).toStrictEqual(['123']);
+    expect(flattenObject({})).toStrictEqual({});
+    expect(flattenObject(null)).toStrictEqual(null);
+  });
+
   test('add prefix', () => {
     expect(flattenObject(nestedObject, 'prefix')).toStrictEqual(prefixedObject);
   });
