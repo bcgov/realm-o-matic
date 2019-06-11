@@ -103,3 +103,99 @@ export const mockedGHFnArrayOfResponse = {
   id: 436374981,
   data: [goodObject, goodObject],
 };
+
+export const nestedObject = { pr, content: { user, goodObject } };
+
+export const flattenedObject = {
+  'content.goodObject.adminUser': 'test-user',
+  'content.goodObject.displayName': 'test-realm-1',
+  'content.goodObject.id': 'abcd4321',
+  'content.goodObject.idps': ['github', 'idir'],
+  'content.goodObject.po': 'test-user@email.com',
+  'content.user.email': '123',
+  'content.user.firstName': '123',
+  'content.user.id': '123',
+  'content.user.lastName': '123',
+  'pr.branch': '123',
+  'pr.labels': ['1', '2', '3'],
+  'pr.number': 123,
+  'pr.prContent':
+    '{"id":"123","realmId":"123","requester":{"id":"123","email":"123","firstName":"123","lastName":"123"}}',
+  'pr.prMerged': '123',
+  'pr.prState': '123',
+  'pr.realmName': '123',
+};
+
+export const prefixedObject = {
+  'prefix.content.goodObject.adminUser': 'test-user',
+  'prefix.content.goodObject.displayName': 'test-realm-1',
+  'prefix.content.goodObject.id': 'abcd4321',
+  'prefix.content.goodObject.idps': ['github', 'idir'],
+  'prefix.content.goodObject.po': 'test-user@email.com',
+  'prefix.content.user.email': '123',
+  'prefix.content.user.firstName': '123',
+  'prefix.content.user.id': '123',
+  'prefix.content.user.lastName': '123',
+  'prefix.pr.branch': '123',
+  'prefix.pr.labels': ['1', '2', '3'],
+  'prefix.pr.number': 123,
+  'prefix.pr.prContent':
+    '{"id":"123","realmId":"123","requester":{"id":"123","email":"123","firstName":"123","lastName":"123"}}',
+  'prefix.pr.prMerged': '123',
+  'prefix.pr.prState': '123',
+  'prefix.pr.realmName': '123',
+};
+
+export const schema = {
+  pr: {
+    number: 'pr.number',
+    prState: 'pr.prState',
+    prMerged: 'pr.prMerged',
+    labels: 'pr.labels',
+    realmName: 'pr.realmName',
+    prContent: 'pr.prContent',
+    branch: 'pr.branch',
+  },
+  content: {
+    user: {
+      id: 'content.user.id',
+      email: 'content.user.email',
+      firstName: 'content.user.firstName',
+      lastName: 'content.user.lastName',
+    },
+    goodObject: {
+      id: 'content.goodObject.id',
+      displayName: 'content.goodObject.displayName',
+      adminUser: 'content.goodObject.adminUser',
+      idps: 'content.goodObject.idps',
+      po: 'content.goodObject.po',
+    },
+  },
+};
+
+export const noMatching = {
+  pr: {
+    number: null,
+    prState: null,
+    prMerged: null,
+    labels: null,
+    realmName: null,
+    prContent: null,
+    branch: null,
+  },
+  content: {
+    user: {
+      id: null,
+      email: null,
+      firstName: null,
+      lastName: null,
+    },
+    goodObject: {
+      id: null,
+      displayName: null,
+      adminUser: null,
+      idps: null,
+      po: null,
+    },
+  },
+};
