@@ -72,3 +72,41 @@ export const isMatch = (input, target) => {
   }
   return input === target;
 };
+
+/**
+ * Flatten an object with paths for keys
+ * https://bit.ly/2neWfJ2
+ * @param {Object} inputData the object to be flattened
+ * @param {String} prefix prefix for all key path, default as none
+ * @returns {Object} nested object to be flat object with key like 'key1.key2.key3'
+ */
+export const flattenObject = (inputData, prefix = '') => {
+  if (!_.isPlainObject(inputData)) return inputData;
+
+  return Object.keys(inputData).reduce((output, k) => {
+    const result = output;
+    // setup key path:
+    const pre = prefix.length ? `${prefix}.` : '';
+    // if the current item is an object (but not an array or null), then loop through:
+    if (_.isPlainObject(inputData[k])) Object.assign(result, flattenObject(inputData[k], pre + k));
+    // else, combine key path:
+    else result[pre + k] = inputData[k];
+    return result;
+  }, {});
+};
+
+/**
+ * Normalize the data between request and form data
+ * @param {Object} inputData data to be matched for schema
+ * @param {Object} schema data schema
+ */
+export const normalizeData = (inputData, schema) => {
+  if (inputData && schema) {
+    return _.mapValues(schema, p => {
+      if (_.isObject(p)) return normalizeData(inputData, p);
+      const data = inputData[p];
+      return data || null;
+    });
+  }
+  throw Error('Not able to process input data.');
+};

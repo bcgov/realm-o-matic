@@ -20,9 +20,24 @@
 
 'use strict';
 
-import { validateSchema, encodeObjectWithName, isMatch } from '../src/libs/utils';
+import {
+  validateSchema,
+  encodeObjectWithName,
+  isMatch,
+  flattenObject,
+  normalizeData,
+} from '../src/libs/utils';
 import { REALM_SCHEMA } from '../src/constants';
-import { goodObject, badObject, emptyObject } from '../__fixtures__/utils-fixture';
+import {
+  goodObject,
+  badObject,
+  emptyObject,
+  nestedObject,
+  flattenedObject,
+  prefixedObject,
+  schema,
+  noMatching,
+} from '../__fixtures__/utils-fixture';
 
 describe('validateSchema test', () => {
   test('returns valid payload', () => {
@@ -88,5 +103,32 @@ describe('isMatch test', () => {
 
   test('checks if undefined array not match', () => {
     expect(isMatch([undefined], targetArray)).toBe(false);
+  });
+});
+
+describe('flattenObject test', () => {
+  test('flatten json object, but not flatten array in object', () => {
+    expect(flattenObject(nestedObject)).toStrictEqual(flattenedObject);
+  });
+
+  test('flatten non object inputs', () => {
+    expect(flattenObject('123')).toStrictEqual('123');
+    expect(flattenObject(['123'])).toStrictEqual(['123']);
+    expect(flattenObject({})).toStrictEqual({});
+    expect(flattenObject(null)).toStrictEqual(null);
+  });
+
+  test('add prefix', () => {
+    expect(flattenObject(nestedObject, 'prefix')).toStrictEqual(prefixedObject);
+  });
+});
+
+describe('normalizeData test', () => {
+  test('normalize data based on schema', () => {
+    expect(normalizeData(flattenedObject, schema)).toStrictEqual(nestedObject);
+  });
+
+  test('returns null when data not matching', () => {
+    expect(normalizeData({}, schema)).toStrictEqual(noMatching);
   });
 });
