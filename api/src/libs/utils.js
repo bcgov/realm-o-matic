@@ -94,7 +94,7 @@ export const flattenObject = (inputData, prefix = '') =>
   }, {});
 
 /**
- * Normalize the data between request and form input
+ * Normalize the data between request and form data
  * @param {Object} inputData data to be matched for schema
  * @param {Object} schema data schema
  */
