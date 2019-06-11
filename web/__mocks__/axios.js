@@ -4,6 +4,11 @@ const axios = {
   defaults: {
     adapter: {},
   },
+  interceptors: {
+    request: {
+      use: () => {},
+    },
+  },
 };
 
 export default axios;
