@@ -146,7 +146,7 @@ const idpInfo = {
           type: 'text',
           inputType: 'date',
           name: 'prodDate',
-          dateFormat: 'mm/dd/yy',
+          dateFormat: 'yyyy-mm-dd',
           title: 'Date of	release in production environment',
           isRequired: true,
         },
@@ -154,7 +154,7 @@ const idpInfo = {
           type: 'text',
           inputType: 'date',
           name: 'useDate',
-          dateFormat: 'mm/dd/yy',
+          dateFormat: 'yyyy-mm-dd',
           title: 'Date of first use by citizens / end users',
           isRequired: true,
         },
@@ -167,44 +167,6 @@ export const formJson = {
   showProgressBar: 'top',
   showQuestionNumbers: 'off',
   pages: [basicInfo, idpInfo, requesterInfo], //TODO: add the progress and history page
-};
-
-export const formDataToRequest = {
-  id: 'id',
-  realm: {
-    id: 'realmId',
-    displayName: 'displayName',
-    adminUser: 'adminUser',
-    idps: 'idps',
-    po: 'po',
-  },
-  requester: {
-    id: 'requesterIDIR',
-    email: 'requesterEmail',
-    firstName: 'requesterFirstName',
-    lastName: 'requesterLastName',
-  },
-  // optional:
-  bceid: {
-    appUrl: 'appUrl',
-    userAmount: 'userAmount',
-    forecastAmount: 'forecastAmount',
-    prodDate: 'prodDate',
-    useDate: 'useDate',
-  },
-};
-
-export const requestToFormData = {
-  id: 'id',
-  realmId: 'realm.id',
-  displayName: 'realm.displayName',
-  requesterEmail: 'requester.email',
-  requesterIDIR: 'requester.id',
-  requesterLastName: 'requester.lastName',
-  requesterFirstName: 'requester.firstName',
-  adminUser: 'realm.adminUser',
-  idps: 'realm.idps',
-  po: 'realm.po',
 };
 
 export const realmId = {
