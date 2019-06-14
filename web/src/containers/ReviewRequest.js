@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from '@emotion/styled';
-import { FormHeader, SpinLoader } from '../components/UI';
+import { FormHeader, LoaderDimmer } from '../components/UI';
 import { TEST_IDS } from '../constants/ui';
 import { ACCESS_CONTROL } from '../constants/auth';
 import { formJson } from '../constants/form';
@@ -37,9 +37,7 @@ export class ReviewRequest extends Component {
     const message = recordInfo ? null : errorMessage;
 
     const statusMessage = (
-      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>
-        {getRecordStarted ? <SpinLoader text="Loading Record..." /> : message}
-      </StyledMessage>
+      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>{message}</StyledMessage>
     );
 
     const content = recordInfo ? (
@@ -62,9 +60,11 @@ export class ReviewRequest extends Component {
 
     return (
       <div>
-        {actionHeader}
-        {statusMessage}
-        {content}
+        <LoaderDimmer text="Loading Reuqest..." idDim={getRecordStarted}>
+          {actionHeader}
+          {statusMessage}
+          {content}
+        </LoaderDimmer>
       </div>
     );
   }

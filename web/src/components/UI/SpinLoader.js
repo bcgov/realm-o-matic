@@ -9,6 +9,10 @@ const StyledLoader = styled(Loader)`
   padding: 0;
 `;
 
+/**
+ * Spin loader
+ * @param {String} text the loading text to display
+ */
 export const SpinLoader = ({ text }) => {
   return (
     <StyledLoader

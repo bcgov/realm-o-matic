@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import Scroll from 'react-scroll';
 import { TEST_IDS } from '../constants/ui';
+import { LoaderDimmer } from '../components/UI';
 import { formJson, realmId } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';
@@ -50,21 +51,21 @@ export class NewRequest extends Component {
     const message = requestId ? `Your request has been submitted as ${requestId}.` : errorMessage;
 
     const statusMessage = (
-      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>
-        {newRequestStarted ? 'Processing...' : message}
-      </StyledMessage>
+      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>{message}</StyledMessage>
     );
 
     return (
       <div>
-        {statusMessage}
-        <h2>Realm Request Form</h2>
-        <RequestForm
-          formModal={formJson}
-          initialInfo={initInfo}
-          isDisplayMode={this.state.isDisplayMode}
-          onComplete={onComplete}
-        />
+        <LoaderDimmer text="Processing Reuqest..." idDim={newRequestStarted}>
+          <h2>Realm Request Form</h2>
+          {statusMessage}
+          <RequestForm
+            formModal={formJson}
+            initialInfo={initInfo}
+            isDisplayMode={this.state.isDisplayMode}
+            onComplete={onComplete}
+          />
+        </LoaderDimmer>
       </div>
     );
   }
