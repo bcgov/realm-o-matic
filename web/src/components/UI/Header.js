@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Menu, Container, Dropdown } from 'semantic-ui-react';
+import { Menu, Container, Dropdown, Icon } from 'semantic-ui-react';
 import styled from '@emotion/styled';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -19,6 +19,7 @@ const StyledHeader = styled(Menu)`
 
 const StyledItem = styled(Menu.Item)`
   &&& {
+    font-size: 1rem;
     padding: 0;
     margin: 0;
   }
@@ -40,9 +41,40 @@ const TextCss = css`
   margin-left: 15px !important;
   color: white !important;
 `;
+
 // TODO: fix mobile view
 export const Header = ({ authentication }) => {
-  const authButtonText = authentication.isAuthenticated ? 'Logout' : 'Login';
+  const { isAuthenticated, userInfo } = authentication;
+
+  const trigger = (
+    <span>
+      <Icon name="user" /> Account
+    </span>
+  );
+
+  const authenticationState = {
+    key: isAuthenticated ? 'signout' : 'signin',
+    text: isAuthenticated ? 'Sign Out' : 'Sign In',
+    as: Link,
+    to: isAuthenticated ? '/logout' : '/login',
+  };
+
+  const options = [
+    {
+      key: 'user',
+      text: (
+        <span>
+          Signed in as <strong>{userInfo ? userInfo.username : 'NONAME'}</strong>
+        </span>
+      ),
+      disabled: true,
+    },
+    { key: 'requests', text: 'Requests', as: Link, to: '/home' },
+    authenticationState,
+  ];
+
+  const AccountDropdown = <Dropdown trigger={trigger} options={options} css={DropdownCss} />;
+
   return (
     <StyledHeader fixed="top">
       <Container>
@@ -54,15 +86,7 @@ export const Header = ({ authentication }) => {
             {APP_INFO.NAME}
           </Link>
         </StyledItem>
-
-        <StyledItem position="right">
-          <Dropdown item simple text="Account" css={DropdownCss}>
-            <Dropdown.Menu>
-              <Dropdown.Item text={authButtonText} data-testid={TEST_IDS.APP.LOGIN} />
-              <Dropdown.Item text="My Requests" />
-            </Dropdown.Menu>
-          </Dropdown>
-        </StyledItem>
+        <StyledItem position="right">{AccountDropdown}</StyledItem>
       </Container>
     </StyledHeader>
   );

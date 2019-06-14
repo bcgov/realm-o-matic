@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import implicitAuthManager from '../utils/auth';
 import { authenticateFailed, authenticateSuccess } from '../actions';
 import { Auth, Home, Restricted, NewRequest, ReviewRequest } from '../containers';
@@ -38,6 +38,15 @@ export class App extends Component {
             path="/home"
             component={Home}
             authCode={this.props.authorization.authCode}
+          />
+          <Route
+            path="/logout"
+            component={() => {
+              this.props.logout();
+              // Not logging out from the IDP for other application in use:
+              // window.location = implicitAuthManager.getSSOLogoutURI();
+              return <Redirect to="/" />;
+            }}
           />
           <Route path="/" component={Auth} />
         </Switch>
