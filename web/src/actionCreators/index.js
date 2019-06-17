@@ -134,7 +134,7 @@ export const getRecordAction = number => {
 
     try {
       const res = await axiSSO.get(API.REQUESTS(number));
-      const record = res.data.prContent;
+      const record = res.data;
       return dispatch(getRecordSuccess(record));
     } catch (err) {
       const errMsg = `Fail to fetch the record: ${err}`;
