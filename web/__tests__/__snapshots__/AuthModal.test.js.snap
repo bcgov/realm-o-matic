@@ -5,7 +5,7 @@ exports[`AuthModal Component renders without crashing 1`] = `
   class="ui page modals dimmer transition visible active"
 >
   <div
-    class="ui tiny modal transition visible active"
+    class="ui tiny modal transition visible active css-1cdwl04-StyledModal e1dd105m0"
     data-testid="login-modal"
   >
     <div
@@ -16,12 +16,10 @@ exports[`AuthModal Component renders without crashing 1`] = `
     <div
       class="content"
     >
-      <p>
-        Please Login Before Proceeding
-      </p>
+      Please login with one of the following options before proceeding to the app.
     </div>
     <div
-      class="actions"
+      class="ui buttons"
     >
       <a
         href="/login/github"
@@ -33,6 +31,9 @@ exports[`AuthModal Component renders without crashing 1`] = `
           GitHub
         </button>
       </a>
+      <div
+        class="or"
+      />
       <a
         href="/login/idir"
       >
