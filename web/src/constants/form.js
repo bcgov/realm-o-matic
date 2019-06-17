@@ -174,12 +174,31 @@ export const realmId = {
 };
 
 export const prStatus = {
-  OPEN: 'Open',
-  SUCCESS: 'Success',
-  FAILED: 'Failed',
+  OPEN: {
+    text: 'Open',
+    color: 'orange',
+  },
+  SUCCESS: {
+    text: 'Success',
+    color: 'green',
+  },
+  FAILED: {
+    text: 'Failed',
+    color: 'red',
+  },
   // for BCeID flow:
-  PROCESSING: 'Processing',
-  REJECT: 'Reject',
+  PROCESSING: {
+    text: 'Processing',
+    color: 'olive',
+  },
+  REJECT: {
+    text: 'Reject',
+    color: 'red',
+  },
+  UNKNOWN: {
+    text: 'unknown',
+    color: 'grey',
+  },
 };
 
 // TODO: missing BCeID flow:
@@ -192,6 +211,6 @@ export const getPrStatus = (state, merged) => {
       return isMerged ? prStatus.SUCCESS : prStatus.FAILED;
     default:
       // throw Error(`Unknow PR state: ${state}!`);
-      return 'unknown';
+      return prStatus.UNKNOWN;
   }
 };

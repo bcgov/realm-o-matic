@@ -31,6 +31,7 @@ export const TEST_IDS = {
     NEW_REQUEST: 'new-request-button',
     LOADER: 'load-indicator',
     EMPTY: 'empty-content',
+    POPUP: 'status-popup',
   },
   REQUEST: {
     MESSAGE: 'request-message',
