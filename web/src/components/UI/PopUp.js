@@ -12,7 +12,9 @@ export const PopUp = ({ status }) => {
     <Popup
       content={`Status: ${status.text}`}
       trigger={
-        <Icon name="circle" color={status.color} size="tiny" data-testid={TEST_IDS.APP.POPUP} />
+        <Icon.Group>
+          <Icon name="circle" size="tiny" color={status.color} data-testid={TEST_IDS.APP.POPUP} />
+        </Icon.Group>
       }
     />
   );
