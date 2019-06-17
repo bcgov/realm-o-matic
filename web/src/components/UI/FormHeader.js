@@ -67,7 +67,7 @@ export const FormHeader = ({ title = 'Form', hideAction = true, onApprove, onRej
 };
 
 FormHeader.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.object,
   hideAction: PropTypes.bool,
   onApprove: PropTypes.func,
   onReject: PropTypes.func,
