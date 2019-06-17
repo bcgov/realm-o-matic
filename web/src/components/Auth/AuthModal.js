@@ -16,7 +16,7 @@ export const AuthModal = ({ isAuthenticated }) => {
       dimmer="blurring"
       data-testid={TEST_IDS.AUTH.MODAL}
     >
-      <Modal.Header>Login first</Modal.Header>
+      <Modal.Header>Welcome to Realm-o-Matic</Modal.Header>
       <Modal.Content>
         <p>Please Login Before Proceeding</p>
       </Modal.Content>

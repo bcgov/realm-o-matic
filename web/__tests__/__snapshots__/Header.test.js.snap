@@ -35,6 +35,7 @@ exports[`Header Component renders without crashing 1`] = `
         <div
           aria-expanded="false"
           class="ui dropdown css-icuubi-DropdownCss"
+          data-testid="account-dropdown"
           role="listbox"
           tabindex="0"
         >

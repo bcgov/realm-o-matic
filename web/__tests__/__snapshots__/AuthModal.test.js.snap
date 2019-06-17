@@ -11,7 +11,7 @@ exports[`AuthModal Component renders without crashing 1`] = `
     <div
       class="header"
     >
-      Login first
+      Welcome to Realm-o-Matic
     </div>
     <div
       class="content"

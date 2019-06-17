@@ -73,7 +73,14 @@ export const Header = ({ authentication }) => {
     authenticationState,
   ];
 
-  const AccountDropdown = <Dropdown trigger={trigger} options={options} css={DropdownCss} />;
+  const AccountDropdown = (
+    <Dropdown
+      trigger={trigger}
+      options={options}
+      css={DropdownCss}
+      data-testid={TEST_IDS.APP.ACCOUNT}
+    />
+  );
 
   return (
     <StyledHeader fixed="top">
