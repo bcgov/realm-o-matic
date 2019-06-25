@@ -20,6 +20,7 @@
 
 'use strict';
 
+// TODO: move to constants folder
 export const ACCESS_CONTROL = {
   SA_ROLE: 'devhub_kc_web',
   REQUESTER_ROLE: 'devhub_kc_requester',

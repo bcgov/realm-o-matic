@@ -77,6 +77,7 @@ const requesterInfo = {
           ],
         },
         {
+          // TODO: don't display id
           type: 'text',
           name: 'requesterIDIR',
           title: 'IDIR User ID',
