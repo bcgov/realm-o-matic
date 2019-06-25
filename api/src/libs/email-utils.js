@@ -33,7 +33,7 @@ import { KEYCLOAK_REALM_LINKS } from '../constants/keycloak';
 const transporter = nodemailer.createTransport(EMAIL_CONFIG.TRANSPORTER);
 
 /**
- * Setup email
+ * Setup email and send
  * @param {String} toEmail the email address to send to
  * @param {Object} userInfo information about the requester
  * @param {Obejct} realmInfo information about the requested realm
@@ -63,7 +63,9 @@ export const setMailer = async (toEmail, userInfo, realmInfo, eventType) => {
         realmLinks: KEYCLOAK_REALM_LINKS(realmInfo.realmName),
       },
     });
-    if (!_.isEmpty(result.rejected)) throw Error('The');
+    if (!_.isEmpty(result.rejected)) {
+      throw Error(`Fail to send email to the receiver: ${result.rejected}`);
+    }
   } catch (err) {
     logger.error(`Fail to send out email: ${err.message}`);
     throw err;
