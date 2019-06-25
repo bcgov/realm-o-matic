@@ -20,7 +20,7 @@
 
 'use strict';
 
-import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
+import { logger, asyncMiddleware, errorWithCode } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
 import { setMailer } from '../../libs/email-utils';
 import { EMAIL_TYPE_TO_PATH } from '../../constants/email';
@@ -31,7 +31,12 @@ router.post(
   '/completed/:to',
   asyncMiddleware(async (req, res) => {
     const { to } = req.params;
+    // TODO: get it in the request or fetch request info?
     const { userInfo, realmInfo } = req.body;
+    if (!userInfo || !realmInfo) {
+      throw errorWithCode('Please provide user and realm info', 400);
+    }
+    logger.info(`Going to send email to ${to}`);
     try {
       await setMailer(to, userInfo, realmInfo, EMAIL_TYPE_TO_PATH.COMPLETED);
       res.status(200).end();
