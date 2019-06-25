@@ -19,6 +19,12 @@ gulp.task('transpile-src', () =>
     .pipe(gulp.dest('build/src'))
 );
 
+gulp.task('copy-pug-templates', () =>
+  gulp
+    .src('src/constants/email-templates/**/*')
+    .pipe(gulp.dest('build/src/constants/email-templates'))
+);
+
 gulp.task('copy-config', () => gulp.src('src/config/*.json').pipe(gulp.dest('build/src/config')));
 
 gulp.task('copy-node-config', () =>
@@ -31,6 +37,12 @@ gulp.task(
   'default',
   gulp.series(
     'clean',
-    gulp.parallel('transpile-src', 'copy-config', 'copy-node-config', 'copy-public')
+    gulp.parallel(
+      'transpile-src',
+      'copy-pug-templates',
+      'copy-config',
+      'copy-node-config',
+      'copy-public'
+    )
   )
 );
