@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from '@emotion/styled';
-import { FormHeader, SpinLoader } from '../components/UI';
+import { FormHeader, LoaderDimmer, PopUp } from '../components/UI';
 import { TEST_IDS } from '../constants/ui';
 import { ACCESS_CONTROL } from '../constants/auth';
-import { formJson } from '../constants/form';
+import { formJson, getPrStatus, prStatus } from '../constants/form';
 import { getRecordAction } from '../actionCreators';
 import { RequestForm } from '../components/Request/RequestForm';
 
@@ -37,24 +37,33 @@ export class ReviewRequest extends Component {
     const message = recordInfo ? null : errorMessage;
 
     const statusMessage = (
-      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>
-        {getRecordStarted ? <SpinLoader text="Loading Record..." /> : message}
-      </StyledMessage>
+      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>{message}</StyledMessage>
     );
 
     const content = recordInfo ? (
       <RequestForm
         formModal={formJson}
-        initialInfo={recordInfo}
+        initialInfo={recordInfo.prContent}
         isDisplayMode={true}
         onComplete={() => {}}
       />
     ) : null;
 
+    const recordStatus = recordInfo
+      ? getPrStatus(recordInfo.prState, recordInfo.prMerged)
+      : prStatus.UNKNOWN;
+
+    const title = (
+      <div>
+        Realm Request Record
+        <PopUp status={recordStatus} />
+      </div>
+    );
+
     const actionHeader = (
       <FormHeader
-        title="Realm Request Record"
-        hideAction={authCode !== ACCESS_CONTROL.REVIEWER_ROLE}
+        title={title}
+        hideAction={authCode !== ACCESS_CONTROL.REVIEWER_ROLE || recordStatus !== prStatus.OPEN}
         onApprove={onApprove}
         onReject={onReject}
       />
@@ -62,9 +71,11 @@ export class ReviewRequest extends Component {
 
     return (
       <div>
-        {actionHeader}
-        {statusMessage}
-        {content}
+        <LoaderDimmer text="Loading Reuqest..." idDim={getRecordStarted}>
+          {actionHeader}
+          {statusMessage}
+          {content}
+        </LoaderDimmer>
       </div>
     );
   }

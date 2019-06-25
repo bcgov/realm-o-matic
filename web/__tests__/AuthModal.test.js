@@ -16,7 +16,7 @@ describe('AuthModal Component', () => {
       </BrowserRouter>
     );
 
-    getByText('Login first');
+    getByText('Welcome to Realm-o-Matic');
     expect(getByTestId(TEST_IDS.AUTH.GITHUB_LOGIN)).toHaveTextContent('GitHub');
     expect(getByTestId(TEST_IDS.AUTH.IDIR_LOGIN)).toHaveTextContent('IDIR');
     expect(container.firstChild).toMatchSnapshot();

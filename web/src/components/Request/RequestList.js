@@ -27,7 +27,7 @@ export const RequestList = ({ requests, isAdmin, history }) => {
       >
         <Table.Cell>{request.realmName}</Table.Cell>
         <Table.Cell>{request.prContent.realmId}</Table.Cell>
-        <Table.Cell>{getPrStatus(request.prState, request.prMerged)}</Table.Cell>
+        <Table.Cell>{getPrStatus(request.prState, request.prMerged).text}</Table.Cell>
         <Table.Cell className={isAdmin ? null : 'hide'}>
           {request.prContent.requester.email}
         </Table.Cell>

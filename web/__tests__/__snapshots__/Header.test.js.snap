@@ -9,7 +9,7 @@ exports[`Header Component renders without crashing 1`] = `
       class="ui container"
     >
       <div
-        class="item css-1mhg2ut-StyledItem em87vhj1"
+        class="item css-15pjj5h-StyledItem em87vhj1"
       >
         <img
           alt="logo"
@@ -19,7 +19,7 @@ exports[`Header Component renders without crashing 1`] = `
         />
       </div>
       <div
-        class="item css-1mhg2ut-StyledItem em87vhj1"
+        class="item css-15pjj5h-StyledItem em87vhj1"
       >
         <a
           class="css-39fbxr-TextCss"
@@ -30,21 +30,22 @@ exports[`Header Component renders without crashing 1`] = `
         </a>
       </div>
       <div
-        class="right item css-1mhg2ut-StyledItem em87vhj1"
+        class="right item css-15pjj5h-StyledItem em87vhj1"
       >
         <div
           aria-expanded="false"
-          class="ui item simple dropdown css-icuubi-DropdownCss"
+          class="ui dropdown css-icuubi-DropdownCss"
+          data-testid="account-dropdown"
           role="listbox"
           tabindex="0"
         >
-          <div
-            aria-live="polite"
-            class="text"
-            role="alert"
-          >
-            Account
-          </div>
+          <span>
+            <i
+              aria-hidden="true"
+              class="user icon"
+            />
+             Account
+          </span>
           <i
             aria-hidden="true"
             class="dropdown icon"
@@ -53,26 +54,50 @@ exports[`Header Component renders without crashing 1`] = `
             class="menu transition"
           >
             <div
-              class="item"
-              data-testid="login-button"
+              aria-checked="false"
+              aria-disabled="true"
+              aria-selected="false"
+              class="disabled item"
               role="option"
+              style="pointer-events: all;"
             >
               <span
                 class="text"
               >
-                Logout
+                Signed in as 
+                <strong>
+                  NONAME
+                </strong>
               </span>
             </div>
-            <div
-              class="item"
+            <a
+              aria-checked="false"
+              aria-selected="true"
+              class="selected item"
+              href="/home"
               role="option"
+              style="pointer-events: all;"
             >
               <span
                 class="text"
               >
-                My Requests
+                Requests
               </span>
-            </div>
+            </a>
+            <a
+              aria-checked="false"
+              aria-selected="false"
+              class="item"
+              href="/logout"
+              role="option"
+              style="pointer-events: all;"
+            >
+              <span
+                class="text"
+              >
+                Sign Out
+              </span>
+            </a>
           </div>
         </div>
       </div>

@@ -27,10 +27,11 @@ export const TEST_IDS = {
   APP: {
     NAME: 'app-name',
     LOGO: 'gov-logo',
-    LOGIN: 'login-button',
+    ACCOUNT: 'account-dropdown',
     NEW_REQUEST: 'new-request-button',
     LOADER: 'load-indicator',
     EMPTY: 'empty-content',
+    POPUP: 'status-popup',
   },
   REQUEST: {
     MESSAGE: 'request-message',
