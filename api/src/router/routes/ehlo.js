@@ -22,9 +22,26 @@
 
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
+import { setMailer } from '../../libs/email-utils';
+import { EMAIL_TYPE_TO_PATH } from '../../constants/email';
 
 const router = new Router();
 
 router.get('/', asyncMiddleware(async (req, res) => res.status(200).end()));
+
+router.post(
+  '/email/:to',
+  asyncMiddleware(async (req, res) => {
+    const { to } = req.params;
+    const { userInfo, realmInfo } = req.body;
+    try {
+      await setMailer(to, userInfo, realmInfo, EMAIL_TYPE_TO_PATH.COMPLETED);
+      res.status(200).end();
+    } catch (err) {
+      const errCode = err.status ? err.status : 500;
+      res.status(errCode).send(`Unable to send email: ${err}.`);
+    }
+  })
+);
 
 module.exports = router;
