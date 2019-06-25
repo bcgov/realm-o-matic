@@ -39,10 +39,10 @@ const corsOptions = {
 export const router = app => {
   app.use(cors(corsOptions));
   app.use('/api/v1/ehlo', ehlo); // probes
-  app.use('/api/v1/email', email); // TODO: move to below
   // Auth needed for the endpoints:
   app.use(passport.authenticate('jwt', { session: false }));
   app.use('/api/v1/idps', kcIdp);
   app.use('/api/v1/gh', github);
   app.use('/api/v1/users', users);
+  app.use('/api/v1/email', email);
 };

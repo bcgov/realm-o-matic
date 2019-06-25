@@ -27,8 +27,15 @@ import { EMAIL_TYPE_TO_PATH } from '../../constants/email';
 
 const router = new Router();
 
+router.get(
+  '/',
+  asyncMiddleware(async (req, res) => {
+    res.status(200).json({ message: 'Email server is ready.' });
+  })
+);
+
 router.post(
-  '/:to',
+  'completed/:to',
   asyncMiddleware(async (req, res) => {
     const { to } = req.params;
     const { userInfo, realmInfo } = req.body;
@@ -37,7 +44,7 @@ router.post(
       res.status(200).end();
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).send(`Unable to send email: ${err}.`);
+      res.status(errCode).send(err);
     }
   })
 );
