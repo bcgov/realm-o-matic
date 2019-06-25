@@ -26,6 +26,7 @@ import ehlo from './routes/ehlo';
 import kcIdp from './routes/kcIdp';
 import github from './routes/github';
 import users from './routes/users';
+import email from './routes/email';
 
 // TODO: specify the allowed origins instead of all
 const corsOptions = {
@@ -38,6 +39,7 @@ const corsOptions = {
 export const router = app => {
   app.use(cors(corsOptions));
   app.use('/api/v1/ehlo', ehlo); // probes
+  app.use('/api/v1/email', email); // TODO: move to below
   // Auth needed for the endpoints:
   app.use(passport.authenticate('jwt', { session: false }));
   app.use('/api/v1/idps', kcIdp);
