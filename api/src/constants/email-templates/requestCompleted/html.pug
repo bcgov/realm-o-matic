@@ -1,0 +1,20 @@
+h3 Hi #{name},
+h3 Keycloak realms #{realmName} have been successfully created.
+p You can view the request details #[a(href=realmOMaticLink) here].
+|
+p Realm summary:
+ol
+  li Identity Providers:
+    ul
+      each idp in realmIdps
+       li= idp
+  li Admin of realms: #{realmAdmin}
+  li Realms in different environments, admin user will have access:
+    ol
+      each link in realmLinks
+       li= link
+|
+|
+p Please contact Devhub team if you have any problems or issues.
+|
+p Realm-o-Matic
