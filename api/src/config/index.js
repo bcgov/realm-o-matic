@@ -60,6 +60,11 @@ nconf.overrides({
     owner: process.env.GITHUB_OWNER,
     repo: process.env.GITHUB_REPO,
   },
+  emailServer: {
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    sender: process.env.EMAIL_SENDER,
+  },
 });
 
 export default nconf;
