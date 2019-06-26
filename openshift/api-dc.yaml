@@ -77,6 +77,21 @@ objects:
               secretKeyRef:
                 name: realmomatic-api-gh
                 key: GITHUB_REPO
+          - name: EMAIL_HOST
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-email
+                key: EMAIL_HOST
+          - name: EMAIL_PORT
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-email
+                key: EMAIL_PORT
+          - name: EMAIL_SENDER
+            valueFrom:
+              secretKeyRef:
+                name: realmomatic-api-email
+                key: EMAIL_SENDER
     test: false
     triggers:
     - type: ConfigChange

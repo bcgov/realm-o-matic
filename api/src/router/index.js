@@ -26,6 +26,7 @@ import ehlo from './routes/ehlo';
 import kcIdp from './routes/kcIdp';
 import github from './routes/github';
 import users from './routes/users';
+import email from './routes/email';
 
 // TODO: specify the allowed origins instead of all
 const corsOptions = {
@@ -43,4 +44,5 @@ export const router = app => {
   app.use('/api/v1/idps', kcIdp);
   app.use('/api/v1/gh', github);
   app.use('/api/v1/users', users);
+  app.use('/api/v1/email', email);
 };
