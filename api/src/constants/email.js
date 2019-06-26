@@ -33,7 +33,7 @@ export const EMAIL_CONFIG = {
     },
     connectionTimeout: 40000,
   },
-  TEMPLATETS: subpath => path.join(__dirname, './email-templates', subpath),
+  TEMPLATES: subpath => path.join(__dirname, './email-templates', subpath),
 };
 
 export const EMAIL_TYPE_TO_PATH = {

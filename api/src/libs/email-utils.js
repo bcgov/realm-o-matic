@@ -49,7 +49,7 @@ export const setMailer = async (toEmail, userInfo, realmInfo, eventType) => {
     });
 
     const result = await email.send({
-      template: EMAIL_CONFIG.TEMPLATETS(eventType),
+      template: EMAIL_CONFIG.TEMPLATES(eventType),
       message: {
         from: EMAIL_CONFIG.FROM,
         to: toEmail,
