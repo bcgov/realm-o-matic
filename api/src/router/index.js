@@ -27,6 +27,7 @@ import kcIdp from './routes/kcIdp';
 import github from './routes/github';
 import users from './routes/users';
 import email from './routes/email';
+import ghwh from './routes/github-webhook';
 
 // TODO: specify the allowed origins instead of all
 const corsOptions = {
@@ -39,6 +40,7 @@ const corsOptions = {
 export const router = app => {
   app.use(cors(corsOptions));
   app.use('/api/v1/ehlo', ehlo); // probes
+  app.use('/api/v1/ghwh', ghwh); // TODO: auth needed
   // Auth needed for the endpoints:
   app.use(passport.authenticate('jwt', { session: false }));
   app.use('/api/v1/idps', kcIdp);
