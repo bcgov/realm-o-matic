@@ -61,13 +61,14 @@ router.post(
       switch (action) {
         case PR_ACTIONS.LABELED:
           // For error message or rejection:
-          if (label === GITHUB_LABELS.FAILED || label === GITHUB_LABELS.REJECTED)
+          if (label.name === GITHUB_LABELS.FAILED || label.name === GITHUB_LABELS.REJECTED) {
             await setMailer(
               payload.requester.email,
               payload.requester,
               realmInfo,
               EMAIL_TYPE_TO_PATH.FAILED
             );
+          }
           // ignore the other labels:
           break;
         case PR_ACTIONS.CLOSED:
