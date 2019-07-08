@@ -39,6 +39,12 @@ export const EMAIL_CONFIG = {
 export const EMAIL_TYPE_TO_PATH = {
   STARTED: 'requestStarted',
   COMPLETED: 'requestCompleted',
+  FAILED: 'requestFailed',
+};
+
+export const PR_ACTIONS = {
+  LABELED: 'labeled',
+  CLOSED: 'closed',
 };
 
 export const APP_LINK_WITH_REALM = number => `https://${config.get('host')}/Request/${number}`;

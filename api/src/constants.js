@@ -119,6 +119,7 @@ export const GITHUB_LABELS = {
   BCEID: 'bceid-requested',
   FAILED: 'request-failed',
   READY: 'ready-for-review',
+  REJECTED: 'request-rejected',
 };
 
 export const KEYCLOAK_TERMS = {
