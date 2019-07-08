@@ -58,8 +58,8 @@ export const setMailer = async (toEmail, userInfo, realmInfo, eventType) => {
         name: `${userInfo.firstName} ${userInfo.lastName}`,
         realmOMaticLink: APP_LINK_WITH_REALM(realmInfo.number),
         realmName: realmInfo.realmName,
-        realmIdps: realmInfo.idps,
-        realmAdmin: realmInfo.admin,
+        // realmIdps: realmInfo.idps,
+        // realmAdmin: realmInfo.admin,
         realmLinks: KEYCLOAK_REALM_LINKS(realmInfo.realmName),
       },
     });
