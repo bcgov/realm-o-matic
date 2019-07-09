@@ -28,17 +28,39 @@ import { validateSchema } from '../../libs/utils';
 import { PR_CONTENT_SCHEMA, GITHUB_LABELS } from '../../constants';
 import { setMailer } from '../../libs/email-utils';
 import { EMAIL_TYPE_TO_PATH, PR_ACTIONS } from '../../constants/email';
+import { EMAIL_TEST_CONTENT } from '../../../__mocks__/email';
 
 const router = new Router();
 
+// TODO: create email notification for BCeID request -> reviewer
+
+/**
+ * Test email server with mock content:
+ */
 router.get(
   '/test',
   asyncMiddleware(async (req, res) => {
-    res.status(200).json({ message: 'Email server is ready.' });
+    try {
+      await setMailer(
+        EMAIL_TEST_CONTENT.TO,
+        EMAIL_TEST_CONTENT.USER_INFO,
+        EMAIL_TEST_CONTENT.REALM_INFO,
+        EMAIL_TYPE_TO_PATH.FAILED
+      );
+      res.status(200).json({ message: 'Email sent.' });
+    } catch (err) {
+      const errCode = err.status ? err.status : 500;
+      res.status(errCode).send(err);
+    }
   })
 );
 
-// TODO: use octokit/webhooks/verify to test secret (headers['x-hub-signature'];)
+/**
+ * Trigger by repo PR webhook and send email notification
+ * TODO:
+ * - use octokit/webhooks/verify to test secret (headers['x-hub-signature'];)
+ * - notify reviewers
+ */
 router.post(
   '/pr',
   asyncMiddleware(async (req, res) => {
