@@ -20,7 +20,8 @@
 
 'use strict';
 
-// eslint-disable-next-line import/prefer-default-export
+import nodemailer from 'nodemailer';
+
 export const EMAIL_TEST_CONTENT = {
   USER_INFO: {
     firstName: 'foo',
@@ -31,4 +32,24 @@ export const EMAIL_TEST_CONTENT = {
     realmName: 'test-realm-123',
   },
   TO: 'shelly.han@gov.bc.ca',
+};
+
+/**
+ * Create a test email transporter for testing:
+ * - to see the test email: nodemailer.getTestMessageUrl(sendEmailResult)
+ */
+export const setTransporter = async () => {
+  const testAccount = await nodemailer.createTestAccount();
+
+  const testTransporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false,
+    auth: {
+      user: testAccount.user,
+      pass: testAccount.pass,
+    },
+  });
+
+  return testTransporter;
 };
