@@ -1,21 +1,48 @@
-h3 Hi #{name},
-br
-h3 Keycloak realms #{realmName} have been successfully created.
-p You can view the request details #[a(href=realmOMaticLink) here].
-br
-p Realm summary:
-ol
-  //- li Identity Providers:
-  //-   ul
-  //-     each idp in realmIdps
-  //-      li= idp
-  //- li Admin of realms: #{realmAdmin}
-  li Realms in different environments, admin user will have access:
-    ol
-      each link in realmLinks
-       li= link
-br
-br
-p Please contact Devhub team if you have any problems or issues.
-br
-p Realm-o-Matic
+html
+  head
+    meta(name='viewport', content='width=device-width')
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    style
+      include ../email.css
+    title Realm-o-Matic Email Notification
+  body
+    table.body-wrap
+      tbody
+        tr
+          td.container
+            .content
+              table.main
+                tbody
+                  tr
+                    td.header KeyCloak Realm Created
+                  tr
+                    td.content-wrap
+                      table
+                        tbody
+                          tr
+                            td Hi #{name},
+                          tr
+                            td
+                              | Keycloak realms 
+                              strong #{realmName} 
+                              | have been successfully created.
+                          tr
+                            td
+                              | Following are links to the realms in Dev, Test and Production environments, 
+                              strong only admin user 
+                              | have access:
+                              ol
+                                each link in realmLinks
+                                  li= link
+                          tr
+                            td You can view the request details in
+                          tr
+                            td.aligncenter
+                              a.btn-primary(href=realmOMaticLink) Realm-o-Matic
+                          tr
+                            td Please contact Devhub team if you have any problems or issues.
+              .footer
+                table.aligncenter
+                  tbody
+                    tr
+                      td DevHub
