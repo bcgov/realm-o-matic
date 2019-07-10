@@ -28,7 +28,7 @@ import { validateSchema } from '../../libs/utils';
 import { PR_CONTENT_SCHEMA, GITHUB_LABELS } from '../../constants';
 import { setMailer } from '../../libs/email-utils';
 import { EMAIL_TYPE_TO_PATH, PR_ACTIONS } from '../../constants/email';
-import { EMAIL_TEST_CONTENT } from '../../../__mocks__/email';
+import { EMAIL_TEST_CONTENT } from '../../constants/email-mock';
 
 const router = new Router();
 
