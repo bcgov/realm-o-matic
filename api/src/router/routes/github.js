@@ -41,6 +41,7 @@ const router = new Router();
  *   - if BCeID, send notification to reviewer
  * 2. if failed, tag request-failed and send notification with reason
  * TODO: notification feature
+ * TODO: update this flow now
  */
 router.put(
   '/records/setReady/:prNumber',
@@ -68,6 +69,7 @@ router.put(
 
 /**
  * Create a record for the new request as a Pull Request:
+ * TODO: send email if BCeID
  */
 router.post(
   '/records/:branchName',
