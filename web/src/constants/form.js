@@ -77,14 +77,14 @@ const requesterInfo = {
           ],
         },
         {
-          // TODO: don't display id
+          // Note: this field will not be visible
           type: 'text',
           name: 'requesterIDIR',
           title: 'IDIR User ID',
-          // startWithNewLine: false,
           isRequired: true,
           enableIf: 'false',
           colCount: 0,
+          visibleIf: '1 == 0',
         },
         {
           type: 'text',
