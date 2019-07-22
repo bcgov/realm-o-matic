@@ -18,25 +18,19 @@
 // Created by Shelly Xue Han
 //
 
-export const AUTHENTICATION = {
-  SUCCESS: 'AUTHENTICATE_SUCCESS',
-  FAILED: 'AUTHENTICATE_FAILED',
-};
+import { standardActionTypeWrapper } from '../src/actions/actionTypes';
 
-/**
- * Generate stander action types
- * @param {String} prefix contains the name of the action
- */
-export const standardActionTypeWrapper = prefix => {
-  return {
+describe('standardActionTypeWrapper', () => {
+  const prefix = 'PREFIX_TEST';
+
+  const expectedActionType = {
     START: `${prefix}_START`,
     SUCCESS: `${prefix}_SUCCESS`,
     ERROR: `${prefix}_ERROR`,
   };
-};
 
-export const GET_IDPS = standardActionTypeWrapper('GET_IDPS');
-export const GET_REQUESTS = standardActionTypeWrapper('GET_REQUESTS');
-export const NEW_REQUEST = standardActionTypeWrapper('NEW_REQUEST');
-export const AUTHORIZATION = standardActionTypeWrapper('AUTHORIZATION');
-export const GET_RECORD = standardActionTypeWrapper('GET_RECORD');
+  it('generates standard action types', () => {
+    const testActionType = standardActionTypeWrapper(prefix);
+    expect(testActionType).toEqual(expectedActionType);
+  });
+});
