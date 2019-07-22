@@ -19,122 +19,32 @@ export const authenticateFailed = () => {
   };
 };
 
-export const getIdpsStart = () => {
+/**
+ * Generate stander action sets
+ * @param {Object} actionType with START, SUCCESS, and ERROR
+ */
+export const standardActionSetWrapper = actionType => {
   return {
-    type: GET_IDPS.START,
-  };
-};
-
-export const getIdpsSuccess = idps => {
-  return {
-    type: GET_IDPS.SUCCESS,
-    payload: {
-      idps,
+    start: () => {
+      return { type: actionType.START };
+    },
+    success: payload => {
+      return {
+        type: actionType.SUCCESS,
+        payload,
+      };
+    },
+    error: payload => {
+      return {
+        type: actionType.ERROR,
+        payload,
+      };
     },
   };
 };
 
-export const getIdpsError = errorMessage => {
-  return {
-    type: GET_IDPS.ERROR,
-    payload: {
-      errorMessage,
-    },
-  };
-};
-
-export const newRequestStart = () => {
-  return {
-    type: NEW_REQUEST.START,
-  };
-};
-
-export const newRequestSuccess = requestId => {
-  return {
-    type: NEW_REQUEST.SUCCESS,
-    payload: {
-      requestId,
-    },
-  };
-};
-
-export const newRequestError = errorMessage => {
-  return {
-    type: NEW_REQUEST.ERROR,
-    payload: {
-      errorMessage,
-    },
-  };
-};
-
-export const getRequestsStart = () => {
-  return {
-    type: GET_REQUESTS.START,
-  };
-};
-
-export const getRequestsSuccess = requests => {
-  return {
-    type: GET_REQUESTS.SUCCESS,
-    payload: {
-      requests,
-    },
-  };
-};
-
-export const getRequestsError = errorMessage => {
-  return {
-    type: GET_REQUESTS.ERROR,
-    payload: {
-      errorMessage,
-    },
-  };
-};
-
-export const authorizationStart = () => {
-  return {
-    type: AUTHORIZATION.START,
-  };
-};
-
-export const authorizationSuccess = authCode => {
-  return {
-    type: AUTHORIZATION.SUCCESS,
-    payload: {
-      authCode,
-    },
-  };
-};
-
-export const authorizationError = errorMessage => {
-  return {
-    type: AUTHORIZATION.ERROR,
-    payload: {
-      errorMessage,
-    },
-  };
-};
-
-export const getRecordStart = () => {
-  return {
-    type: GET_RECORD.START,
-  };
-};
-
-export const getRecordSuccess = recordInfo => {
-  return {
-    type: GET_RECORD.SUCCESS,
-    payload: {
-      recordInfo,
-    },
-  };
-};
-
-export const getRecordError = errorMessage => {
-  return {
-    type: GET_RECORD.ERROR,
-    payload: {
-      errorMessage,
-    },
-  };
-};
+export const getRequestsActionSet = standardActionSetWrapper(GET_REQUESTS);
+export const authorizationActionSet = standardActionSetWrapper(AUTHORIZATION);
+export const getIdpsActionSet = standardActionSetWrapper(GET_IDPS);
+export const getRecordActionSet = standardActionSetWrapper(GET_RECORD);
+export const newRequestActionSet = standardActionSetWrapper(NEW_REQUEST);

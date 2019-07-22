@@ -19,9 +19,13 @@
 //
 
 import { standardActionTypeWrapper } from '../src/actions/actionTypes';
+import { standardActionSetWrapper } from '../src/actions/index';
 
-describe('standardActionTypeWrapper', () => {
+describe('Standard redux wrappers', () => {
   const prefix = 'PREFIX_TEST';
+  const payload = {
+    testPrefix: prefix,
+  };
 
   const expectedActionType = {
     START: `${prefix}_START`,
@@ -29,8 +33,18 @@ describe('standardActionTypeWrapper', () => {
     ERROR: `${prefix}_ERROR`,
   };
 
-  it('generates standard action types', () => {
+  const expectedActionSet = {
+    type: expectedActionType.SUCCESS,
+    payload,
+  };
+
+  it('standardActionTypeWrapper generates standard action types', () => {
     const testActionType = standardActionTypeWrapper(prefix);
     expect(testActionType).toEqual(expectedActionType);
+  });
+
+  it('standardActionSetWrapper generates standard action set', () => {
+    const testActionSet = standardActionSetWrapper(expectedActionType);
+    expect(testActionSet.success(payload)).toEqual(expectedActionSet);
   });
 });
