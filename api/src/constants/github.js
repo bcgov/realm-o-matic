@@ -108,8 +108,8 @@ export const GITHUB_JSON_PATH = {
 };
 
 export const GITHUB_LABELS = {
+  READY: 'request-ready',
   BCEID: 'bceid-requested',
   FAILED: 'request-failed',
-  READY: 'ready-for-review',
   REJECTED: 'request-rejected',
 };
