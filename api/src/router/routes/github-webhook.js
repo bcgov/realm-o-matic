@@ -32,8 +32,6 @@ import { EMAIL_TEST_CONTENT } from '../../constants/email-mock';
 
 const router = new Router();
 
-// TODO: create email notification for BCeID request -> reviewer
-
 /**
  * Test email server with mock content:
  */

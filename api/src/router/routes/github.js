@@ -28,48 +28,70 @@ import {
   getRecords,
   getRequestContent,
 } from '../../libs/gh-utils/gh-ops';
-import { getPR } from '../../libs/gh-utils/gh-requests';
+import { getPR, addLabel } from '../../libs/gh-utils/gh-requests';
 import { GITHUB_LABELS } from '../../constants/github';
 
 const router = new Router();
 
+// TODO: not enabling this untill able to handle the BCeID process separetly
+// /**
+//  * Update record status:
+//  * this is triggered after the KeyCloak job is done for IDIR and GitHub:
+//  * 1. if success, tag ready-for-review, send notification
+//  *   - if no BCeID label, then merge and close
+//  *   - if BCeID, send notification to reviewer
+//  * 2. if failed, tag request-failed and send notification with reason
+//  */
+// router.put(
+//   '/records/setReady/:prNumber',
+//   asyncMiddleware(async (req, res) => {
+//     const { prNumber } = req.params;
+//     const { keycloakJobResult } = req.body;
+//     try {
+//       const { status, message } = keycloakJobResult;
+//       // get PR:
+//       const pr = await getPR(prNumber);
+//       // if failed, add label with reason:
+//       if (status === 'failed') await updatePRState(pr, false, GITHUB_LABELS.FAILED, message);
+//       // if BCeID, continue:
+//       else if (pr.labels && pr.labels.includes(GITHUB_LABELS.BCEID))
+//         await updatePRState(pr, false, GITHUB_LABELS.READY, message);
+//       // if no BCeID merge and close:
+//       else await updatePRState(pr, true, null, message);
+//       res.status(204).end();
+//     } catch (err) {
+//       const errCode = err.status ? err.status : 500;
+//       res.status(errCode).send(`Unable to update the PR ${prNumber}: ${err}`);
+//     }
+//   })
+// );
+
 /**
- * Update record status:
- * this is triggered after the KeyCloak job is done for IDIR and GitHub:
- * 1. if success, tag ready-for-review, send notification
- *   - if no BCeID label, then merge and close
- *   - if BCeID, send notification to reviewer
- * 2. if failed, tag request-failed and send notification with reason
- * TODO: notification feature
- * TODO: update this flow now
+ * BCeID approval:
+ * - Update a request with BCeID when this IDP is approved
+ * - Add the READY label
  */
 router.put(
   '/records/setReady/:prNumber',
   asyncMiddleware(async (req, res) => {
     const { prNumber } = req.params;
-    const { keycloakJobResult } = req.body;
+    const { approvalContent } = req.body;
     try {
-      const { status, message } = keycloakJobResult;
-      // get PR:
-      const pr = await getPR(prNumber);
-      // if failed, add label with reason:
-      if (status === 'failed') await updatePRState(pr, false, GITHUB_LABELS.FAILED, message);
-      // if BCeID, continue:
-      else if (pr.labels && pr.labels.includes(GITHUB_LABELS.BCEID))
-        await updatePRState(pr, false, GITHUB_LABELS.READY, message);
-      // if no BCeID merge and close:
-      else await updatePRState(pr, true, null, message);
+      const { isApproved, message } = approvalContent;
+
+      if (!isApproved) await addLabel(prNumber, [GITHUB_LABELS.REJECTED]);
+      else await addLabel(prNumber, [GITHUB_LABELS.READY]);
+
       res.status(204).end();
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).send(`Unable to update the PR ${prNumber}: ${err}`);
+      res.status(errCode).send(`Unable to label the PR ${prNumber}: ${err}`);
     }
   })
 );
 
 /**
  * Create a record for the new request as a Pull Request:
- * TODO: send email if BCeID
  */
 router.post(
   '/records/:branchName',
