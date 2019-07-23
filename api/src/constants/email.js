@@ -37,6 +37,7 @@ export const EMAIL_CONFIG = {
 };
 
 export const EMAIL_TYPE_TO_PATH = {
+  BCEID: 'requestBceid',
   STARTED: 'requestStarted',
   COMPLETED: 'requestCompleted',
   FAILED: 'requestFailed',
@@ -45,6 +46,14 @@ export const EMAIL_TYPE_TO_PATH = {
 export const PR_ACTIONS = {
   LABELED: 'labeled',
   CLOSED: 'closed',
+  MERGED: 'merged',
+  OPENED: 'opened',
+};
+
+// From env var:
+export const EMAIL_CONTACTS = {
+  REVIEWER: config.get('emailContacts.reviewer'),
+  ADMIN: config.get('emailContacts.admin'),
 };
 
 export const APP_LINK_WITH_REALM = number => `https://${config.get('host')}/Request/${number}`;

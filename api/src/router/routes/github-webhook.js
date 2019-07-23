@@ -59,7 +59,12 @@ router.get(
  * Trigger by repo PR webhook and send email notification
  * TODO:
  * - use octokit/webhooks/verify to test secret (headers['x-hub-signature'];)
- * - notify reviewers
+ * 
+ * if PR started: email Requester
+ * if BCeID label: email Reviewer
+ * if failed label: email Admin
+ * if rejected label: email Requester (TBD)
+ * if merged and closed: email Requester
  */
 router.post(
   '/pr',
@@ -81,14 +86,30 @@ router.post(
       };
 
       switch (action) {
+        case PR_ACTIONS.OPENED:
+          // Notify requester when in prgress:
+          await setMailer(
+            payload.requester.email,
+            payload.requester,
+            realmInfo,
+            EMAIL_TYPE_TO_PATH.STARTED
+          );
+          break;
         case PR_ACTIONS.LABELED:
           // For error message or rejection:
           if (label.name === GITHUB_LABELS.FAILED || label.name === GITHUB_LABELS.REJECTED) {
             await setMailer(
-              payload.requester.email,
-              payload.requester,
+              EMAIL_CONTACTS.ADMIN.to,
+              EMAIL_CONTACTS.ADMIN.info,
               realmInfo,
               EMAIL_TYPE_TO_PATH.FAILED
+            );
+          } else if (label.name === GITHUB_LABELS.BCEID) {
+            await setMailer(
+              EMAIL_CONTACTS.REVIEWER.to,
+              EMAIL_CONTACTS.REVIEWER.info,
+              realmInfo,
+              EMAIL_TYPE_TO_PATH.BCEID
             );
           }
           // ignore the other labels:
