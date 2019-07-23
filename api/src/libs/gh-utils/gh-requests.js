@@ -21,7 +21,7 @@
 'use strict';
 
 import _ from 'lodash';
-import { GITHUB_REQUEST, GITHUB_JSON_PATH } from '../../constants';
+import { GITHUB_REQUEST, GITHUB_JSON_PATH } from '../../constants/github';
 import shared from '../shared';
 import config from '../../config';
 import { jsonReader } from './gh-helpers';

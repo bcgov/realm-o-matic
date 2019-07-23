@@ -27,7 +27,7 @@ import {
   flattenObject,
   normalizeData,
 } from '../src/libs/utils';
-import { REALM_SCHEMA } from '../src/constants';
+import { REALM_SCHEMA } from '../src/constants/github';
 import {
   goodObject,
   badObject,

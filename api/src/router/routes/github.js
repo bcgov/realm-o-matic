@@ -29,7 +29,7 @@ import {
   getRequestContent,
 } from '../../libs/gh-utils/gh-ops';
 import { getPR } from '../../libs/gh-utils/gh-requests';
-import { GITHUB_LABELS } from '../../constants';
+import { GITHUB_LABELS } from '../../constants/github';
 
 const router = new Router();
 

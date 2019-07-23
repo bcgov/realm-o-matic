@@ -23,7 +23,7 @@
 import _ from 'lodash';
 import jsonata from 'jsonata';
 import { validateSchema, isMatch } from '../utils';
-import { PR_SCHEMA, PR_CONTENT_SCHEMA } from '../../constants';
+import { PR_SCHEMA, PR_CONTENT_SCHEMA } from '../../constants/github';
 
 /**
  * Get data from json object by path:

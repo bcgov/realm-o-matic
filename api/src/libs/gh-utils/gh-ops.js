@@ -21,7 +21,8 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS, KEYCLOAK_TERMS } from '../../constants';
+import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS } from '../../constants/github';
+import { KEYCLOAK_TERMS } from '../../constants/keycloak';
 import {
   FORM_CONTENT_TO_REQUEST,
   REQUEST_TO_FORM_CONTENT,
