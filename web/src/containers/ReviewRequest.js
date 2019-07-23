@@ -31,6 +31,7 @@ export class ReviewRequest extends Component {
 
     const onReject = () => {
       // TODO: pop up modal for reason
+      // approveRecord(match.params.id, isApproved, message);
     };
 
     // message for fetching record:

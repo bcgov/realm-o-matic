@@ -43,6 +43,7 @@ export const FORM_CONTENT_TO_REQUEST = {
   },
 };
 
+// TODO: update the Product Owner to an user object
 export const REQUEST_TO_FORM_CONTENT = {
   id: 'id',
   realmId: 'realm.id',

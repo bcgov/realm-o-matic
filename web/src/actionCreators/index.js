@@ -1,20 +1,10 @@
 import axios from 'axios';
 import {
-  getIdpsStart,
-  getIdpsSuccess,
-  getIdpsError,
-  authorizationStart,
-  authorizationSuccess,
-  authorizationError,
-  getRequestsStart,
-  getRequestsSuccess,
-  getRequestsError,
-  newRequestStart,
-  newRequestSuccess,
-  newRequestError,
-  getRecordStart,
-  getRecordSuccess,
-  getRecordError,
+  getIdpsActionSet,
+  authorizationActionSet,
+  getRequestsActionSet,
+  newRequestActionSet,
+  getRecordActionSet,
 } from '../actions';
 import implicitAuthManager from '../utils/auth';
 import { API } from '../constants/request';
@@ -46,7 +36,7 @@ axiSSO.interceptors.request.use(
  */
 export const authorizationAction = (id, roles = []) => {
   return async (dispatch, getState) => {
-    dispatch(authorizationStart());
+    dispatch(authorizationActionSet.start());
 
     try {
       const res = await axiSSO.get(API.AUTHORIZATION(id), {
@@ -55,13 +45,13 @@ export const authorizationAction = (id, roles = []) => {
         },
       });
       const authorizationCode = res.data;
-      return dispatch(authorizationSuccess(authorizationCode));
+      return dispatch(authorizationActionSet.success({ authCode: authorizationCode }));
     } catch (err) {
       // authmware in api throws 401 for no role user:
       if (err.response.status === 401)
-        return dispatch(authorizationSuccess(ACCESS_CONTROL.NO_ROLE));
-      const errMsg = `Fail to authorize: ${err}, please refresh page.`;
-      return dispatch(authorizationError(errMsg));
+        return dispatch(authorizationActionSet.success(ACCESS_CONTROL.NO_ROLE));
+      const errorMessage = `Fail to authorize: ${err}, please refresh page.`;
+      return dispatch(authorizationActionSet.error({ errorMessage }));
     }
   };
 };
@@ -71,14 +61,14 @@ export const authorizationAction = (id, roles = []) => {
  */
 export const getIdps = () => {
   return async (dispatch, getState) => {
-    dispatch(getIdpsStart());
+    dispatch(getIdpsActionSet.start());
     try {
       const res = await axiSSO.get(API.IDP());
       const idps = res.data.idp;
-      return dispatch(getIdpsSuccess(idps));
+      return dispatch(getIdpsActionSet.success({ idps }));
     } catch (err) {
-      const errMsg = `Fail to get IDPs as ${err}`;
-      return dispatch(getIdpsError(errMsg));
+      const errorMessage = `Fail to get IDPs as ${err}`;
+      return dispatch(getIdpsActionSet.error({ errorMessage }));
     }
   };
 };
@@ -88,7 +78,7 @@ export const getIdps = () => {
  */
 export const getRequestsAction = filters => {
   return async (dispatch, getState) => {
-    dispatch(getRequestsStart());
+    dispatch(getRequestsActionSet.start());
 
     try {
       const res = await axiSSO.get(API.REQUESTS(), {
@@ -96,10 +86,10 @@ export const getRequestsAction = filters => {
       });
 
       const requests = res.data;
-      return dispatch(getRequestsSuccess(requests));
+      return dispatch(getRequestsActionSet.success({ requests }));
     } catch (err) {
-      const errMsg = `Fail to get requests: ${err}`;
-      return dispatch(getRequestsError(errMsg));
+      const errorMessage = `Fail to get requests: ${err}`;
+      return dispatch(getRequestsActionSet.error({ errorMessage }));
     }
   };
 };
@@ -109,7 +99,7 @@ export const getRequestsAction = filters => {
  */
 export const newRequest = requestInfo => {
   return async (dispatch, getState) => {
-    dispatch(newRequestStart());
+    dispatch(newRequestActionSet.start());
 
     try {
       const requestData = generateRequestPayload(requestInfo);
@@ -117,10 +107,10 @@ export const newRequest = requestInfo => {
         request: requestData,
       });
       const newRequest = res.data;
-      return dispatch(newRequestSuccess(newRequest));
+      return dispatch(newRequestActionSet.success({ requestId: newRequest }));
     } catch (err) {
-      const errMsg = `Fail to start the request: ${err}`;
-      return dispatch(newRequestError(errMsg));
+      const errorMessage = `Fail to start the request: ${err}`;
+      return dispatch(newRequestActionSet.error({ errorMessage }));
     }
   };
 };
@@ -130,15 +120,15 @@ export const newRequest = requestInfo => {
  */
 export const getRecordAction = number => {
   return async (dispatch, getState) => {
-    dispatch(getRecordStart());
+    dispatch(getRecordActionSet.start());
 
     try {
       const res = await axiSSO.get(API.REQUESTS(number));
       const record = res.data;
-      return dispatch(getRecordSuccess(record));
+      return dispatch(getRecordActionSet.success({ recordInfo: record }));
     } catch (err) {
-      const errMsg = `Fail to fetch the record: ${err}`;
-      return dispatch(getRecordError(errMsg));
+      const errorMessage = `Fail to fetch the record: ${err}`;
+      return dispatch(getRecordActionSet.error({ errorMessage }));
     }
   };
 };

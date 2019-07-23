@@ -37,6 +37,9 @@ tr {
   border-spacing: 0;
   border-collapse: separate;
 }
+.message-content {
+  width: 100%;
+}
 .header {
   font-size: 16px;
   color: #fff;

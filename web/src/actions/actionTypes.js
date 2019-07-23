@@ -1,34 +1,42 @@
+//
+// Realm-o-Matic
+//
+// Copyright © 2019 Province of British Columbia
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// Created by Shelly Xue Han
+//
+
 export const AUTHENTICATION = {
   SUCCESS: 'AUTHENTICATE_SUCCESS',
   FAILED: 'AUTHENTICATE_FAILED',
 };
 
-export const GET_IDPS = {
-  START: 'GET_IDPS_START',
-  SUCCESS: 'GET_IDPS_SUCCESS',
-  ERROR: 'GET_IDPS_ERROR',
+/**
+ * Generate stander action types
+ * @param {String} prefix contains the name of the action
+ */
+export const standardActionTypeWrapper = prefix => {
+  return {
+    START: `${prefix}_START`,
+    SUCCESS: `${prefix}_SUCCESS`,
+    ERROR: `${prefix}_ERROR`,
+  };
 };
 
-export const GET_REQUESTS = {
-  START: 'GET_REQUESTS_START',
-  SUCCESS: 'GET_REQUESTS_SUCCESS',
-  ERROR: 'GET_REQUESTS_ERROR',
-};
-
-export const NEW_REQUEST = {
-  START: 'NEW_REQUEST_START',
-  SUCCESS: 'NEW_REQUEST_SUCCESS',
-  ERROR: 'NEW_REQUEST_ERROR',
-};
-
-export const AUTHORIZATION = {
-  START: 'AUTHORIZATION_START',
-  SUCCESS: 'AUTHORIZATION_SUCCESS',
-  ERROR: 'AUTHORIZATION_ERROR',
-};
-
-export const GET_RECORD = {
-  START: 'GET_RECORD_START',
-  SUCCESS: 'GET_RECORD_SUCCESS',
-  ERROR: 'GET_RECORD_ERROR',
-};
+export const GET_IDPS = standardActionTypeWrapper('GET_IDPS');
+export const GET_REQUESTS = standardActionTypeWrapper('GET_REQUESTS');
+export const NEW_REQUEST = standardActionTypeWrapper('NEW_REQUEST');
+export const AUTHORIZATION = standardActionTypeWrapper('AUTHORIZATION');
+export const GET_RECORD = standardActionTypeWrapper('GET_RECORD');
