@@ -28,7 +28,6 @@ import {
   getRequestContent,
   alterPRLabels,
 } from '../../libs/gh-utils/gh-ops';
-import { addLabel } from '../../libs/gh-utils/gh-requests';
 import { GITHUB_LABELS } from '../../constants/github';
 
 const router = new Router();
