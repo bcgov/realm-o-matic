@@ -27,5 +27,6 @@ export const API = {
   IDP: () => 'idps',
   REQUESTS: number => `gh/records/${number ? number : ''}`,
   NEW_REQUEST: branchName => `gh/records/${branchName}`,
+  APPROVE_REQUEST: number => `gh/records/setReady/${number}`,
   AUTHORIZATION: userId => `users/auth/${userId}`,
 };

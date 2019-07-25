@@ -5,6 +5,7 @@ import {
   NEW_REQUEST,
   AUTHORIZATION,
   GET_RECORD,
+  APPROVE_REQUEST,
 } from './actionTypes';
 
 export const authenticateSuccess = () => {
