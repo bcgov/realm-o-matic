@@ -139,7 +139,7 @@ const idpInfo = {
           type: 'text',
           inputType: 'number',
           name: 'forecastAmount',
-          title: 'Forecast of anticipated growth over the next 3 years',
+          title: 'Forecast of anticipated growth over the next year',
           isRequired: true,
         },
         // TODO: better sytle date picker
@@ -172,46 +172,4 @@ export const formJson = {
 
 export const realmId = {
   digit: 8,
-};
-
-export const prStatus = {
-  OPEN: {
-    text: 'Open',
-    color: 'orange',
-  },
-  SUCCESS: {
-    text: 'Success',
-    color: 'green',
-  },
-  FAILED: {
-    text: 'Failed',
-    color: 'red',
-  },
-  // for BCeID flow:
-  PROCESSING: {
-    text: 'Processing',
-    color: 'olive',
-  },
-  REJECT: {
-    text: 'Reject',
-    color: 'red',
-  },
-  UNKNOWN: {
-    text: 'unknown',
-    color: 'grey',
-  },
-};
-
-// TODO: missing BCeID flow:
-export const getPrStatus = (state, merged) => {
-  const isMerged = merged ? true : false;
-  switch (state) {
-    case 'open':
-      return prStatus.OPEN;
-    case 'closed':
-      return isMerged ? prStatus.SUCCESS : prStatus.FAILED;
-    default:
-      // throw Error(`Unknow PR state: ${state}!`);
-      return prStatus.UNKNOWN;
-  }
 };
