@@ -49,7 +49,7 @@ export const PR_STATUS = {
 export const GITHUB_LABELS = {
   BCEID: 'bceid-requested',
   FAILED: 'request-failed',
-  READY: 'ready-for-review',
+  READY: 'request-ready',
   REJECTED: 'request-rejected',
 };
 
