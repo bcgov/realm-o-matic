@@ -23,12 +23,12 @@
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
 import {
-  updatePRState,
   createRecord,
   getRecords,
   getRequestContent,
+  alterPRLabels,
 } from '../../libs/gh-utils/gh-ops';
-import { getPR, addLabel } from '../../libs/gh-utils/gh-requests';
+import { addLabel } from '../../libs/gh-utils/gh-requests';
 import { GITHUB_LABELS } from '../../constants/github';
 
 const router = new Router();
@@ -68,8 +68,8 @@ const router = new Router();
 
 /**
  * BCeID approval:
- * - Update a request with BCeID when this IDP is approved
- * - Add the READY label
+ * - Update a request with BCeID when this IDP is approved, add the READY label
+ * - When rejected, add the REJECTED label
  */
 router.put(
   '/records/setReady/:prNumber',
@@ -77,10 +77,12 @@ router.put(
     const { prNumber } = req.params;
     const { approvalContent } = req.body;
     try {
+      // TODO: handle rejection message
       const { isApproved, message } = approvalContent;
 
-      if (!isApproved) await addLabel(prNumber, [GITHUB_LABELS.REJECTED]);
-      else await addLabel(prNumber, [GITHUB_LABELS.READY]);
+      // Alter between labels of rejected and ready:
+      if (!isApproved) await alterPRLabels(prNumber, GITHUB_LABELS.READY, GITHUB_LABELS.REJECTED);
+      else await alterPRLabels(prNumber, GITHUB_LABELS.REJECTED, GITHUB_LABELS.READY);
 
       res.status(204).end();
     } catch (err) {

@@ -152,6 +152,14 @@ export const addLabel = (prNumber, labels) =>
   ghHelper(shared.gh.issues.addLabels, { issue_number: prNumber, labels });
 
 /**
+ * Remove a label from a PR:
+ * @param {Number} prNumber number of PR
+ * @param {String} labelName label name
+ */
+export const deleteLabel = (prNumber, labelName) =>
+  ghHelper(shared.gh.issues.removeLabel, { issue_number: prNumber, name: labelName });
+
+/**
  * Merge a pull request:
  * @param {Number} prNumber number of PR
  */

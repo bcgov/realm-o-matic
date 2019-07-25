@@ -38,6 +38,7 @@ import {
   getFileBlob,
   createFile,
   addLabel,
+  deleteLabel,
   mergePR,
   deleteBranch,
 } from './gh-requests';
@@ -160,3 +161,24 @@ export const updatePRState = async (pr, mergeAndClose, label, message = null) =>
     throw err;
   }
 };
+
+/**
+ * Update PR labels
+ * @param {Number} prNumber PR number
+ * @param {String} originalLableName the label to be removed
+ * @param {String} newLabelName the new label to add to PR
+ */
+export const alterPRLabels = async (prNumber, originalLableName, newLabelName) => {
+  try {
+    await addLabel(prNumber, [newLabelName]);
+    // Ignore failure in removing label:
+    try {
+      await deleteLabel(prNumber, originalLableName);
+    } catch (error) {
+      logger.error(`Trying to remove label ${originalLableName} from PR #${prNumber}: ${error}`);
+    }
+  } catch (err) {
+    logger.error(`Fail to update PR labels: ${err.message}`);
+    throw err;
+  }
+}
