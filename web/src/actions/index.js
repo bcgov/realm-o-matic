@@ -48,3 +48,4 @@ export const authorizationActionSet = standardActionSetWrapper(AUTHORIZATION);
 export const getIdpsActionSet = standardActionSetWrapper(GET_IDPS);
 export const getRecordActionSet = standardActionSetWrapper(GET_RECORD);
 export const newRequestActionSet = standardActionSetWrapper(NEW_REQUEST);
+export const approveRequestActionSet = standardActionSetWrapper(APPROVE_REQUEST);

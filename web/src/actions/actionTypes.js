@@ -40,3 +40,4 @@ export const GET_REQUESTS = standardActionTypeWrapper('GET_REQUESTS');
 export const NEW_REQUEST = standardActionTypeWrapper('NEW_REQUEST');
 export const AUTHORIZATION = standardActionTypeWrapper('AUTHORIZATION');
 export const GET_RECORD = standardActionTypeWrapper('GET_RECORD');
+export const APPROVE_REQUEST = standardActionTypeWrapper('APPROVE_REQUEST');
