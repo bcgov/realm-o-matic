@@ -29,6 +29,7 @@ export class ReviewRequest extends Component {
       recordInfo,
       getRecordStarted,
       getRecordError,
+      approveRequestAction,
       approveRequestStarted,
       approveRequestCompleted,
     } = this.props;
