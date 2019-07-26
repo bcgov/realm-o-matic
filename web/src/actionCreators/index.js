@@ -143,7 +143,7 @@ export const approveRequestAction = (number, isApproved, message = null) => {
 
     try {
       await axiSSO.post(API.APPROVE_REQUEST(number), {
-        approvalConten: {
+        approvalContent: {
           isApproved,
           message,
         },
