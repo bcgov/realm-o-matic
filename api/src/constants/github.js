@@ -20,14 +20,6 @@
 
 'use strict';
 
-// TODO: move to constants folder
-export const ACCESS_CONTROL = {
-  SA_ROLE: 'devhub_kc_web',
-  REQUESTER_ROLE: 'devhub_kc_requester',
-  REVIEWER_ROLE: 'devhub_kc_reviewer',
-  NO_ROLE: 'unauthorized',
-};
-
 export const REALM_SCHEMA = {
   type: 'object',
   required: ['id', 'displayName', 'adminUser', 'idps', 'po'],
@@ -116,14 +108,8 @@ export const GITHUB_JSON_PATH = {
 };
 
 export const GITHUB_LABELS = {
+  READY: 'request-ready',
   BCEID: 'bceid-requested',
   FAILED: 'request-failed',
-  READY: 'ready-for-review',
   REJECTED: 'request-rejected',
-};
-
-export const KEYCLOAK_TERMS = {
-  BCEID: 'bceid',
-  IDIR: 'idir',
-  GITHUB: 'github',
 };

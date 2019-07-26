@@ -65,6 +65,22 @@ nconf.overrides({
     port: process.env.EMAIL_PORT,
     sender: process.env.EMAIL_SENDER,
   },
+  emailContacts: {
+    admin: {
+      to: process.env.ADMIN_EMAIL || '',
+      info: {
+        firstName: 'Admin',
+        lastName: 'User',
+      }
+    },
+    reviewer: {
+      to: process.env.REVIEW_EMAIL || '',
+      info: {
+        firstName: 'Realm',
+        lastName: 'Reviewer',
+      }
+    }
+  }
 });
 
 export default nconf;

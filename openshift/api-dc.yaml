@@ -92,6 +92,10 @@ objects:
               secretKeyRef:
                 name: realmomatic-api-email
                 key: EMAIL_SENDER
+          - name: REVIEW_EMAIL
+            value: ${REVIEW_EMAIL_VALUE}
+          - name: ADMIN_EMAIL
+            value: ${ADMIN_EMAIL_VALUE}
     test: false
     triggers:
     - type: ConfigChange
@@ -178,5 +182,15 @@ parameters:
 - description: The client id of the api sso client
   displayName: Realm-o-matic api sso
   name: API_SSO_CLIENT_ID_VALUE
+  required: false
+  value: ''
+- description: The email address of keycloak realm reviewer
+  displayName: Keycloak realm reviewer email
+  name: REVIEW_EMAIL_VALUE
+  required: false
+  value: ''
+- description: The email address of keycloak admin
+  displayName: Keycloak admin email
+  name: ADMIN_EMAIL_VALUE
   required: false
   value: ''

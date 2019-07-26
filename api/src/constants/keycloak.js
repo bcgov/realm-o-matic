@@ -18,9 +18,21 @@
 // Created by Shelly Xue Han
 //
 
-// eslint-disable-next-line import/prefer-default-export
 export const KEYCLOAK_REALM_LINKS = realmName => [
   `https://sso-dev.pathfinder.gov.bc.ca/auth/admin/${realmName}/console/`,
   `https://sso-test.pathfinder.gov.bc.ca/auth/admin/${realmName}/console/`,
   `https://sso.pathfinder.gov.bc.ca/auth/admin/${realmName}/console/`,
 ];
+
+export const KEYCLOAK_TERMS = {
+  BCEID: 'bceid',
+  IDIR: 'idir',
+  GITHUB: 'github',
+};
+
+export const ACCESS_CONTROL = {
+  SA_ROLE: 'devhub_kc_web',
+  REQUESTER_ROLE: 'devhub_kc_requester',
+  REVIEWER_ROLE: 'devhub_kc_reviewer',
+  NO_ROLE: 'unauthorized',
+};

@@ -22,7 +22,7 @@
 
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
-import { ACCESS_CONTROL } from '../../constants';
+import { ACCESS_CONTROL } from '../../constants/keycloak';
 
 const router = new Router();
 
