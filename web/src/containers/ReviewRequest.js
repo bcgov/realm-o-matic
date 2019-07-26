@@ -6,7 +6,7 @@ import { FormHeader, LoaderDimmer, PopUp } from '../components/UI';
 import { TEST_IDS } from '../constants/ui';
 import { ACCESS_CONTROL } from '../constants/auth';
 import { formJson } from '../constants/form';
-import { PR_STATUS, getPrStatus } from '../constants/github';
+import { REQUEST_STATUS, getPrStatus } from '../constants/github';
 import { getRecordAction, approveRequestAction } from '../actionCreators';
 import { RequestForm } from '../components/Request/RequestForm';
 
@@ -60,7 +60,7 @@ export class ReviewRequest extends Component {
 
     const recordStatus = recordInfo
       ? getPrStatus(recordInfo.prState, recordInfo.prMerged, recordInfo.labels)
-      : PR_STATUS.UNKNOWN;
+      : REQUEST_STATUS.UNKNOWN;
 
     const title = (
       <div>
@@ -74,7 +74,7 @@ export class ReviewRequest extends Component {
         title={title}
         hideAction={
           authCode !== ACCESS_CONTROL.REVIEWER_ROLE ||
-          recordStatus !== PR_STATUS.OPEN ||
+          recordStatus !== REQUEST_STATUS.OPEN ||
           approveRequestCompleted ||
           approveRequestStarted
         }

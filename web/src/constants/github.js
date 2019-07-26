@@ -18,7 +18,7 @@
 // Created by Shelly Xue Han
 //
 
-export const PR_STATUS = {
+export const REQUEST_STATUS = {
   OPEN: {
     text: 'Open',
     color: 'orange',
@@ -53,17 +53,22 @@ export const GITHUB_LABELS = {
   REJECTED: 'request-rejected',
 };
 
+export const GITHUB_PR_STATUS = {
+  OPEN: 'open',
+  CLOSED: 'closed',
+};
+
 export const getPrStatus = (state, merged, labels = []) => {
   const isMerged = merged ? true : false;
   switch (state) {
-    case 'open':
-      if (labels.includes(GITHUB_LABELS.READY)) return PR_STATUS.PROCESSING;
-      else if (labels.includes(GITHUB_LABELS.REJECTED)) return PR_STATUS.REJECT;
-      else return PR_STATUS.OPEN;
-    case 'closed':
-      return isMerged ? PR_STATUS.SUCCESS : PR_STATUS.FAILED;
+    case GITHUB_PR_STATUS.OPEN:
+      if (labels.includes(GITHUB_LABELS.READY)) return REQUEST_STATUS.PROCESSING;
+      else if (labels.includes(GITHUB_LABELS.REJECTED)) return REQUEST_STATUS.REJECT;
+      else return REQUEST_STATUS.OPEN;
+    case GITHUB_PR_STATUS.CLOSED:
+      return isMerged ? REQUEST_STATUS.SUCCESS : REQUEST_STATUS.FAILED;
     default:
       // throw Error(`Unknow PR state: ${state}!`);
-      return PR_STATUS.UNKNOWN;
+      return REQUEST_STATUS.UNKNOWN;
   }
 };

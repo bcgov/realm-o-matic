@@ -27,20 +27,48 @@ exports[`Home Component blocks when not authed 1`] = `
 `;
 
 exports[`Home Component has link to create a new request 1`] = `
-<div>
+<div
+  class="css-1oby85c-StyledTableHeader e1c48y920"
+>
   <h2>
     Welcome!
   </h2>
-  <a
-    data-testid="new-request-button"
-    href="/Request/new"
+  <div
+    class="ui text menu"
   >
-    <button
-      class="ui button"
+    <div
+      class="item"
     >
-      Start Request
-    </button>
-  </a>
+      <a
+        data-testid="new-request-button"
+        href="/Request/new"
+      >
+        <button
+          class="ui button"
+        >
+          New Request
+        </button>
+      </a>
+    </div>
+    <div
+      class="right item"
+    >
+      <div
+        class="ui toggle checkbox"
+      >
+        <input
+          class="hidden"
+          readonly=""
+          tabindex="0"
+          type="radio"
+          value=""
+        />
+        <label>
+          Show All
+        </label>
+      </div>
+    </div>
+  </div>
   <p />
   <div
     class="ui small active text centered inline loader css-q2g0g-StyledLoader e1eih1xm0"
