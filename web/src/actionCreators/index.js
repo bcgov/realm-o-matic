@@ -142,7 +142,7 @@ export const approveRequestAction = (number, isApproved, message = null) => {
     dispatch(approveRequestActionSet.start());
 
     try {
-      await axiSSO.post(API.APPROVE_REQUEST(number), {
+      await axiSSO.put(API.APPROVE_REQUEST(number), {
         approvalContent: {
           isApproved,
           message,
