@@ -23,7 +23,7 @@
 import { getJwtCertificate, logger } from '@bcgov/common-nodejs-utils';
 import passport from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
-import { ACCESS_CONTROL } from '../constants';
+import { ACCESS_CONTROL } from '../constants/keycloak';
 import config from '../config';
 
 // Match user role to any acceptable roles:

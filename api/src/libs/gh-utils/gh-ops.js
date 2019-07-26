@@ -21,7 +21,8 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS, KEYCLOAK_TERMS } from '../../constants';
+import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS } from '../../constants/github';
+import { KEYCLOAK_TERMS } from '../../constants/keycloak';
 import {
   FORM_CONTENT_TO_REQUEST,
   REQUEST_TO_FORM_CONTENT,
@@ -37,6 +38,7 @@ import {
   getFileBlob,
   createFile,
   addLabel,
+  deleteLabel,
   mergePR,
   deleteBranch,
 } from './gh-requests';
@@ -70,11 +72,15 @@ export const createRecord = async (bName, requestContent) => {
       requester: normalizedContent.requester,
     };
     const pr = await createPR(normalizedContent.realm.displayName, newBranchRef, prContent);
-
-    // if bceid is required, need to add the label to PR
-    if (normalizedContent.realm.idps.includes(KEYCLOAK_TERMS.BCEID))
+    
+    // add label:
+    if (normalizedContent.realm.idps.includes(KEYCLOAK_TERMS.BCEID)) {
+      // if bceid is required, need to add the label to PR
       await addLabel(pr.number, [GITHUB_LABELS.BCEID]);
-
+    } else {
+      // if no approval needed, label as ready
+      await addLabel(pr.number, [GITHUB_LABELS.READY]);
+    }
     return pr.number;
   } catch (err) {
     logger.error(`Fail to create a request record: ${err.message}`);
@@ -155,3 +161,24 @@ export const updatePRState = async (pr, mergeAndClose, label, message = null) =>
     throw err;
   }
 };
+
+/**
+ * Update PR labels
+ * @param {Number} prNumber PR number
+ * @param {String} originalLableName the label to be removed
+ * @param {String} newLabelName the new label to add to PR
+ */
+export const alterPRLabels = async (prNumber, originalLableName, newLabelName) => {
+  try {
+    await addLabel(prNumber, [newLabelName]);
+    // Ignore failure in removing label:
+    try {
+      await deleteLabel(prNumber, originalLableName);
+    } catch (error) {
+      logger.error(`Trying to remove label ${originalLableName} from PR #${prNumber}: ${error}`);
+    }
+  } catch (err) {
+    logger.error(`Fail to update PR labels: ${err.message}`);
+    throw err;
+  }
+}
