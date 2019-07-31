@@ -135,6 +135,15 @@ export const getRecordAction = number => {
 };
 
 /**
+ * Simply refresh the record status
+ */
+const refreshRecord = async (dispatch, number) => {
+  const res = await axiSSO.get(API.REQUESTS(number));
+  const record = res.data;
+  return dispatch(getRecordActionSet.success({ recordInfo: record }));
+};
+
+/**
  * Set the approval status of a request
  */
 export const approveRequestAction = (number, isApproved, message = null) => {
@@ -148,6 +157,8 @@ export const approveRequestAction = (number, isApproved, message = null) => {
           message,
         },
       });
+      // Update record status
+      await refreshRecord(dispatch, number);
 
       return dispatch(approveRequestActionSet.success());
     } catch (err) {
