@@ -5,6 +5,7 @@ import {
   getRequestsActionSet,
   newRequestActionSet,
   getRecordActionSet,
+  approveRequestActionSet,
 } from '../actions';
 import implicitAuthManager from '../utils/auth';
 import { API } from '../constants/request';
@@ -129,6 +130,40 @@ export const getRecordAction = number => {
     } catch (err) {
       const errorMessage = `Fail to fetch the record: ${err}`;
       return dispatch(getRecordActionSet.error({ errorMessage }));
+    }
+  };
+};
+
+/**
+ * Simply refresh the record status
+ */
+const refreshRecord = async (dispatch, number) => {
+  const res = await axiSSO.get(API.REQUESTS(number));
+  const record = res.data;
+  return dispatch(getRecordActionSet.success({ recordInfo: record }));
+};
+
+/**
+ * Set the approval status of a request
+ */
+export const approveRequestAction = (number, isApproved, message = null) => {
+  return async (dispatch, getState) => {
+    dispatch(approveRequestActionSet.start());
+
+    try {
+      await axiSSO.put(API.APPROVE_REQUEST(number), {
+        approvalContent: {
+          isApproved,
+          message,
+        },
+      });
+      // Update record status
+      await refreshRecord(dispatch, number);
+
+      return dispatch(approveRequestActionSet.success());
+    } catch (err) {
+      const errorMessage = `Fail to set request approval status: ${err}`;
+      return dispatch(approveRequestActionSet.error({ errorMessage }));
     }
   };
 };

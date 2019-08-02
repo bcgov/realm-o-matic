@@ -62,6 +62,7 @@ const mapStateToProps = state => {
     authorization: state.authorization,
     newRequest: state.newRequest,
     getRecord: state.getRecord,
+    approveRequest: state.approveRequest,
   };
 };
 

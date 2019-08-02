@@ -7,6 +7,7 @@ import {
   NEW_REQUEST,
   AUTHORIZATION,
   GET_RECORD,
+  APPROVE_REQUEST,
 } from '../actions/actionTypes';
 
 const authentication = (state = { isAuthenticated: false, userInfo: {}, userId: null }, action) => {
@@ -175,6 +176,34 @@ const getRecord = (
   }
 };
 
+const approveRequest = (
+  state = { approveRequestStarted: false, approveRequestCompleted: false, errorMessage: null },
+  action
+) => {
+  switch (action.type) {
+    case APPROVE_REQUEST.START:
+      return {
+        approveRequestStarted: true,
+        approveRequestCompleted: false,
+        errorMessage: null,
+      };
+    case APPROVE_REQUEST.SUCCESS:
+      return {
+        approveRequestStarted: false,
+        approveRequestCompleted: true,
+        errorMessage: null,
+      };
+    case APPROVE_REQUEST.ERROR:
+      return {
+        approveRequestStarted: false,
+        approveRequestCompleted: false,
+        errorMessage: action.payload.errorMessage,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   authentication,
   getIdps,
@@ -182,6 +211,7 @@ const rootReducer = combineReducers({
   newRequest,
   authorization,
   getRecord,
+  approveRequest,
 });
 
 export default rootReducer;

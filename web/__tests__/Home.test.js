@@ -96,7 +96,7 @@ describe('Home Component', () => {
       </Router>
     );
 
-    expect(getByTestId(TEST_IDS.APP.NEW_REQUEST)).toHaveTextContent('Start Request');
+    expect(getByTestId(TEST_IDS.APP.NEW_REQUEST)).toHaveTextContent('New Request');
     expect(container.firstChild).toMatchSnapshot();
   });
 
