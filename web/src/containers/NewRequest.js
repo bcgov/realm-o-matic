@@ -32,7 +32,7 @@ export class NewRequest extends Component {
 
     const onComplete = result => {
       this.setState({
-        formData: result.data,
+        formData: { ...result.data, ...{ requesterIDIR: userId } },
         isDisplayMode: true,
       });
       // Scroll to top:
