@@ -31,13 +31,14 @@ export class NewRequest extends Component {
     const scroll = Scroll.animateScroll;
 
     const onComplete = result => {
+      const newFormData = { ...result.data, ...{ requesterIDIR: userId } };
       this.setState({
-        formData: { ...result.data, ...{ requesterIDIR: userId } },
+        formData: newFormData,
         isDisplayMode: true,
       });
       // Scroll to top:
       scroll.scrollToTop();
-      newRequest(this.state.formData);
+      newRequest(newFormData);
     };
 
     const initInfo = this.state.formData
