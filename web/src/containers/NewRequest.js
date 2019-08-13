@@ -37,7 +37,7 @@ export class NewRequest extends Component {
       });
       // Scroll to top:
       scroll.scrollToTop();
-      newRequest(result.data);
+      newRequest(this.state.formData);
     };
 
     const initInfo = this.state.formData
