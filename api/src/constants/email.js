@@ -52,8 +52,8 @@ export const PR_ACTIONS = {
 
 // From env var:
 export const EMAIL_CONTACTS = {
-  REVIEWER: config.get('emailContacts.reviewer'),
-  ADMIN: config.get('emailContacts.admin'),
+  REVIEWER: config.get('emailContacts:reviewer'),
+  ADMIN: config.get('emailContacts:admin'),
 };
 
 export const APP_LINK_WITH_REALM = number => `https://${config.get('host')}/Request/${number}`;

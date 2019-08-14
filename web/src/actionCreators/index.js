@@ -50,7 +50,7 @@ export const authorizationAction = (id, roles = []) => {
     } catch (err) {
       // authmware in api throws 401 for no role user:
       if (err.response.status === 401)
-        return dispatch(authorizationActionSet.success(ACCESS_CONTROL.NO_ROLE));
+        return dispatch(authorizationActionSet.success({ authCode: ACCESS_CONTROL.NO_ROLE }));
       const errorMessage = `Fail to authorize: ${err}, please refresh page.`;
       return dispatch(authorizationActionSet.error({ errorMessage }));
     }
