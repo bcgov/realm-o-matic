@@ -25,7 +25,7 @@ export const KEYCLOAK_REALM_LINKS = realmName => [
 ];
 
 export const KEYCLOAK_TERMS = {
-  BCEID: 'bceid',
+  BCEID: 'BCeID',
   IDIR: 'idir',
   GITHUB: 'github',
 };
