@@ -32,7 +32,6 @@ export class App extends Component {
             component={NewRequest}
             authCode={this.props.authorization.authCode}
           />
-          {/* TODO: use nunmber or ID ? */}
           <Route path="/Request/:id" component={ReviewRequest} />
           <ProtectedRoute
             path="/home"

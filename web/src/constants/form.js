@@ -142,7 +142,7 @@ const idpInfo = {
           title: 'Forecast of anticipated growth over the next year',
           isRequired: true,
         },
-        // TODO: better sytle date picker
+        // TODO: better style date picker
         {
           type: 'text',
           inputType: 'date',

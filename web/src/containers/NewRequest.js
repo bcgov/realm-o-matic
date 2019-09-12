@@ -57,7 +57,7 @@ export class NewRequest extends Component {
 
     return (
       <div>
-        <LoaderDimmer text="Processing Reuqest..." idDim={newRequestStarted}>
+        <LoaderDimmer text="Processing Request..." idDim={newRequestStarted}>
           <h2>Realm Request Form</h2>
           {statusMessage}
           <RequestForm
