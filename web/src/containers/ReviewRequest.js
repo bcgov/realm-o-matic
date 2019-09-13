@@ -86,7 +86,7 @@ export class ReviewRequest extends Component {
 
     return (
       <div>
-        <LoaderDimmer text="Loading Reuqest..." idDim={getRecordStarted}>
+        <LoaderDimmer text="Loading Request..." idDim={getRecordStarted}>
           {actionHeader}
           {statusMessage}
           {content}

@@ -68,7 +68,7 @@ export const getPrStatus = (state, merged, labels = []) => {
     case GITHUB_PR_STATUS.CLOSED:
       return isMerged ? REQUEST_STATUS.SUCCESS : REQUEST_STATUS.FAILED;
     default:
-      // throw Error(`Unknow PR state: ${state}!`);
+      // throw Error(`Unknown PR state: ${state}!`);
       return REQUEST_STATUS.UNKNOWN;
   }
 };
