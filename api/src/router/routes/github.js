@@ -80,8 +80,8 @@ router.put(
       const { isApproved, message } = approvalContent;
 
       // Alter between labels of rejected and ready:
-      if (!isApproved) await alterPRLabels(prNumber, GITHUB_LABELS.READY, GITHUB_LABELS.REJECTED);
-      else await alterPRLabels(prNumber, GITHUB_LABELS.REJECTED, GITHUB_LABELS.READY);
+      if (!isApproved) await alterPRLabels(prNumber, GITHUB_LABELS.READY, GITHUB_LABELS.BCEID_REJECTED);
+      else await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_REJECTED, GITHUB_LABELS.READY);
 
       res.status(204).end();
     } catch (err) {
