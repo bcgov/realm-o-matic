@@ -37,10 +37,12 @@ export const EMAIL_CONFIG = {
 };
 
 export const EMAIL_TYPE_TO_PATH = {
-  BCEID: 'requestBceid',
   STARTED: 'requestStarted',
   COMPLETED: 'requestCompleted',
   FAILED: 'requestFailed',
+  BCEID_STARTED: 'bceid/requestBceidStarted',
+  BCEID_REJECTED: 'bceid/requestBceidRejected',
+  BCEID_COMPLETED: 'bceid/requestBceidCompleted',
 };
 
 export const PR_ACTIONS = {

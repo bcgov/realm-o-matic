@@ -109,7 +109,9 @@ export const GITHUB_JSON_PATH = {
 
 export const GITHUB_LABELS = {
   READY: 'request-ready',
-  BCEID: 'bceid-requested',
   FAILED: 'request-failed',
-  REJECTED: 'request-rejected',
+  COMPLETED: 'realm-created',
+  BCEID: 'bceid-requested',
+  BCEID_REJECTED: 'bceid-rejected',
+  BCEID_COMPLETED: 'bceid-enabled',
 };
