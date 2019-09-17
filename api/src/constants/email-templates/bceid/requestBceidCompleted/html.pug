@@ -3,7 +3,7 @@ html
     meta(name='viewport', content='width=device-width')
     meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
     style
-      include ../email.css
+      include ../../email.css
     title Realm-o-Matic Email Notification
   body
     table.body-wrap
@@ -14,7 +14,7 @@ html
               table.main
                 tbody
                   tr
-                    td.header KeyCloak Realm Created
+                    td.header BCeID Enabled for Production KeyCloak Realm
                   tr
                     td.content-wrap
                       table.message-content
@@ -22,26 +22,14 @@ html
                           tr
                             td Hi #{name},
                           tr
-                            td
-                              | Keycloak realms 
-                              strong #{realmName} 
-                              | have been successfully created.
-                          tr
-                            td
-                              | Following are links to the realms in Dev, Test and Production environments, 
-                              strong only admin user 
-                              | have access:
-                              ol
-                                each link in realmLinks
-                                  li= link
+                            td As you have requested BCeID integration with Keycloak Realm #{realmName}, IDIM team has reviewed your application and approved on the usage.
+                            td As a result, BCeID identity provider has been enabled in your production realm.
                           tr
                             td You can view the request details in
                           tr
                             td.aligncenter
                               a.btn-primary(href=realmOMaticLink) Realm-o-Matic
                           tr
-                            td #[b If you are requesting for BCeID to be integrated], please pay attention here:
-                            tb BCeID identity provider will not be enabled in the production realm for you, until IDIM team has given the approval. To speed up the process, initiate a conversation with #[b IDIM team] at idim.consulting@gov.bc.ca on the details about BCeID usage ASAP!
                             td
                               | Please visit 
                               a(href='https://chat.pathfinder.gov.bc.ca/channel/realm-o-matic') RocketChat 
