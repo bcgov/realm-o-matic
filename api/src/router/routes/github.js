@@ -67,8 +67,9 @@ const router = new Router();
 
 /**
  * BCeID approval:
- * - Update a request with BCeID when this IDP is approved, add the READY label
- * - When rejected, add the REJECTED label
+ * TODO: update this flow with github PR review api
+ * - Update a PR with BCEID_REQUESTED label when BCeID is approved, add the READY label
+ * - When rejected, add the BCEID_REJECTED label
  */
 router.put(
   '/records/setReady/:prNumber',
@@ -80,8 +81,8 @@ router.put(
       const { isApproved, message } = approvalContent;
 
       // Alter between labels of rejected and ready:
-      if (!isApproved) await alterPRLabels(prNumber, GITHUB_LABELS.READY, GITHUB_LABELS.BCEID_REJECTED);
-      else await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_REJECTED, GITHUB_LABELS.READY);
+      if (!isApproved) await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_APPROVED, GITHUB_LABELS.BCEID_REJECTED);
+      else await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_REJECTED, GITHUB_LABELS.BCEID_APPROVED);
 
       res.status(204).end();
     } catch (err) {
