@@ -74,12 +74,11 @@ export const createRecord = async (bName, requestContent) => {
     const pr = await createPR(normalizedContent.realm.displayName, newBranchRef, prContent);
     
     // add label:
+    // When a PR is created, it's ready for the realm to be created:
+    await addLabel(pr.number, [GITHUB_LABELS.READY]);
     if (normalizedContent.realm.idps.includes(KEYCLOAK_TERMS.BCEID)) {
       // if bceid is required, need to add the label to PR
       await addLabel(pr.number, [GITHUB_LABELS.BCEID]);
-    } else {
-      // if no approval needed, label as ready
-      await addLabel(pr.number, [GITHUB_LABELS.READY]);
     }
     return pr.number;
   } catch (err) {
