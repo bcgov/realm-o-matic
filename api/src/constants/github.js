@@ -112,6 +112,7 @@ export const GITHUB_LABELS = {
   FAILED: 'request-failed',
   COMPLETED: 'realm-created',
   BCEID: 'bceid-requested',
+  BCEID_APPROVED: 'bceid-approved',
   BCEID_REJECTED: 'bceid-rejected',
   BCEID_COMPLETED: 'bceid-enabled',
 };
