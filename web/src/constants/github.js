@@ -47,10 +47,13 @@ export const REQUEST_STATUS = {
 };
 
 export const GITHUB_LABELS = {
-  BCEID: 'bceid-requested',
-  FAILED: 'request-failed',
   READY: 'request-ready',
-  REJECTED: 'request-rejected',
+  FAILED: 'request-failed',
+  COMPLETED: 'realm-created',
+  BCEID: 'bceid-requested',
+  BCEID_APPROVED: 'bceid-approved',
+  BCEID_REJECTED: 'bceid-rejected',
+  BCEID_COMPLETED: 'bceid-enabled',
 };
 
 export const GITHUB_PR_STATUS = {
@@ -63,7 +66,7 @@ export const getPrStatus = (state, merged, labels = []) => {
   switch (state) {
     case GITHUB_PR_STATUS.OPEN:
       if (labels.includes(GITHUB_LABELS.READY)) return REQUEST_STATUS.PROCESSING;
-      else if (labels.includes(GITHUB_LABELS.REJECTED)) return REQUEST_STATUS.REJECT;
+      else if (labels.includes(GITHUB_LABELS.BCEID_REJECTED)) return REQUEST_STATUS.REJECT;
       else return REQUEST_STATUS.OPEN;
     case GITHUB_PR_STATUS.CLOSED:
       return isMerged ? REQUEST_STATUS.SUCCESS : REQUEST_STATUS.FAILED;
