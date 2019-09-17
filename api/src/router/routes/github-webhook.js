@@ -85,7 +85,7 @@ router.post(
 
       switch (action) {
         case PR_ACTIONS.OPENED:
-          // Notify requester when in prgress:
+          // New request in progress, notify requester:
           await setMailer(
             payload.requester.email,
             payload.requester,
@@ -94,33 +94,71 @@ router.post(
           );
           break;
         case PR_ACTIONS.LABELED:
-          // For error message or rejection:
-          if (label.name === GITHUB_LABELS.FAILED || label.name === GITHUB_LABELS.REJECTED) {
-            await setMailer(
-              EMAIL_CONTACTS.ADMIN.to,
-              EMAIL_CONTACTS.ADMIN.info,
-              realmInfo,
-              EMAIL_TYPE_TO_PATH.FAILED
-            );
-          } else if (label.name === GITHUB_LABELS.BCEID) {
-            await setMailer(
-              EMAIL_CONTACTS.REVIEWER.to,
-              EMAIL_CONTACTS.REVIEWER.info,
-              realmInfo,
-              EMAIL_TYPE_TO_PATH.BCEID
-            );
+          switch (label.name) {
+            // Realm creation is finished, notify Requester:
+            case GITHUB_LABELS.COMPLETED:
+                await setMailer(
+                  payload.requester.email,
+                  payload.requester,
+                  realmInfo,
+                  EMAIL_TYPE_TO_PATH.COMPLETED
+                );
+                break;
+            // BCeID is enabled, notify Requester and Reviewer:
+            case GITHUB_LABELS.BCEID_COMPLETED:
+                await setMailer(
+                  payload.requester.email,
+                  payload.requester,
+                  realmInfo,
+                  EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
+                );
+                await setMailer(
+                  EMAIL_CONTACTS.REVIEWER.to,
+                  EMAIL_CONTACTS.REVIEWER.info,
+                  realmInfo,
+                  EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
+                );
+                break;
+            // Realm creation failed, notify Admin:
+            case GITHUB_LABELS.FAILED:
+              await setMailer(
+                EMAIL_CONTACTS.ADMIN.to,
+                EMAIL_CONTACTS.ADMIN.info,
+                realmInfo,
+                EMAIL_TYPE_TO_PATH.FAILED
+              );
+              break;
+            // Reviewer rejected the request, notify Requester:
+            case GITHUB_LABELS.BCEID_REJECTED:
+              await setMailer(
+                payload.requester.email,
+                payload.requester,
+                realmInfo,
+                EMAIL_TYPE_TO_PATH.BCEID_REJECTED
+              );
+              break;
+            // Request contains BCeID IDP, notify Reviewer:
+            case GITHUB_LABELS.BCEID:
+              await setMailer(
+                EMAIL_CONTACTS.REVIEWER.to,
+                EMAIL_CONTACTS.REVIEWER.info,
+                realmInfo,
+                EMAIL_TYPE_TO_PATH.BCEID_STARTED
+              );
+              break;
+            default:
+              // ignore the other labels:
+              break;
           }
-          // ignore the other labels:
           break;
+        // For successful realm creation, PR is closed and merged, notify Admin:
         case PR_ACTIONS.CLOSED:
-          // For successful realm creation, closed and merged:
           await setMailer(
-            payload.requester.email,
-            payload.requester,
+            EMAIL_CONTACTS.ADMIN.to,
+            EMAIL_CONTACTS.ADMIN.info,
             realmInfo,
             EMAIL_TYPE_TO_PATH.COMPLETED
           );
-          break;
         default:
           // ignore the rest:
           break;
