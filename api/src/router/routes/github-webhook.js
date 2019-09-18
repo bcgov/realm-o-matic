@@ -43,7 +43,7 @@ router.get(
         EMAIL_TEST_CONTENT.TO,
         EMAIL_TEST_CONTENT.USER_INFO,
         EMAIL_TEST_CONTENT.REALM_INFO,
-        EMAIL_TYPE_TO_PATH.FAILED
+        EMAIL_TYPE_TO_PATH.COMPLETED
       );
       res.status(200).json({ message: 'Email sent.' });
     } catch (err) {
