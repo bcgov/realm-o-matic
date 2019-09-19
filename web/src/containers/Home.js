@@ -70,7 +70,7 @@ export class Home extends Component {
     } else {
       const filteredRequests = this.state.showAllRequests
         ? requests
-        : requests.filter(request => request.prState === GITHUB_PR_STATUS.OPEN);
+        : requests.filter(request => request.prState === GITHUB_PR_STATUS.PENDING);
 
       requestsList = (
         <RequestList

@@ -75,7 +75,7 @@ export class ReviewRequest extends Component {
         title={title}
         hideAction={
           authCode !== ACCESS_CONTROL.REVIEWER_ROLE ||
-          recordStatus !== REQUEST_STATUS.OPEN ||
+          recordStatus !== REQUEST_STATUS.PENDING ||
           approveRequestCompleted ||
           approveRequestStarted
         }
