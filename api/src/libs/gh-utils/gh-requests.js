@@ -76,7 +76,7 @@ export const createBranch = (branchName, base) =>
  */
 export const createFile = (file, branchName) =>
   ghHelper(
-    shared.gh.repos.createFile,
+    shared.gh.repos.createOrUpdateFile,
     {
       path: GITHUB_REQUEST.recordPath(file.name),
       message: GITHUB_REQUEST.commitMessage(file.name),

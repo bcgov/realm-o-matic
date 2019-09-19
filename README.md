@@ -16,12 +16,13 @@ This application contains:
 - web frontend in React
 - api backend in Nodejs Express
 - record management with a private GitHub repository
+- authenticated via Pathfinder Keycloak
 
 ### Project Status
 In Development   
 
 ### Local Development
-1. Prerequisites: npm, docker and docker-compose
+1. Prerequisites: npm, docker and docker-compose, ngrok
 
 2. Install project dependencies:
 run `npm i` in both /api and /web directories
@@ -30,3 +31,7 @@ run `npm i` in both /api and /web directories
 
 4. Docker deploy using the `docker-compose.yaml`
 run `docker-compose up --build` at the root level of the repo 
+
+5. Expose frontend localhost with ngrok `npm ngrok http 3000`
+
+6. Add the ngrok url to Keycloak client's valid redirect uris to enable authentication
