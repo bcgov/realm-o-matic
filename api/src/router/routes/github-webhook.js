@@ -113,7 +113,7 @@ router.post(
               );
               // Check if BCeID is requested, if not, close and merge:
               if (!prLabels.includes(GITHUB_LABELS.BCEID)) {
-                await updatePRState(prInfo, true, message);
+                await updatePRState(prInfo, true, prInfo.message);
               }
               break;
             // BCeID is enabled, notify Requester and Reviewer:
@@ -131,7 +131,7 @@ router.post(
                 EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
               );
               // Close and merge PR:
-              await updatePRState(prInfo, true, message);
+              await updatePRState(prInfo, true, prInfo.message);
               break;
             // Realm creation failed, notify Admin:
             case GITHUB_LABELS.FAILED:
@@ -181,7 +181,7 @@ router.post(
       res.status(200).end();
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).send(`Unable to email notify user: ${err}.`);
+      res.status(errCode).send(`Unable to email notify user or close PR: ${err}.`);
     }
   })
 );
