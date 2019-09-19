@@ -65,8 +65,8 @@ export const getPrStatus = (state, merged, labels = []) => {
   const isMerged = merged ? true : false;
   switch (state) {
     case GITHUB_PR_STATUS.OPEN:
-      if (labels.includes(GITHUB_LABELS.READY)) return REQUEST_STATUS.PROCESSING;
-      else if (labels.includes(GITHUB_LABELS.BCEID_REJECTED)) return REQUEST_STATUS.REJECT;
+      if (labels.includes(GITHUB_LABELS.BCEID_REJECTED)) return REQUEST_STATUS.REJECT;
+      else if (labels.includes(GITHUB_LABELS.BCEID)) return REQUEST_STATUS.PROCESSING;
       else return REQUEST_STATUS.OPEN;
     case GITHUB_PR_STATUS.CLOSED:
       return isMerged ? REQUEST_STATUS.SUCCESS : REQUEST_STATUS.FAILED;
