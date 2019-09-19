@@ -45,7 +45,7 @@ const phases = {
     phase: 'prod',
     changeId,
     suffix: `-prod`,
-    instance: `${name}-prod-${changeId}`,
+    instance: `${name}-prod`,
     version: `${version}-${changeId}`,
     tag: `prod-${version}-${changeId}`,
     host: 'realm-o-matic.pathfinder.gov.bc.ca',
