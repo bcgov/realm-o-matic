@@ -33,7 +33,7 @@ export const REQUEST_STATUS = {
   },
   // for BCeID flow:
   PENDING: {
-    text: 'Open',
+    text: 'Pending',
     color: 'orange',
   },
   REJECT: {

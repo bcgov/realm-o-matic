@@ -7,7 +7,7 @@ import { Button, Menu, Radio } from 'semantic-ui-react';
 import styled from '@emotion/styled';
 import { TEST_IDS } from '../constants/ui';
 import { ACCESS_CONTROL } from '../constants/auth';
-import { GITHUB_PR_STATUS } from '../constants/github';
+import { REQUEST_STATUS } from '../constants/github';
 import { RequestList } from '../components/Request/RequestList';
 import { SpinLoader } from '../components/UI';
 import { getRequestsAction } from '../actionCreators';
@@ -70,7 +70,7 @@ export class Home extends Component {
     } else {
       const filteredRequests = this.state.showAllRequests
         ? requests
-        : requests.filter(request => request.prState === GITHUB_PR_STATUS.PENDING);
+        : requests.filter(request => request.prState === REQUEST_STATUS.PENDING);
 
       requestsList = (
         <RequestList
