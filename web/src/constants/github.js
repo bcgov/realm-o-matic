@@ -19,9 +19,9 @@
 //
 
 export const REQUEST_STATUS = {
-  OPEN: {
-    text: 'Open',
-    color: 'orange',
+  PROCESSING: {
+    text: 'Processing',
+    color: 'olive',
   },
   SUCCESS: {
     text: 'Success',
@@ -32,9 +32,9 @@ export const REQUEST_STATUS = {
     color: 'red',
   },
   // for BCeID flow:
-  PROCESSING: {
-    text: 'Processing',
-    color: 'olive',
+  PENDING: {
+    text: 'Pending',
+    color: 'orange',
   },
   REJECT: {
     text: 'Rejected',
@@ -65,9 +65,14 @@ export const getPrStatus = (state, merged, labels = []) => {
   const isMerged = merged ? true : false;
   switch (state) {
     case GITHUB_PR_STATUS.OPEN:
-      if (labels.includes(GITHUB_LABELS.READY)) return REQUEST_STATUS.PROCESSING;
+      // failed:
+      if (labels.includes(GITHUB_LABELS.FAILED)) return REQUEST_STATUS.FAILED;
+      // bceid rejected:
       else if (labels.includes(GITHUB_LABELS.BCEID_REJECTED)) return REQUEST_STATUS.REJECT;
-      else return REQUEST_STATUS.OPEN;
+      // when BCeID is requested, but not yet approved or completed, request is pending:
+      else if (labels.includes(GITHUB_LABELS.BCEID) && !labels.includes(GITHUB_LABELS.BCEID_APPROVED) && !labels.includes(GITHUB_LABELS.BCEID_COMPLETED)) return REQUEST_STATUS.PENDING;
+      // otherwise, before the PR is closed, some tasks is processing:
+      else return REQUEST_STATUS.PROCESSING;
     case GITHUB_PR_STATUS.CLOSED:
       return isMerged ? REQUEST_STATUS.SUCCESS : REQUEST_STATUS.FAILED;
     default:

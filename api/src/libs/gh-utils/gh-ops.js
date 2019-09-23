@@ -140,23 +140,25 @@ export const getRecords = async (prState = 'all', labels = [], userId = null) =>
 };
 
 /**
- * Update the state or label of a PR
- * @param {Number} pr pull request object
+ * Update the state of the PR: merging, closing or commenting
+ * TODO: add commenting feature
+ * @param {Number} prInfo pull request metadata: number and ref branch
  * @param {Boolean} mergeAndClose is ready to merge and close PR
- * @param {String} label the label to be added
  * @param {Object} message message to comment on PR
  */
-export const updatePRState = async (pr, mergeAndClose, label, message = null) => {
-  try {
-    const { isValid, payload } = validateSchema(pr, PR_SCHEMA);
-    if (!isValid) throw Error(payload);
-    logger.info(`The request from PR ${payload.number}, returns: ${message}.`);
+export const updatePRState = async (prInfo, mergeAndClose, message = null) => {
+  try {  
     if (mergeAndClose) {
-      await mergePR(payload.number);
-      await deleteBranch(payload.branch);
-    } else await addLabel(payload.number, [label]);
+      // When PR is ready to merge and close:
+      await mergePR(prInfo.number);
+      await deleteBranch(prInfo.ref);
+    } else if (message) {
+      // rejecting the PR and post messages
+    } else {
+      // rejecting the PR, no message
+    }
   } catch (err) {
-    logger.error(`Fail to get the list of PRs: ${err.message}`);
+    logger.error(`Fail to update the PR state: ${err.message}`);
     throw err;
   }
 };

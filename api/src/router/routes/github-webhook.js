@@ -25,6 +25,7 @@
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
 import { validateSchema } from '../../libs/utils';
+import { updatePRState } from '../../libs/gh-utils/gh-ops';
 import { PR_CONTENT_SCHEMA, GITHUB_LABELS } from '../../constants/github';
 import { setMailer } from '../../libs/email-utils';
 import { EMAIL_TYPE_TO_PATH, PR_ACTIONS, EMAIL_CONTACTS } from '../../constants/email';
@@ -59,17 +60,15 @@ router.get(
  * - use octokit/webhooks/verify to test secret (headers['x-hub-signature'];)
  * 
  * if PR started: email Requester
- * if BCeID label: email Reviewer
- * if failed label: email Admin
- * if rejected label: email Requester (TBD)
- * if merged and closed: email Requester
+ * if PR labeled: email accordingly based on the label
+ * if merged and closed: email Admin for full completion
  */
 router.post(
   '/pr',
   asyncMiddleware(async (req, res) => {
     const { body } = req;
     try {
-      // eslint-disable-next-line camelcase
+      // eslint-disable-next-line camel case
       const { action, number, pull_request, label } = body;
 
       // check if pr content is valid, need to parse the content as it's string:
@@ -83,6 +82,13 @@ router.post(
         realmName: payload.realmId,
       };
 
+      const prInfo = {
+        number,
+        ref: pull_request.head.ref,
+        // Set null until enabling message feature:
+        message: null,
+      };
+
       switch (action) {
         case PR_ACTIONS.OPENED:
           // New request in progress, notify requester:
@@ -94,31 +100,39 @@ router.post(
           );
           break;
         case PR_ACTIONS.LABELED:
+          // Obtain the labels assigned to the PR
+          const prLabels = pull_request.labels.map(l => l.name);
           switch (label.name) {
             // Realm creation is finished, notify Requester:
             case GITHUB_LABELS.COMPLETED:
-                await setMailer(
-                  payload.requester.email,
-                  payload.requester,
-                  realmInfo,
-                  EMAIL_TYPE_TO_PATH.COMPLETED
-                );
-                break;
+              await setMailer(
+                payload.requester.email,
+                payload.requester,
+                realmInfo,
+                EMAIL_TYPE_TO_PATH.COMPLETED
+              );
+              // Check if BCeID is requested, if not, close and merge:
+              if (!prLabels.includes(GITHUB_LABELS.BCEID)) {
+                await updatePRState(prInfo, true, prInfo.message);
+              }
+              break;
             // BCeID is enabled, notify Requester and Reviewer:
             case GITHUB_LABELS.BCEID_COMPLETED:
-                await setMailer(
-                  payload.requester.email,
-                  payload.requester,
-                  realmInfo,
-                  EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
-                );
-                await setMailer(
-                  EMAIL_CONTACTS.REVIEWER.to,
-                  EMAIL_CONTACTS.REVIEWER.info,
-                  realmInfo,
-                  EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
-                );
-                break;
+              await setMailer(
+                payload.requester.email,
+                payload.requester,
+                realmInfo,
+                EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
+              );
+              await setMailer(
+                EMAIL_CONTACTS.REVIEWER.to,
+                EMAIL_CONTACTS.REVIEWER.info,
+                realmInfo,
+                EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
+              );
+              // Close and merge PR:
+              await updatePRState(prInfo, true, prInfo.message);
+              break;
             // Realm creation failed, notify Admin:
             case GITHUB_LABELS.FAILED:
               await setMailer(
@@ -167,7 +181,7 @@ router.post(
       res.status(200).end();
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).send(`Unable to email notify user: ${err}.`);
+      res.status(errCode).send(`Unable to email notify user or close PR: ${err}.`);
     }
   })
 );
