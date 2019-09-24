@@ -40,10 +40,13 @@ export const FORM_CONTENT_TO_REQUEST = {
     forecastAmount: 'forecastAmount',
     prodDate: 'prodDate',
     useDate: 'useDate',
+    // v2:
+    appName: 'appName',
+    contactInfo: 'contactInfo',
+    orgInfo: 'orgInfo',
   },
 };
 
-// TODO: update the Product Owner to an user object
 export const REQUEST_TO_FORM_CONTENT = {
   id: 'id',
   realmId: 'realm.id',
@@ -60,6 +63,10 @@ export const REQUEST_TO_FORM_CONTENT = {
   forecastAmount: 'bceid.forecastAmount',
   prodDate: 'bceid.prodDate',
   useDate: 'bceid.useDate',
+  // v2:
+  appName: 'bceid.appName',
+  contactInfo: 'bceid.contactInfo',
+  orgInfo: 'bceid.orgInfo',
 };
 
 const FORM_CONTENT_SCHEMA_REQUIRED = [
@@ -92,5 +99,9 @@ export const FORM_CONTENT_SCHEMA = {
     forecastAmount: { type: 'integer' },
     prodDate: { format: 'date' },
     useDate: { format: 'date' },
+    // v2:
+    appName: { type: 'string' },
+    contactInfo: { type: 'array' },
+    orgInfo: { type: 'string' },
   },
 };
