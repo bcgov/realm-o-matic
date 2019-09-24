@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import Scroll from 'react-scroll';
 import { TEST_IDS } from '../constants/ui';
 import { LoaderDimmer } from '../components/UI';
-import { formJson, realmId } from '../constants/form';
+import { formJson, realmId, KC_IDP_NAMES } from '../constants/form';
 import { newRequest } from '../actionCreators';
 import { randomRealmId } from '../utils/requestHelpers';
 import { RequestForm } from '../components/Request/RequestForm';
@@ -41,12 +41,17 @@ export class NewRequest extends Component {
       newRequest(newFormData);
     };
 
+    // Pre-populate form data:
+    // 1. fetch user email and ID from session
+    // 2. assign random realm ID
+    // 3. make IDIR a mandatory choice
     const initInfo = this.state.formData
       ? this.state.formData
       : {
           realmId: randomRealmId(realmId.digit),
           requesterEmail: userInfo.email,
           requesterIDIR: userId,
+          idps: [KC_IDP_NAMES.IDIR],
         };
 
     const message = requestId ? `Your request has been submitted as ${requestId}.` : errorMessage;

@@ -18,6 +18,13 @@
 // Created by Shelly Xue Han
 //
 
+export const KC_IDP_NAMES = {
+  IDIR: 'IDIR',
+  GITHUB: "GitHub",
+  BCEID: "BCeID",
+  BCSC: "BCSC",
+}
+
 const basicInfo = {
   name: 'realmInfo',
   title: 'Realm Information',
@@ -106,6 +113,7 @@ const requesterInfo = {
   ],
 };
 
+// TODO: enable BCSC when ready
 const idpInfo = {
   name: 'idpInfo',
   title: 'Identity Provider Information',
@@ -115,12 +123,22 @@ const idpInfo = {
       name: 'idps',
       title: 'Required identity providers',
       isRequired: true,
-      choices: ['IDIR', 'GitHub', 'BCeID', 'BCSC'],
+      choices: [
+        {
+          value: KC_IDP_NAMES.IDIR,
+          text: 'IDIR ( Required for admin user login )',
+          enableIf: 'false',
+        },
+        KC_IDP_NAMES.GITHUB,
+        KC_IDP_NAMES.BCEID,
+        // KC_IDP_NAMES.BCSC,
+      ],
     },
     {
       type: 'panel',
       name: 'bceidInfo',
-      visibleIf: '{idps} contains BCeID',
+      visibleIf: `{idps} contains ${KC_IDP_NAMES.BCEID}`,
+      // visibleIf: '{idps} contains BCeID or {idps} contains BCSC',
       elements: [
         {
           type: 'text',
@@ -139,7 +157,7 @@ const idpInfo = {
           type: 'text',
           inputType: 'number',
           name: 'forecastAmount',
-          title: 'Forecast of anticipated growth over the next year',
+          title: 'Forecast of anticipated growth over the next 3 years',
           isRequired: true,
         },
         // TODO: better style date picker
