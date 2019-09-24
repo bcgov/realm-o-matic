@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Modal, Button } from 'semantic-ui-react';
 import { SSO_IDP } from '../../constants/auth';
 import { TEST_IDS } from '../../constants/ui';
+import { KC_IDP_NAMES } from '../../constants/form';
 
 const StyledModal = styled(Modal)`
   &&& {
@@ -25,11 +26,11 @@ export const AuthModal = ({ isAuthenticated }) => {
   const buttons = (
     <Button.Group onActionClick={null}>
       <Link to={{ pathname: `/login/${SSO_IDP.GITHUB}` }}>
-        <Button data-testid={TEST_IDS.AUTH.GITHUB_LOGIN}>GitHub</Button>
+        <Button data-testid={TEST_IDS.AUTH.GITHUB_LOGIN}>{KC_IDP_NAMES.GITHUB}</Button>
       </Link>
       <Button.Or />
       <Link to={{ pathname: `/login/${SSO_IDP.IDIR}` }}>
-        <Button data-testid={TEST_IDS.AUTH.IDIR_LOGIN}>IDIR</Button>
+        <Button data-testid={TEST_IDS.AUTH.IDIR_LOGIN}>{KC_IDP_NAMES.IDIR}</Button>
       </Link>
     </Button.Group>
   );
