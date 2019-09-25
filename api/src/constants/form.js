@@ -47,6 +47,22 @@ export const FORM_CONTENT_TO_REQUEST = {
   },
 };
 
+// Map the request bceid key contact to contact object:
+const BCEID_CONTACT_OBJECT = role => {
+  return {
+    name: `bceid.contactInfo.${role}.name`,
+    title: `bceid.contactInfo.${role}.title`,
+    email: `bceid.contactInfo.${role}.email`,
+  };
+};
+
+// Map role to each contact object:
+const BCEID_CONTACT_INFO_SCHEMA = roles => {
+  let temp = {};
+  roles.map(r => temp[r] = BCEID_CONTACT_OBJECT(r));
+  return temp;
+}
+
 export const REQUEST_TO_FORM_CONTENT = {
   id: 'id',
   realmId: 'realm.id',
@@ -65,7 +81,7 @@ export const REQUEST_TO_FORM_CONTENT = {
   useDate: 'bceid.useDate',
   // v2:
   appName: 'bceid.appName',
-  contactInfo: 'bceid.contactInfo',
+  contactInfo: BCEID_CONTACT_INFO_SCHEMA(['es', 'pm', 'tl', 'pl', 'sl', 'cl']),
   orgInfo: 'bceid.orgInfo',
 };
 
@@ -101,7 +117,7 @@ export const FORM_CONTENT_SCHEMA = {
     useDate: { format: 'date' },
     // v2:
     appName: { type: 'string' },
-    contactInfo: { type: 'array' },
+    contactInfo: { type: 'object' },
     orgInfo: { type: 'string' },
   },
 };
