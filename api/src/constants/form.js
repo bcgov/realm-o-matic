@@ -56,8 +56,12 @@ const BCEID_CONTACT_OBJECT = role => {
   };
 };
 
+// The contact roles for BCeID request:
+// Executive Sponsor, Project Manager, Technical Lead, Privacy Lead, Security Lead, Communications Lead
+const bceidContactRoles = ['es', 'pm', 'tl', 'pl', 'sl', 'cl'];
+
 // Map role to each contact object:
-export const BCEID_CONTACT_INFO_SCHEMA = roles => {
+export const mapBceidContactObjectForRoles = roles => {
   const temp = {};
   // eslint-disable-next-line no-return-assign
   roles.map(r => (temp[r] = BCEID_CONTACT_OBJECT(r)));
@@ -82,7 +86,7 @@ export const REQUEST_TO_FORM_CONTENT = {
   useDate: 'bceid.useDate',
   // v2:
   appName: 'bceid.appName',
-  contactInfo: BCEID_CONTACT_INFO_SCHEMA(['es', 'pm', 'tl', 'pl', 'sl', 'cl']),
+  contactInfo: mapBceidContactObjectForRoles(bceidContactRoles),
   orgInfo: 'bceid.orgInfo',
 };
 

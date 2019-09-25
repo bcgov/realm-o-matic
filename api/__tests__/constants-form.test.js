@@ -20,7 +20,7 @@
 
 'use strict';
 
-import { BCEID_CONTACT_INFO_SCHEMA } from '../src/constants/form';
+import { mapBceidContactObjectForRoles } from '../src/constants/form';
 
 const inputArray = ['role1', 'role2', 'role3'];
 const expectedContactObjects = {
@@ -43,6 +43,6 @@ const expectedContactObjects = {
 
 describe('BCEID_CONTACT_INFO_SCHEMA test', () => {
   test('return an object of contact objects', () => {
-    expect(BCEID_CONTACT_INFO_SCHEMA(inputArray)).toEqual(expectedContactObjects);
+    expect(mapBceidContactObjectForRoles(inputArray)).toEqual(expectedContactObjects);
   });
 });
