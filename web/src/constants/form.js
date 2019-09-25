@@ -21,10 +21,10 @@
 // Name convention for the identity providers' name on bcgov keycloak:
 export const KC_IDP_NAMES = {
   IDIR: 'IDIR',
-  GITHUB: "GitHub",
-  BCEID: "BCeID",
-  BCSC: "BCSC",
-}
+  GITHUB: 'GitHub',
+  BCEID: 'BCeID',
+  BCSC: 'BCSC',
+};
 
 /** The content to display on the request form:
  * page 1 - basicInfo: realm information
@@ -151,25 +151,30 @@ const bceidContactUsersInfo = {
   ],
   rows: [
     {
-        value: 'es',
-        text: 'Executive Sponsor'
-    }, {
-        value: 'pm',
-        text: 'Project Manager/Business Lead'
-    }, {
-        value: 'tl',
-        text: 'Technical Lead'
-    }, {
-        value: 'pl',
-        text: 'Privacy Lead'
-    }, {
+      value: 'es',
+      text: 'Executive Sponsor',
+    },
+    {
+      value: 'pm',
+      text: 'Project Manager/Business Lead',
+    },
+    {
+      value: 'tl',
+      text: 'Technical Lead',
+    },
+    {
+      value: 'pl',
+      text: 'Privacy Lead',
+    },
+    {
       value: 'sl',
-      text: 'Security Lead'
-    }, {
+      text: 'Security Lead',
+    },
+    {
       value: 'cl',
-      text: 'Communications  Lead'
-    }
-  ]
+      text: 'Communications  Lead',
+    },
+  ],
 };
 
 const bceidInfo = [

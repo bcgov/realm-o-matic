@@ -84,6 +84,7 @@ export class Home extends Component {
     return (
       <StyledTableHeader>
         <h2>Welcome!</h2>
+        {/* TODO: hide this button when there is ongoing request!! */}
         <Menu text>
           <Menu.Item>
             <Link to="/Request/new" data-testid={TEST_IDS.APP.NEW_REQUEST}>

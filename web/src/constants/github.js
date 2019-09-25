@@ -70,7 +70,12 @@ export const getPrStatus = (state, merged, labels = []) => {
       // bceid rejected:
       else if (labels.includes(GITHUB_LABELS.BCEID_REJECTED)) return REQUEST_STATUS.REJECT;
       // when BCeID is requested, but not yet approved or completed, request is pending:
-      else if (labels.includes(GITHUB_LABELS.BCEID) && !labels.includes(GITHUB_LABELS.BCEID_APPROVED) && !labels.includes(GITHUB_LABELS.BCEID_COMPLETED)) return REQUEST_STATUS.PENDING;
+      else if (
+        labels.includes(GITHUB_LABELS.BCEID) &&
+        !labels.includes(GITHUB_LABELS.BCEID_APPROVED) &&
+        !labels.includes(GITHUB_LABELS.BCEID_COMPLETED)
+      )
+        return REQUEST_STATUS.PENDING;
       // otherwise, before the PR is closed, some tasks is processing:
       else return REQUEST_STATUS.PROCESSING;
     case GITHUB_PR_STATUS.CLOSED:
