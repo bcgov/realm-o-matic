@@ -57,11 +57,12 @@ const BCEID_CONTACT_OBJECT = role => {
 };
 
 // Map role to each contact object:
-const BCEID_CONTACT_INFO_SCHEMA = roles => {
-  let temp = {};
-  roles.map(r => temp[r] = BCEID_CONTACT_OBJECT(r));
+export const BCEID_CONTACT_INFO_SCHEMA = roles => {
+  const temp = {};
+  // eslint-disable-next-line no-return-assign
+  roles.map(r => (temp[r] = BCEID_CONTACT_OBJECT(r)));
   return temp;
-}
+};
 
 export const REQUEST_TO_FORM_CONTENT = {
   id: 'id',

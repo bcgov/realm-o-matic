@@ -45,11 +45,14 @@ router.put(
     const { approvalContent } = req.body;
     try {
       // TODO: handle rejection message
+      // eslint-disable-next-line no-unused-vars
       const { isApproved, message } = approvalContent;
 
       // Alter between labels of rejected and ready:
-      if (!isApproved) await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_APPROVED, GITHUB_LABELS.BCEID_REJECTED);
-      else await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_REJECTED, GITHUB_LABELS.BCEID_APPROVED);
+      if (!isApproved)
+        await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_APPROVED, GITHUB_LABELS.BCEID_REJECTED);
+      else
+        await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_REJECTED, GITHUB_LABELS.BCEID_APPROVED);
 
       res.status(204).end();
     } catch (err) {

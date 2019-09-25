@@ -58,7 +58,7 @@ router.get(
  * Trigger by repo PR webhook and send email notification
  * TODO:
  * - use octokit/webhooks/verify to test secret (headers['x-hub-signature'];)
- * 
+ *
  * if PR started: email Requester
  * if PR labeled: email accordingly based on the label
  * if merged and closed: email Admin for full completion
@@ -68,7 +68,7 @@ router.post(
   asyncMiddleware(async (req, res) => {
     const { body } = req;
     try {
-      // eslint-disable-next-line camel case
+      // eslint-disable-next-line camelcase
       const { action, number, pull_request, label } = body;
 
       // check if pr content is valid, need to parse the content as it's string:
@@ -101,6 +101,7 @@ router.post(
           break;
         case PR_ACTIONS.LABELED:
           // Obtain the labels assigned to the PR
+          // eslint-disable-next-line no-case-declarations
           const prLabels = pull_request.labels.map(l => l.name);
           switch (label.name) {
             // Realm creation is finished, notify Requester:
@@ -173,6 +174,7 @@ router.post(
             realmInfo,
             EMAIL_TYPE_TO_PATH.COMPLETED
           );
+          break;
         default:
           // ignore the rest:
           break;

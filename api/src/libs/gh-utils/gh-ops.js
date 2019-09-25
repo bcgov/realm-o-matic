@@ -21,7 +21,7 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS } from '../../constants/github';
+import { GITHUB_REQUEST, GITHUB_LABELS } from '../../constants/github';
 import { KEYCLOAK_TERMS } from '../../constants/keycloak';
 import {
   FORM_CONTENT_TO_REQUEST,
@@ -72,7 +72,7 @@ export const createRecord = async (bName, requestContent) => {
       requester: normalizedContent.requester,
     };
     const pr = await createPR(normalizedContent.realm.displayName, newBranchRef, prContent);
-    
+
     // add label:
     // When a PR is created, it's ready for the realm to be created:
     await addLabel(pr.number, [GITHUB_LABELS.READY]);
@@ -147,7 +147,7 @@ export const getRecords = async (prState = 'all', labels = [], userId = null) =>
  * @param {Object} message message to comment on PR
  */
 export const updatePRState = async (prInfo, mergeAndClose, message = null) => {
-  try {  
+  try {
     if (mergeAndClose) {
       // When PR is ready to merge and close:
       await mergePR(prInfo.number);
@@ -182,4 +182,4 @@ export const alterPRLabels = async (prNumber, originalLabelName, newLabelName) =
     logger.error(`Fail to update PR labels: ${err.message}`);
     throw err;
   }
-}
+};
