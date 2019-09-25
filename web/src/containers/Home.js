@@ -67,8 +67,9 @@ export class Home extends Component {
     let requestsList = null;
     let allowNewRequest = true;
     // Show only error message when error loading the list:
-    if (errorMessage) requestsList = errorMessage;
-    else if (requests === null || getRequestsStarted) {
+    if (errorMessage) {
+      requestsList = errorMessage;
+    } else if (requests === null || getRequestsStarted) {
       // Show indicator when loading:
       requestsList = <SpinLoader text="Loading requests..." />;
       allowNewRequest = false;

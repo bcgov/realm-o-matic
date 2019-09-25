@@ -74,8 +74,9 @@ export const getPrStatus = (state, merged, labels = []) => {
         labels.includes(GITHUB_LABELS.BCEID) &&
         !labels.includes(GITHUB_LABELS.BCEID_APPROVED) &&
         !labels.includes(GITHUB_LABELS.BCEID_COMPLETED)
-      )
+      ) {
         return REQUEST_STATUS.PENDING;
+      }
       // otherwise, before the PR is closed, some tasks is processing:
       else return REQUEST_STATUS.PROCESSING;
     case GITHUB_PR_STATUS.CLOSED:
