@@ -91,7 +91,7 @@ describe('Home Component', () => {
     getRequestsAction: () => {},
   };
 
-  it.skip('blocks when not authorized', async () => {
+  it.skip('blocks when not authorized', () => {
     const { getByTestId } = render(
       <Router>
         <Home {...{ ...AUTH_PROPS_3, ...REQUEST_PROPS_0 }} />
@@ -101,7 +101,7 @@ describe('Home Component', () => {
     expect(getByTestId(TEST_IDS.AUTH.MODAL)).not.toBeNull();
   });
 
-  it('has link to create a new request for reviewer', async () => {
+  it('has link to create a new request for reviewer', () => {
     const { getByTestId, container } = render(
       <Router>
         <Home {...{ ...AUTH_PROPS_0, ...REQUEST_PROPS_1 }} />
@@ -112,7 +112,7 @@ describe('Home Component', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('has link to create a new request for Requester when no open record exists', async () => {
+  it('has link to create a new request for Requester when no open record exists', () => {
     const { getByTestId, container } = render(
       <Router>
         <Home {...{ ...AUTH_PROPS_1, ...REQUEST_PROPS_2 }} />
@@ -123,7 +123,7 @@ describe('Home Component', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('hide the link to create a new request for Requester when open record exists', async () => {
+  it('hide the link to create a new request for Requester when open record exists', () => {
     const { getByTestId, container } = render(
       <Router>
         <Home {...{ ...AUTH_PROPS_1, ...REQUEST_PROPS_1 }} />
@@ -137,7 +137,7 @@ describe('Home Component', () => {
   });
 
   // TODO: create test for RequestList
-  it('displays in different request list cases', async () => {
+  it('displays in different request list cases', () => {
     // loading records:
     const { getByTestId, rerender } = render(
       <Router>
