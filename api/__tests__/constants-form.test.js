@@ -45,4 +45,8 @@ describe('BCEID_CONTACT_INFO_SCHEMA test', () => {
   test('return an object of contact objects', () => {
     expect(mapBceidContactObjectForRoles(inputArray)).toEqual(expectedContactObjects);
   });
+
+  test('return an empty object when no key', () => {
+    expect(mapBceidContactObjectForRoles([])).toEqual({});
+  });
 });
