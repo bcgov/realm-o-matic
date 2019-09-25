@@ -1,34 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home Component blocks when not authed 1`] = `
-<div>
-  <h2>
-    Welcome!
-  </h2>
-  <a
-    data-testid="new-request-button"
-    href="/Request/new"
-  >
-    <button
-      class="ui button"
-      data-testid="startRequest"
-    >
-      Start Request
-    </button>
-  </a>
-  <p />
-  <div
-    class="ui small active text centered inline loader css-micwn4-StyledLoader e1c48y920"
-    data-testid="load-indicator"
-  >
-    Loading requests...
-  </div>
-</div>
-`;
-
-exports[`Home Component has link to create a new request 1`] = `
+exports[`Home Component has link to create a new request for Requester when no open record exists 1`] = `
 <div
-  class="css-1oby85c-StyledTableHeader e1c48y920"
+  class="css-10ra27g-StyledTableHeader e1c48y920"
 >
   <h2>
     Welcome!
@@ -49,6 +23,70 @@ exports[`Home Component has link to create a new request 1`] = `
           New Request
         </button>
       </a>
+      <h4
+        class="hide"
+        data-testid="hidden-new-request-button"
+      >
+        You cannot create more requests until the current request is close.
+      </h4>
+    </div>
+    <div
+      class="right item"
+    >
+      <div
+        class="ui toggle checkbox"
+      >
+        <input
+          class="hidden"
+          readonly=""
+          tabindex="0"
+          type="radio"
+          value=""
+        />
+        <label>
+          Show All
+        </label>
+      </div>
+    </div>
+  </div>
+  <p />
+  <p
+    data-testid="empty-content"
+  >
+    You do not have any realm requests yet, start a new request.
+  </p>
+</div>
+`;
+
+exports[`Home Component has link to create a new request for reviewer 1`] = `
+<div
+  class="css-10ra27g-StyledTableHeader e1c48y920"
+>
+  <h2>
+    Welcome!
+  </h2>
+  <div
+    class="ui text menu"
+  >
+    <div
+      class="item"
+    >
+      <a
+        data-testid="new-request-button"
+        href="/Request/new"
+      >
+        <button
+          class="ui button"
+        >
+          New Request
+        </button>
+      </a>
+      <h4
+        class="hide"
+        data-testid="hidden-new-request-button"
+      >
+        You cannot create more requests until the current request is close.
+      </h4>
     </div>
     <div
       class="right item"
@@ -71,10 +109,137 @@ exports[`Home Component has link to create a new request 1`] = `
   </div>
   <p />
   <div
-    class="ui small active text centered inline loader css-q2g0g-StyledLoader e1eih1xm0"
-    data-testid="load-indicator"
+    class="css-b956hq-StyledList e11ezbjh0"
   >
-    Loading requests...
+    <table
+      class="ui selectable striped table"
+      data-testid="request-list"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class=""
+          >
+            Realm Display Name
+          </th>
+          <th
+            class=""
+          >
+            Realm ID
+          </th>
+          <th
+            class=""
+          >
+            Status
+          </th>
+          <th
+            class=""
+          >
+            Requester
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      />
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Home Component hide the link to create a new request for Requester when open record exists 1`] = `
+<div
+  class="css-10ra27g-StyledTableHeader e1c48y920"
+>
+  <h2>
+    Welcome!
+  </h2>
+  <div
+    class="ui text menu"
+  >
+    <div
+      class="item"
+    >
+      <a
+        data-testid="new-request-button"
+        href="/Request/new"
+      >
+        <button
+          class="ui button"
+        >
+          New Request
+        </button>
+      </a>
+      <h4
+        class="hide"
+        data-testid="hidden-new-request-button"
+      >
+        You cannot create more requests until the current request is close.
+      </h4>
+    </div>
+    <div
+      class="right item"
+    >
+      <div
+        class="ui toggle checkbox"
+      >
+        <input
+          class="hidden"
+          readonly=""
+          tabindex="0"
+          type="radio"
+          value=""
+        />
+        <label>
+          Show All
+        </label>
+      </div>
+    </div>
+  </div>
+  <p />
+  <div
+    class="css-b956hq-StyledList e11ezbjh0"
+  >
+    <table
+      class="ui selectable striped table"
+      data-testid="request-list"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class=""
+          >
+            Realm Display Name
+          </th>
+          <th
+            class=""
+          >
+            Realm ID
+          </th>
+          <th
+            class=""
+          >
+            Status
+          </th>
+          <th
+            class="hide"
+          >
+            Requester
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      />
+    </table>
   </div>
 </div>
 `;
