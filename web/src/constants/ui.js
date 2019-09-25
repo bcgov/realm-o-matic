@@ -29,6 +29,7 @@ export const TEST_IDS = {
     LOGO: 'gov-logo',
     ACCOUNT: 'account-dropdown',
     NEW_REQUEST: 'new-request-button',
+    HIDDEN_NEW_REQUEST: 'hidden-new-request-button',
     LOADER: 'load-indicator',
     EMPTY: 'empty-content',
     POPUP: 'status-popup',
