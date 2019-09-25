@@ -104,9 +104,9 @@ export const getRequestContent = async prNumber => {
     const contentObject = JSON.parse(content);
     // Flatten and normalize the content to display in the frontend:
     const flattenRecord = flattenObject(contentObject);
-    const normalizedReocrd = normalizeData(flattenRecord, REQUEST_TO_FORM_CONTENT);
+    const normalizedRecord = normalizeData(flattenRecord, REQUEST_TO_FORM_CONTENT);
     // Return the PR with the file:
-    return { ...prInfo, prContent: normalizedReocrd };
+    return { ...prInfo, prContent: normalizedRecord };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
     throw err;
@@ -166,17 +166,17 @@ export const updatePRState = async (prInfo, mergeAndClose, message = null) => {
 /**
  * Update PR labels
  * @param {Number} prNumber PR number
- * @param {String} originalLableName the label to be removed
+ * @param {String} originalLabelName the label to be removed
  * @param {String} newLabelName the new label to add to PR
  */
-export const alterPRLabels = async (prNumber, originalLableName, newLabelName) => {
+export const alterPRLabels = async (prNumber, originalLabelName, newLabelName) => {
   try {
     await addLabel(prNumber, [newLabelName]);
     // Ignore failure in removing label:
     try {
-      await deleteLabel(prNumber, originalLableName);
+      await deleteLabel(prNumber, originalLabelName);
     } catch (error) {
-      logger.error(`Trying to remove label ${originalLableName} from PR #${prNumber}: ${error}`);
+      logger.error(`Trying to remove label ${originalLabelName} from PR #${prNumber}: ${error}`);
     }
   } catch (err) {
     logger.error(`Fail to update PR labels: ${err.message}`);
