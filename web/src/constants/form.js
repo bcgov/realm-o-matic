@@ -172,7 +172,7 @@ const bceidContactUsersInfo = {
     },
     {
       value: 'cl',
-      text: 'Communications  Lead',
+      text: 'Communications Lead',
     },
   ],
 };
@@ -237,7 +237,7 @@ const bceidInfo = [
         inputType: 'date',
         name: 'prodDate',
         dateFormat: 'yyyy-mm-dd',
-        title: 'Date of	release in production environment',
+        title: 'Date of release in production environment',
         isRequired: true,
       },
       {
