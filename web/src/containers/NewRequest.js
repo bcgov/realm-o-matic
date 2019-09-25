@@ -11,8 +11,11 @@ import { randomRealmId } from '../utils/requestHelpers';
 import { RequestForm } from '../components/Request/RequestForm';
 
 const StyledMessage = styled.div`
-  padding: 10px;
-  color: #003366;
+  padding: ${props => (props.status === 'unknown' ? '0' : '10px')};
+  margin: ${props => (props.status === 'unknown' ? '0' : '10px')};
+  background-color: ${props => (props.status === 'failure' ? '#fcdfe2' : 'white')};
+  color: ${props => (props.status === 'failure' ? '#ed5565' : '#003366')};
+  border: 1px solid ${props => (props.status === 'failure' ? '#ed5565' : '#003366')};
 `;
 
 export class NewRequest extends Component {
@@ -54,10 +57,27 @@ export class NewRequest extends Component {
           idps: [KC_IDP_NAMES.IDIR],
         };
 
-    const message = requestId ? `Your request has been submitted as ${requestId}.` : errorMessage;
+    // Notification message for success request and failure:
+    let messageObject = {
+      message: null,
+      status: 'unknown',
+    };
+    if (requestId) {
+      messageObject = {
+        message: `Your request has been submitted as ${requestId}.`,
+        status: 'success',
+      };
+    } else if (errorMessage) {
+      messageObject = {
+        message: errorMessage,
+        status: 'failure',
+      };
+    }
 
     const statusMessage = (
-      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>{message}</StyledMessage>
+      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE} status={messageObject.status}>
+        {messageObject.message}
+      </StyledMessage>
     );
 
     return (
