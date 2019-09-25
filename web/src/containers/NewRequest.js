@@ -18,6 +18,10 @@ const StyledMessage = styled.div`
   border: 1px solid ${props => (props.status === 'failure' ? '#ed5565' : '#003366')};
 `;
 
+const StyledTitle = styled.h2`
+  color: #036;
+`;
+
 export class NewRequest extends Component {
   static displayName = '[Component NewRequest]';
 
@@ -83,7 +87,7 @@ export class NewRequest extends Component {
     return (
       <div>
         <LoaderDimmer text="Processing Request..." idDim={newRequestStarted}>
-          <h2>Realm Request Form</h2>
+          <StyledTitle>Realm Request Form</StyledTitle>
           {statusMessage}
           <RequestForm
             formModal={formJson}
