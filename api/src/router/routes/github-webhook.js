@@ -25,10 +25,9 @@
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
 import { validateSchema } from '../../libs/utils';
-import { updatePRState } from '../../libs/gh-utils/gh-ops';
-import { PR_CONTENT_SCHEMA, GITHUB_LABELS } from '../../constants/github';
+import { PR_CONTENT_SCHEMA } from '../../constants/github';
 import { setMailer } from '../../libs/email-utils';
-import { EMAIL_TYPE_TO_PATH, PR_ACTIONS, EMAIL_CONTACTS } from '../../constants/email';
+import { EMAIL_TYPE_TO_PATH, PR_ACTIONS } from '../../constants/email';
 import {
   prCreatedActionHandler,
   prClosedActionHandler,

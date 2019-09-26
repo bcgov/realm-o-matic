@@ -20,6 +20,7 @@
 
 'use strict';
 
+import { setMailer } from './email-utils';
 import { updatePRState } from './gh-utils/gh-ops';
 import { GITHUB_LABELS } from '../constants/github';
 import { EMAIL_TYPE_TO_PATH, EMAIL_CONTACTS } from '../constants/email';
