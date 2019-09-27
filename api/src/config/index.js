@@ -71,16 +71,16 @@ nconf.overrides({
       info: {
         firstName: 'Admin',
         lastName: 'User',
-      }
+      },
     },
     reviewer: {
       to: process.env.REVIEW_EMAIL || '',
       info: {
         firstName: 'Realm',
         lastName: 'Reviewer',
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export default nconf;

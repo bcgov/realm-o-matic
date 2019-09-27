@@ -40,10 +40,34 @@ export const FORM_CONTENT_TO_REQUEST = {
     forecastAmount: 'forecastAmount',
     prodDate: 'prodDate',
     useDate: 'useDate',
+    // v2:
+    appName: 'appName',
+    contactInfo: 'contactInfo',
+    orgInfo: 'orgInfo',
   },
 };
 
-// TODO: update the Product Owner to an user object
+// Map the request bceid key contact to contact object:
+const BCEID_CONTACT_OBJECT = role => {
+  return {
+    name: `bceid.contactInfo.${role}.name`,
+    title: `bceid.contactInfo.${role}.title`,
+    email: `bceid.contactInfo.${role}.email`,
+  };
+};
+
+// The contact roles for BCeID request:
+// Executive Sponsor, Project Manager, Technical Lead, Privacy Lead, Security Lead, Communications Lead
+const bceidContactRoles = ['es', 'pm', 'tl', 'pl', 'sl', 'cl'];
+
+// Map role to each contact object:
+export const mapBceidContactObjectForRoles = roles => {
+  return roles.reduce((result, r) => {
+    result[r] = BCEID_CONTACT_OBJECT(r);
+    return result;
+  }, {});
+};
+
 export const REQUEST_TO_FORM_CONTENT = {
   id: 'id',
   realmId: 'realm.id',
@@ -60,6 +84,10 @@ export const REQUEST_TO_FORM_CONTENT = {
   forecastAmount: 'bceid.forecastAmount',
   prodDate: 'bceid.prodDate',
   useDate: 'bceid.useDate',
+  // v2:
+  appName: 'bceid.appName',
+  contactInfo: mapBceidContactObjectForRoles(bceidContactRoles),
+  orgInfo: 'bceid.orgInfo',
 };
 
 const FORM_CONTENT_SCHEMA_REQUIRED = [
@@ -92,5 +120,9 @@ export const FORM_CONTENT_SCHEMA = {
     forecastAmount: { type: 'integer' },
     prodDate: { format: 'date' },
     useDate: { format: 'date' },
+    // v2:
+    appName: { type: 'string' },
+    contactInfo: { type: 'object' },
+    orgInfo: { type: 'string' },
   },
 };

@@ -21,7 +21,7 @@
 'use strict';
 
 import { logger } from '@bcgov/common-nodejs-utils';
-import { PR_SCHEMA, GITHUB_REQUEST, GITHUB_LABELS } from '../../constants/github';
+import { GITHUB_REQUEST, GITHUB_LABELS } from '../../constants/github';
 import { KEYCLOAK_TERMS } from '../../constants/keycloak';
 import {
   FORM_CONTENT_TO_REQUEST,
@@ -72,7 +72,7 @@ export const createRecord = async (bName, requestContent) => {
       requester: normalizedContent.requester,
     };
     const pr = await createPR(normalizedContent.realm.displayName, newBranchRef, prContent);
-    
+
     // add label:
     // When a PR is created, it's ready for the realm to be created:
     await addLabel(pr.number, [GITHUB_LABELS.READY]);
@@ -104,9 +104,9 @@ export const getRequestContent = async prNumber => {
     const contentObject = JSON.parse(content);
     // Flatten and normalize the content to display in the frontend:
     const flattenRecord = flattenObject(contentObject);
-    const normalizedReocrd = normalizeData(flattenRecord, REQUEST_TO_FORM_CONTENT);
+    const normalizedRecord = normalizeData(flattenRecord, REQUEST_TO_FORM_CONTENT);
     // Return the PR with the file:
-    return { ...prInfo, prContent: normalizedReocrd };
+    return { ...prInfo, prContent: normalizedRecord };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
     throw err;
@@ -147,7 +147,7 @@ export const getRecords = async (prState = 'all', labels = [], userId = null) =>
  * @param {Object} message message to comment on PR
  */
 export const updatePRState = async (prInfo, mergeAndClose, message = null) => {
-  try {  
+  try {
     if (mergeAndClose) {
       // When PR is ready to merge and close:
       await mergePR(prInfo.number);
@@ -166,20 +166,20 @@ export const updatePRState = async (prInfo, mergeAndClose, message = null) => {
 /**
  * Update PR labels
  * @param {Number} prNumber PR number
- * @param {String} originalLableName the label to be removed
+ * @param {String} originalLabelName the label to be removed
  * @param {String} newLabelName the new label to add to PR
  */
-export const alterPRLabels = async (prNumber, originalLableName, newLabelName) => {
+export const alterPRLabels = async (prNumber, originalLabelName, newLabelName) => {
   try {
     await addLabel(prNumber, [newLabelName]);
     // Ignore failure in removing label:
     try {
-      await deleteLabel(prNumber, originalLableName);
+      await deleteLabel(prNumber, originalLabelName);
     } catch (error) {
-      logger.error(`Trying to remove label ${originalLableName} from PR #${prNumber}: ${error}`);
+      logger.error(`Trying to remove label ${originalLabelName} from PR #${prNumber}: ${error}`);
     }
   } catch (err) {
     logger.error(`Fail to update PR labels: ${err.message}`);
     throw err;
   }
-}
+};

@@ -7,13 +7,17 @@ import { Button, Menu, Radio } from 'semantic-ui-react';
 import styled from '@emotion/styled';
 import { TEST_IDS } from '../constants/ui';
 import { ACCESS_CONTROL } from '../constants/auth';
-import { REQUEST_STATUS } from '../constants/github';
+import { GITHUB_PR_STATUS } from '../constants/github';
 import { RequestList } from '../components/Request/RequestList';
 import { SpinLoader } from '../components/UI';
 import { getRequestsAction } from '../actionCreators';
 
 const StyledTableHeader = styled.div`
   color: #036;
+  .text {
+    display: flex;
+    flex-flow: wrap;
+  }
   h2 {
     line-height: 4rem;
     border-bottom: 1px solid #d4d4d4;
@@ -22,6 +26,9 @@ const StyledTableHeader = styled.div`
   .ui.button {
     color: white;
     background-color: #036;
+  }
+  .hide {
+    display: none !important;
   }
 `;
 
@@ -58,26 +65,30 @@ export class Home extends Component {
     }
 
     let requestsList = null;
-    if (errorMessage) requestsList = errorMessage;
-    else if (requests === null || getRequestsStarted) {
+    let allowNewRequest = true;
+    // Show only error message when error loading the list:
+    if (errorMessage) {
+      requestsList = errorMessage;
+    } else if (requests === null || getRequestsStarted) {
+      // Show indicator when loading:
       requestsList = <SpinLoader text="Loading requests..." />;
+      allowNewRequest = false;
     } else if (requests.length === 0) {
+      // Show instruction when no records exists:
       requestsList = (
         <p data-testid={TEST_IDS.APP.EMPTY}>
           You do not have any realm requests yet, start a new request.
         </p>
       );
     } else {
-      const filteredRequests = this.state.showAllRequests
-        ? requests
-        : requests.filter(request => request.prState === REQUEST_STATUS.PENDING);
-
+      // Show list of request records that match this user's role:
+      const openRequests = requests.filter(request => request.prState === GITHUB_PR_STATUS.OPEN);
+      const isAdmin = authCode === ACCESS_CONTROL.REVIEWER_ROLE;
+      const filteredRequests = this.state.showAllRequests ? requests : openRequests;
+      // Do not allow a Requester to have more than one open request at a same time:
+      allowNewRequest = isAdmin || openRequests.length === 0;
       requestsList = (
-        <RequestList
-          requests={filteredRequests}
-          isAdmin={authCode === ACCESS_CONTROL.REVIEWER_ROLE}
-          history={this.props.history}
-        />
+        <RequestList requests={filteredRequests} isAdmin={isAdmin} history={this.props.history} />
       );
     }
 
@@ -86,9 +97,19 @@ export class Home extends Component {
         <h2>Welcome!</h2>
         <Menu text>
           <Menu.Item>
-            <Link to="/Request/new" data-testid={TEST_IDS.APP.NEW_REQUEST}>
+            <Link
+              to="/Request/new"
+              className={allowNewRequest ? null : 'hide'}
+              data-testid={TEST_IDS.APP.NEW_REQUEST}
+            >
               <Button>New Request</Button>
             </Link>
+            <h4
+              className={allowNewRequest ? 'hide' : null}
+              data-testid={TEST_IDS.APP.HIDDEN_NEW_REQUEST}
+            >
+              You cannot create more requests until the current request is close.
+            </h4>
           </Menu.Item>
           <Menu.Item position="right">
             <Radio toggle label="Show All" onChange={toggleFilter} />

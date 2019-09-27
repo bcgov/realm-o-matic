@@ -25,10 +25,14 @@
 import { asyncMiddleware } from '@bcgov/common-nodejs-utils';
 import { Router } from 'express';
 import { validateSchema } from '../../libs/utils';
-import { updatePRState } from '../../libs/gh-utils/gh-ops';
-import { PR_CONTENT_SCHEMA, GITHUB_LABELS } from '../../constants/github';
+import { PR_CONTENT_SCHEMA } from '../../constants/github';
 import { setMailer } from '../../libs/email-utils';
-import { EMAIL_TYPE_TO_PATH, PR_ACTIONS, EMAIL_CONTACTS } from '../../constants/email';
+import { EMAIL_TYPE_TO_PATH, PR_ACTIONS } from '../../constants/email';
+import {
+  prCreatedActionHandler,
+  prClosedActionHandler,
+  prLabeledActionHandler,
+} from '../../libs/ghwh-utils';
 import { EMAIL_TEST_CONTENT } from '../../constants/email-mock';
 
 const router = new Router();
@@ -58,17 +62,13 @@ router.get(
  * Trigger by repo PR webhook and send email notification
  * TODO:
  * - use octokit/webhooks/verify to test secret (headers['x-hub-signature'];)
- * 
- * if PR started: email Requester
- * if PR labeled: email accordingly based on the label
- * if merged and closed: email Admin for full completion
  */
 router.post(
   '/pr',
   asyncMiddleware(async (req, res) => {
     const { body } = req;
     try {
-      // eslint-disable-next-line camel case
+      // eslint-disable-next-line camelcase
       const { action, number, pull_request, label } = body;
 
       // check if pr content is valid, need to parse the content as it's string:
@@ -77,102 +77,23 @@ router.post(
         throw Error('Invalid PR content from the webhook');
       }
 
+      // Setup realm name and link to the request (based on PR number) in email content:
       const realmInfo = {
         number,
         realmName: payload.realmId,
       };
 
-      const prInfo = {
-        number,
-        ref: pull_request.head.ref,
-        // Set null until enabling message feature:
-        message: null,
-      };
-
+      // Handle according to different PR actions:
       switch (action) {
         case PR_ACTIONS.OPENED:
-          // New request in progress, notify requester:
-          await setMailer(
-            payload.requester.email,
-            payload.requester,
-            realmInfo,
-            EMAIL_TYPE_TO_PATH.STARTED
-          );
+          await prCreatedActionHandler(payload, realmInfo);
           break;
         case PR_ACTIONS.LABELED:
-          // Obtain the labels assigned to the PR
-          const prLabels = pull_request.labels.map(l => l.name);
-          switch (label.name) {
-            // Realm creation is finished, notify Requester:
-            case GITHUB_LABELS.COMPLETED:
-              await setMailer(
-                payload.requester.email,
-                payload.requester,
-                realmInfo,
-                EMAIL_TYPE_TO_PATH.COMPLETED
-              );
-              // Check if BCeID is requested, if not, close and merge:
-              if (!prLabels.includes(GITHUB_LABELS.BCEID)) {
-                await updatePRState(prInfo, true, prInfo.message);
-              }
-              break;
-            // BCeID is enabled, notify Requester and Reviewer:
-            case GITHUB_LABELS.BCEID_COMPLETED:
-              await setMailer(
-                payload.requester.email,
-                payload.requester,
-                realmInfo,
-                EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
-              );
-              await setMailer(
-                EMAIL_CONTACTS.REVIEWER.to,
-                EMAIL_CONTACTS.REVIEWER.info,
-                realmInfo,
-                EMAIL_TYPE_TO_PATH.BCEID_COMPLETED
-              );
-              // Close and merge PR:
-              await updatePRState(prInfo, true, prInfo.message);
-              break;
-            // Realm creation failed, notify Admin:
-            case GITHUB_LABELS.FAILED:
-              await setMailer(
-                EMAIL_CONTACTS.ADMIN.to,
-                EMAIL_CONTACTS.ADMIN.info,
-                realmInfo,
-                EMAIL_TYPE_TO_PATH.FAILED
-              );
-              break;
-            // Reviewer rejected the request, notify Requester:
-            case GITHUB_LABELS.BCEID_REJECTED:
-              await setMailer(
-                payload.requester.email,
-                payload.requester,
-                realmInfo,
-                EMAIL_TYPE_TO_PATH.BCEID_REJECTED
-              );
-              break;
-            // Request contains BCeID IDP, notify Reviewer:
-            case GITHUB_LABELS.BCEID:
-              await setMailer(
-                EMAIL_CONTACTS.REVIEWER.to,
-                EMAIL_CONTACTS.REVIEWER.info,
-                realmInfo,
-                EMAIL_TYPE_TO_PATH.BCEID_STARTED
-              );
-              break;
-            default:
-              // ignore the other labels:
-              break;
-          }
+          await prLabeledActionHandler(payload, realmInfo, pull_request, number, label.name);
           break;
-        // For successful realm creation, PR is closed and merged, notify Admin:
         case PR_ACTIONS.CLOSED:
-          await setMailer(
-            EMAIL_CONTACTS.ADMIN.to,
-            EMAIL_CONTACTS.ADMIN.info,
-            realmInfo,
-            EMAIL_TYPE_TO_PATH.COMPLETED
-          );
+          await prClosedActionHandler(realmInfo);
+          break;
         default:
           // ignore the rest:
           break;

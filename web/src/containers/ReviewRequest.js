@@ -12,7 +12,7 @@ import { RequestForm } from '../components/Request/RequestForm';
 
 const StyledMessage = styled.div`
   margin: 15px;
-  color: #003366;
+  color: #036;
 `;
 
 export class ReviewRequest extends Component {
