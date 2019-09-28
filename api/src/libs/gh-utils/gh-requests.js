@@ -172,3 +172,18 @@ export const mergePR = prNumber =>
  */
 export const deleteBranch = bName =>
   ghHelper(shared.gh.git.deleteRef, { ref: GITHUB_REQUEST.shortBranchRef(bName) }, null, false);
+
+/**
+ * Merge a pull request:
+ * @param {Number} prNumber number of PR
+ * @param {String} message body of the PR comment
+ */
+export const commentPR = (prNumber, message) =>
+  ghHelper(shared.gh.issues.createComment, { issue_number: prNumber, body: message });
+
+/**
+ * Get comments for an issue/PR:
+ * @param {Number} prNumber number of PR
+ */
+export const getComments = prNumber =>
+  ghHelper(shared.gh.issues.listComments, { issue_number: prNumber });
