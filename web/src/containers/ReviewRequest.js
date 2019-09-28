@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from '@emotion/styled';
-import { FormHeader, LoaderDimmer, PopUp } from '../components/UI';
+import { FormHeader, LoaderDimmer, PopUp, CommentModal } from '../components/UI';
 import { TEST_IDS } from '../constants/ui';
 import { ACCESS_CONTROL } from '../constants/auth';
 import { formJson } from '../constants/form';
@@ -18,9 +18,25 @@ const StyledMessage = styled.div`
 export class ReviewRequest extends Component {
   static displayName = '[Component ReviewRequest]';
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      recordStatus: REQUEST_STATUS.UNKNOWN,
+      openRejectionModal: false,
+      rejectionMessage: '',
+    };
+  }
+
   componentWillMount = () => {
     // fetch the record
     this.props.getRecordAction(this.props.match.params.id);
+    // Decide on the status of the request:
+    if (this.props.recordInfo) {
+      const recordInfo = this.props.recordInfo;
+      this.setState({
+        recordStatus: getPrStatus(recordInfo.prState, recordInfo.prMerged, recordInfo.labels),
+      });
+    }
   };
 
   render() {
@@ -33,15 +49,61 @@ export class ReviewRequest extends Component {
       approveRequestStarted,
       approveRequestCompleted,
     } = this.props;
-    // Button actions:
+
+    // Button actions
+    // Reviewer approving:
     const onApprove = () => {
       approveRequestAction(recordInfo.number, true);
     };
 
+    // Reviewer rejecting, trigger rejection message modal:
     const onReject = () => {
-      // TODO: pop up modal for reason
-      approveRequestAction(recordInfo.number, false);
+      this.setState({
+        openRejectionModal: true,
+      });
     };
+
+    // Requester viewing rejection message:
+    const onViewRejection = () => {
+      // TODO: fetch comments action:
+      const rejectionMessage = 'place holder';
+      this.setState({
+        openRejectionModal: true,
+        rejectionMessage: rejectionMessage,
+      });
+    };
+
+    // When closing the modal, either have action to submit the message or cancel:
+    const onModalClose = (submit = false) => {
+      this.setState({
+        openRejectionModal: false,
+      });
+      // TODO: openRejectionModal + send the message
+      if (submit) {
+        this.setState({
+          recordStatus: REQUEST_STATUS.REJECT,
+        });
+        // approveRequestAction(recordInfo.number, false, this.state.rejectionMessage);
+      }
+    };
+
+    // Get text input:
+    const onMessageChange = (data = null) => {
+      this.setState({
+        rejectionMessage: data,
+      });
+    };
+
+    // Component for rejection message as a modal:
+    const rejectionComment = (
+      <CommentModal
+        openRejectionModal={this.state.openRejectionModal}
+        onModalClose={onModalClose}
+        disabled={this.state.recordStatus === REQUEST_STATUS.REJECT}
+        onMessageChange={onMessageChange}
+        message={this.state.rejectionMessage}
+      />
+    );
 
     // message for fetching record:
     const message = recordInfo ? null : getRecordError;
@@ -50,6 +112,7 @@ export class ReviewRequest extends Component {
       <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>{message}</StyledMessage>
     );
 
+    // Form content:
     const content = recordInfo ? (
       <RequestForm
         formModal={formJson}
@@ -59,28 +122,28 @@ export class ReviewRequest extends Component {
       />
     ) : null;
 
-    const recordStatus = recordInfo
-      ? getPrStatus(recordInfo.prState, recordInfo.prMerged, recordInfo.labels)
-      : REQUEST_STATUS.UNKNOWN;
-
+    // Set form title with status popup:
     const title = (
       <div>
         Realm Request Record
-        <PopUp status={recordStatus} />
+        <PopUp status={this.state.recordStatus} />
       </div>
     );
 
+    // Set the header with approval/rejection buttons, or view rejection message button:
     const actionHeader = (
       <FormHeader
         title={title}
         hideAction={
           authCode !== ACCESS_CONTROL.REVIEWER_ROLE ||
-          recordStatus !== REQUEST_STATUS.PENDING ||
+          this.state.recordStatus !== REQUEST_STATUS.PENDING ||
           approveRequestCompleted ||
           approveRequestStarted
         }
         onApprove={onApprove}
         onReject={onReject}
+        hideRejectionViewButton={this.state.recordStatus !== REQUEST_STATUS.REJECT}
+        onViewRejection={onViewRejection}
       />
     );
 
@@ -88,6 +151,7 @@ export class ReviewRequest extends Component {
       <div>
         <LoaderDimmer text="Loading Request..." idDim={getRecordStarted}>
           {actionHeader}
+          {rejectionComment}
           {statusMessage}
           {content}
         </LoaderDimmer>
