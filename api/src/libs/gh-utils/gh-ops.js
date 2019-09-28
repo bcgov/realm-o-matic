@@ -41,6 +41,7 @@ import {
   deleteLabel,
   mergePR,
   deleteBranch,
+  getComments,
 } from './gh-requests';
 import { prParser } from './gh-helpers';
 import { validateSchema, encodeObjectWithName, normalizeData, flattenObject } from '../utils';
@@ -105,8 +106,11 @@ export const getRequestContent = async prNumber => {
     // Flatten and normalize the content to display in the frontend:
     const flattenRecord = flattenObject(contentObject);
     const normalizedRecord = normalizeData(flattenRecord, REQUEST_TO_FORM_CONTENT);
+    // Fetch PR comments:
+    const prComments = await getComments(prNumber);
+    const commentContents = prComments.length > 0 ? prComments.map(c => c.body) : [];
     // Return the PR with the file:
-    return { ...prInfo, prContent: normalizedRecord };
+    return { ...prInfo, prContent: normalizedRecord, prComments: commentContents };
   } catch (err) {
     logger.error(`Fail to get content of PR ${prNumber}: ${err.message}`);
     throw err;
