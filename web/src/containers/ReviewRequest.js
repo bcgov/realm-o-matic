@@ -104,10 +104,17 @@ export class ReviewRequest extends Component {
     );
 
     // Decide on the status of the request:
-    if (recordInfo && this.state.recordStatus === REQUEST_STATUS.UNKNOWN) {
-      this.setState({
-        recordStatus: getPrStatus(recordInfo.prState, recordInfo.prMerged, recordInfo.labels),
-      });
+    if (recordInfo) {
+      const currRecordInfo = getPrStatus(
+        recordInfo.prState,
+        recordInfo.prMerged,
+        recordInfo.labels
+      );
+      if (this.state.recordStatus !== currRecordInfo) {
+        this.setState({
+          recordStatus: currRecordInfo,
+        });
+      }
     }
 
     // TODO: make a component for this:
