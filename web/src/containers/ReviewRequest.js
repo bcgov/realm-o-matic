@@ -11,8 +11,12 @@ import { getRecordAction, approveRequestAction } from '../actionCreators';
 import { RequestForm } from '../components/Request/RequestForm';
 
 const StyledMessage = styled.div`
-  margin: 15px;
-  color: #036;
+  display: ${props => (props.status === 'unknown' ? 'none' : 'block')};
+  padding: 10px;
+  margin: 10px;
+  background-color: ${props => (props.status === 'failure' ? '#fcdfe2' : 'white')};
+  color: ${props => (props.status === 'failure' ? '#ed5565' : '#003366')};
+  border: 1px solid ${props => (props.status === 'failure' ? '#ed5565' : '#003366')};
 `;
 
 export class ReviewRequest extends Component {
@@ -30,13 +34,6 @@ export class ReviewRequest extends Component {
   componentWillMount = () => {
     // fetch the record
     this.props.getRecordAction(this.props.match.params.id);
-    // Decide on the status of the request:
-    if (this.props.recordInfo) {
-      const recordInfo = this.props.recordInfo;
-      this.setState({
-        recordStatus: getPrStatus(recordInfo.prState, recordInfo.prMerged, recordInfo.labels),
-      });
-    }
   };
 
   render() {
@@ -48,6 +45,7 @@ export class ReviewRequest extends Component {
       approveRequestAction,
       approveRequestStarted,
       approveRequestCompleted,
+      approveRequestError,
     } = this.props;
 
     // Button actions
@@ -65,8 +63,9 @@ export class ReviewRequest extends Component {
 
     // Requester viewing rejection message:
     const onViewRejection = () => {
-      // TODO: fetch comments action:
-      const rejectionMessage = 'place holder';
+      const rejectionMessage = recordInfo.prComments
+        ? recordInfo.prComments[0]
+        : 'No message provided, please contact the IDIM team at idim.consulting@gov.bc.ca for details.';
       this.setState({
         openRejectionModal: true,
         rejectionMessage: rejectionMessage,
@@ -75,16 +74,15 @@ export class ReviewRequest extends Component {
 
     // When closing the modal, either have action to submit the message or cancel:
     const onModalClose = (submit = false) => {
-      this.setState({
-        openRejectionModal: false,
-      });
-      // TODO: openRejectionModal + send the message
       if (submit) {
         this.setState({
           recordStatus: REQUEST_STATUS.REJECT,
         });
-        // approveRequestAction(recordInfo.number, false, this.state.rejectionMessage);
+        approveRequestAction(recordInfo.number, false, this.state.rejectionMessage);
       }
+      this.setState({
+        openRejectionModal: false,
+      });
     };
 
     // Get text input:
@@ -105,11 +103,36 @@ export class ReviewRequest extends Component {
       />
     );
 
-    // message for fetching record:
-    const message = recordInfo ? null : getRecordError;
+    // Decide on the status of the request:
+    if (recordInfo && this.state.recordStatus === REQUEST_STATUS.UNKNOWN) {
+      this.setState({
+        recordStatus: getPrStatus(recordInfo.prState, recordInfo.prMerged, recordInfo.labels),
+      });
+    }
+
+    // TODO: make a component for this:
+    // Display error messages, record fetching error with higher priority then approval error:
+    let messageObject = {
+      message: null,
+      status: 'unknown',
+    };
+
+    if (approveRequestCompleted) {
+      messageObject = {
+        message: 'BCeID request decision has been submitted.',
+        status: 'success',
+      };
+    } else if (getRecordError || approveRequestError) {
+      messageObject = {
+        message: getRecordError || approveRequestError,
+        status: 'failure',
+      };
+    }
 
     const statusMessage = (
-      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE}>{message}</StyledMessage>
+      <StyledMessage data-testid={TEST_IDS.REQUEST.MESSAGE} status={messageObject.status}>
+        {messageObject.message}
+      </StyledMessage>
     );
 
     // Form content:

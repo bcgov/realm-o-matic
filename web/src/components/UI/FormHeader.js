@@ -12,6 +12,8 @@ const StyledFormHeader = styled.div`
 
   color: #036;
 
+  margin-bottom: 10px;
+
   .column {
     margin-top: 15px !important;
   }
