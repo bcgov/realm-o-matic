@@ -145,7 +145,6 @@ export const getRecords = async (prState = 'all', labels = [], userId = null) =>
 
 /**
  * Update the state of the PR: merging, closing or commenting
- * TODO: add commenting feature
  * @param {Number} prInfo pull request metadata: number and ref branch
  * @param {Boolean} mergeAndClose is ready to merge and close PR
  * @param {Object} message message to comment on PR
