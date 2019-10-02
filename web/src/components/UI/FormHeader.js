@@ -12,6 +12,8 @@ const StyledFormHeader = styled.div`
 
   color: #036;
 
+  margin-bottom: 10px;
+
   .column {
     margin-top: 15px !important;
   }
@@ -33,10 +35,19 @@ const StyledFormHeader = styled.div`
  * Generate header for form with actions
  * @param {String} title the title of form
  * @param {Boolean} hideAction if the action buttons should be hidden
+ * @param {Boolean} hideRejectionViewButton if the rejection message buttons should be hidden
  * @param {Function} onApprove action on approval
  * @param {Function} onReject action on rejection
+ * @param {Function} onViewRejection action on viewing rejection message
  */
-export const FormHeader = ({ title = 'Form', hideAction = true, onApprove, onReject }) => {
+export const FormHeader = ({
+  title = 'Form',
+  hideAction = true,
+  onApprove,
+  onReject,
+  hideRejectionViewButton = true,
+  onViewRejection,
+}) => {
   return (
     <StyledFormHeader>
       <Grid>
@@ -49,8 +60,8 @@ export const FormHeader = ({ title = 'Form', hideAction = true, onApprove, onRej
           <Grid.Column mobile={16} tablet={8} computer={9}>
             <h2>{title}</h2>
           </Grid.Column>
-          <Grid.Column className={hideAction ? 'hidden' : null} mobile={16} tablet={8} computer={4}>
-            <Button.Group>
+          <Grid.Column mobile={16} tablet={8} computer={4}>
+            <Button.Group className={hideAction ? 'hidden' : null}>
               <Button onClick={onReject} data-testid={TEST_IDS.REQUEST.REJECT}>
                 Reject
               </Button>
@@ -59,6 +70,13 @@ export const FormHeader = ({ title = 'Form', hideAction = true, onApprove, onRej
                 Approve
               </Button>
             </Button.Group>
+            <Button
+              className={hideRejectionViewButton ? 'hidden' : null}
+              onClick={onViewRejection}
+              data-testid={TEST_IDS.REQUEST.VIEW_REJECT}
+            >
+              Rejection Message
+            </Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -71,6 +89,7 @@ FormHeader.propTypes = {
   hideAction: PropTypes.bool,
   onApprove: PropTypes.func,
   onReject: PropTypes.func,
+  onViewRejection: PropTypes.func,
 };
 
 export default FormHeader;

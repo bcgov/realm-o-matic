@@ -5,3 +5,4 @@ export { default as Layout } from './Layout';
 export { default as SpinLoader } from './SpinLoader';
 export { default as LoaderDimmer } from './LoaderDimmer';
 export { default as PopUp } from './PopUp';
+export { default as CommentModal } from './CommentModal';

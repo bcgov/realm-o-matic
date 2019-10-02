@@ -40,7 +40,9 @@ export const TEST_IDS = {
     FORM_LIST: 'request-list',
     APPROVAL: 'request-approval',
     REJECT: 'request-rejection',
+    VIEW_REJECT: 'view-request-rejection',
     CANCEL: 'go-back',
+    REJECT_MODAL: 'reject-modal',
   },
 };
 

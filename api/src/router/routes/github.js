@@ -28,6 +28,7 @@ import {
   getRequestContent,
   alterPRLabels,
 } from '../../libs/gh-utils/gh-ops';
+import { commentPR } from '../../libs/gh-utils/gh-requests';
 import { GITHUB_LABELS } from '../../constants/github';
 
 const router = new Router();
@@ -44,13 +45,13 @@ router.put(
     const { prNumber } = req.params;
     const { approvalContent } = req.body;
     try {
-      // TODO: handle rejection message
       // eslint-disable-next-line no-unused-vars
       const { isApproved, message } = approvalContent;
 
-      // Alter between labels of rejected and ready:
+      // Alter between labels of rejected and ready, added comment for rejection message:
       if (!isApproved) {
         await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_APPROVED, GITHUB_LABELS.BCEID_REJECTED);
+        await commentPR(prNumber, message);
       } else {
         await alterPRLabels(prNumber, GITHUB_LABELS.BCEID_REJECTED, GITHUB_LABELS.BCEID_APPROVED);
       }
@@ -58,7 +59,7 @@ router.put(
       res.status(204).end();
     } catch (err) {
       const errCode = err.status ? err.status : 500;
-      res.status(errCode).send(`Unable to label the PR ${prNumber}: ${err}`);
+      res.status(errCode).send(`Unable to update BCeID status for the PR ${prNumber}: ${err}`);
     }
   })
 );
