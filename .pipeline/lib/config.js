@@ -26,6 +26,8 @@ const phases = {
     tag: `dev-${version}-${changeId}`,
     host: `realm-o-matic-dev-${changeId}.pathfinder.gov.bc.ca`,
     ssoUrl: 'https://sso-dev.pathfinder.gov.bc.ca',
+    reviewer: 'shelly.han@gov.bc.ca',
+    admin: 'shelly.han@gov.bc.ca',
   },
   test: {
     namespace: 'devhub-test',
@@ -38,6 +40,8 @@ const phases = {
     tag: `test-${version}-${changeId}`,
     host: `realm-o-matic-test-${changeId}.pathfinder.gov.bc.ca`,
     ssoUrl: 'https://sso-test.pathfinder.gov.bc.ca',
+    reviewer: 'shelly.han@gov.bc.ca',
+    admin: 'shelly.han@gov.bc.ca',
   },
   prod: {
     namespace: 'devhub-prod',
@@ -50,6 +54,8 @@ const phases = {
     tag: `prod-${version}-${changeId}`,
     host: 'realm-o-matic.pathfinder.gov.bc.ca',
     ssoUrl: 'https://sso.pathfinder.gov.bc.ca',
+    reviewer: 'IDIM.Consulting@gov.bc.ca',
+    admin: 'shelly.han@gov.bc.ca',
   },
 };
 

@@ -23,8 +23,8 @@ module.exports = settings => {
         API_SSO_URL_VALUE: phases[phase].ssoUrl,
         API_SSO_REALM_VALUE: 'devhub',
         API_SSO_CLIENT_ID_VALUE: 'realm-o-matic-api',
-        REVIEW_EMAIL_VALUE: 'shelly.han@gov.bc.ca',
-        ADMIN_EMAIL_VALUE: 'shelly.han@gov.bc.ca',
+        REVIEW_EMAIL_VALUE: phases[phase].reviewer,
+        ADMIN_EMAIL_VALUE: phases[phase].admin,
       },
     })
   );
