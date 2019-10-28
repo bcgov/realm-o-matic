@@ -1,8 +1,8 @@
 'use strict';
-const options= require('pipeline-cli').Util.parseArguments()
-const changeId = options.pr //aka pull-request
-const version = '1.0.0'
-const name = 'realm-o-matic'
+const options = require('pipeline-cli').Util.parseArguments();
+const changeId = options.pr; //aka pull-request
+const version = '1.0.0';
+const name = 'realm-o-matic';
 
 const phases = {
   build: {
@@ -53,11 +53,10 @@ const phases = {
   },
 };
 
-
 // This callback forces the node process to exit as failure.
-process.on('unhandledRejection', (reason) => {
+process.on('unhandledRejection', reason => {
   console.log(reason);
   process.exit(1);
 });
 
-module.exports = exports = {phases, options};
+module.exports = exports = { phases, options };
