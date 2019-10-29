@@ -1,8 +1,8 @@
 'use strict';
-const options= require('pipeline-cli').Util.parseArguments()
-const changeId = options.pr //aka pull-request
-const version = '1.0.0'
-const name = 'realm-o-matic'
+const options = require('pipeline-cli').Util.parseArguments();
+const changeId = options.pr; //aka pull-request
+const version = '1.0.0';
+const name = 'realm-o-matic';
 
 const phases = {
   build: {
@@ -26,6 +26,8 @@ const phases = {
     tag: `dev-${version}-${changeId}`,
     host: `realm-o-matic-dev-${changeId}.pathfinder.gov.bc.ca`,
     ssoUrl: 'https://sso-dev.pathfinder.gov.bc.ca',
+    reviewer: 'shelly.han@gov.bc.ca',
+    admin: 'shelly.han@gov.bc.ca',
   },
   test: {
     namespace: 'devhub-test',
@@ -38,6 +40,8 @@ const phases = {
     tag: `test-${version}-${changeId}`,
     host: `realm-o-matic-test-${changeId}.pathfinder.gov.bc.ca`,
     ssoUrl: 'https://sso-test.pathfinder.gov.bc.ca',
+    reviewer: 'shelly.han@gov.bc.ca',
+    admin: 'shelly.han@gov.bc.ca',
   },
   prod: {
     namespace: 'devhub-prod',
@@ -50,14 +54,15 @@ const phases = {
     tag: `prod-${version}-${changeId}`,
     host: 'realm-o-matic.pathfinder.gov.bc.ca',
     ssoUrl: 'https://sso.pathfinder.gov.bc.ca',
+    reviewer: 'IDIM.Consulting@gov.bc.ca',
+    admin: 'shelly.han@gov.bc.ca',
   },
 };
 
-
 // This callback forces the node process to exit as failure.
-process.on('unhandledRejection', (reason) => {
+process.on('unhandledRejection', reason => {
   console.log(reason);
   process.exit(1);
 });
 
-module.exports = exports = {phases, options};
+module.exports = exports = { phases, options };

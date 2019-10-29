@@ -277,7 +277,7 @@ const idpInfo = {
     {
       type: 'panel',
       name: 'bceidInfo',
-      title: 'BCeID / BCSC On-Boarding Questionnaire',
+      title: 'BCeID On-Boarding Questionnaire',
       visibleIf: `{idps} contains ${KC_IDP_NAMES.BCEID}`,
       // visibleIf: '{idps} contains BCeID or {idps} contains BCSC',
       elements: bceidInfo,
