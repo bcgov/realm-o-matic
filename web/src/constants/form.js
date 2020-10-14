@@ -52,7 +52,7 @@ const basicInfo = {
     {
       type: 'text',
       name: 'adminUser',
-      title: 'IDIR account username for realm administrator (the technical lead)',
+      title: 'IDIR USERNAME for realm administrator (team technical lead)',
       isRequired: true,
     },
     {
