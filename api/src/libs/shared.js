@@ -23,8 +23,10 @@ import Octokit from '@octokit/rest';
 import config from '../config';
 
 // Assign keys:
-const ssoKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.sso');
-const ghKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.gh');
+// const ssoKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.sso');
+// const ghKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.gh');
+const ssoKey = Symbol.for('ca.bc.gov.pathfinder.realm-o-matic-api.sso');
+const ghKey = Symbol.for('ca.bc.gov.pathfinder.realm-o-matic-api.gh');
 const gs = Object.getOwnPropertySymbols(global);
 
 // SSO:
