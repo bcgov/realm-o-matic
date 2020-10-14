@@ -34,8 +34,8 @@ This application contains:
 - config to use the GitHub repo
 - email server for notifications
 
-#### Automation Bit
-There is an Ansible Playbook that provisions the KeyCloak resources. Realm-o-matic does not work directly with the Ansible Playbook, the automation provisioning is only triggered via GitHub repo events. See here for details https://github.com/BCDevOps/keycloak-admin
+#### Realm Creator:
+There is an Ansible Playbook that provisions the KeyCloak resources. Realm-o-matic does not work directly with the Ansible Playbook, the automation provisioning is only triggered via GitHub repo events. See here for details https://github.com/BCDevOps/keycloak-admin/tree/master/keycloak_realm_builder
 
 
 ### Local Development
