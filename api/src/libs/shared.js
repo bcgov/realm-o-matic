@@ -24,8 +24,10 @@ import config from '../config';
 
 // TODO: test on symbol without full address
 // Assign keys:
-const ssoKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.sso');
-const ghKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.gh');
+// const ssoKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.sso');
+// const ghKey = Symbol.for('ca.bc.gov.developer.realm-o-matic-api.gh');
+const ssoKey = Symbol.for('realm-o-matic-api.sso');
+const ghKey = Symbol.for('realm-o-matic-api.gh');
 const gs = Object.getOwnPropertySymbols(global);
 
 // SSO:
