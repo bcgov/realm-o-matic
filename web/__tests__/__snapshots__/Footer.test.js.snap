@@ -3,7 +3,7 @@
 exports[`Footer Component renders without crashing 1`] = `
 <div>
   <footer
-    class="css-e54x5j-StyledFooter ewud6l10"
+    class="css-1r34j8h-StyledFooter ewud6l10"
   >
     <div
       class="ui container"

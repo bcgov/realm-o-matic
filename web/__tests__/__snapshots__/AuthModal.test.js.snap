@@ -5,7 +5,7 @@ exports[`AuthModal Component renders without crashing 1`] = `
   class="ui page modals dimmer transition visible active"
 >
   <div
-    class="ui tiny modal transition visible active css-1cdwl04-StyledModal e1dd105m0"
+    class="ui tiny modal transition visible active css-1by431y-StyledModal e1dd105m0"
     data-testid="login-modal"
   >
     <div

@@ -3,11 +3,11 @@
 exports[`Layout Component renders without crashing 1`] = `
 <div>
   <div
-    class="css-cz7mt-StyledApp eqxrlrr0"
+    class="css-as4n9w-StyledApp eqxrlrr0"
   >
     <div />
     <div
-      class="ui container css-1ubbv4r-StyledContainer eqxrlrr1"
+      class="ui container css-1vx3l9s-StyledContainer eqxrlrr1"
     >
       <div />
     </div>
