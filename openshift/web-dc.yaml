@@ -95,7 +95,7 @@ objects:
     creationTimestamp: null
     name: ${NAME}-static${SUFFIX}
   spec:
-    host:
+    host: ${HOST_VALUE}
     port:
       targetPort: web
     tls:
