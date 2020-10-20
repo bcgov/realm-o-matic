@@ -16,10 +16,27 @@ This application contains:
 - web frontend in React
 - api backend in Nodejs Express
 - record management with a private GitHub repository
-- authenticated via Pathfinder Keycloak
+- authenticated via BCGov SSO Keycloak
 
-### Project Status
-In Development   
+### Prep setup:
+
+#### GitHub repo for Database:
+- brand new GitHub repo in an organization that you have access to
+- personal access token with `repo` and `user` access
+- a GitHub repo webhook that triggers via `Pull Request` events
+- GitHub labels for different request status
+
+#### Frontend:
+- KeyCloak client for authentication
+
+#### Backend:
+- KeyCloak client for authentication
+- config to use the GitHub repo
+- email server for notifications
+
+#### Realm Creator:
+There is an Ansible Playbook that provisions the KeyCloak resources. Realm-o-matic does not work directly with the Ansible Playbook, the automation provisioning is only triggered via GitHub repo events. See here for details https://github.com/BCDevOps/keycloak-admin/tree/master/keycloak_realm_builder
+
 
 ### Local Development
 1. Prerequisites: npm, docker and docker-compose, ngrok

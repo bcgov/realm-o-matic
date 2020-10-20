@@ -19,9 +19,9 @@
 //
 
 export const KEYCLOAK_REALM_LINKS = realmName => [
-  `https://sso-dev.pathfinder.gov.bc.ca/auth/admin/${realmName}/console/`,
-  `https://sso-test.pathfinder.gov.bc.ca/auth/admin/${realmName}/console/`,
-  `https://sso.pathfinder.gov.bc.ca/auth/admin/${realmName}/console/`,
+  `https://dev.oidc.gov.bc.ca/auth/admin/${realmName}/console/`,
+  `https://test.oidc.gov.bc.ca/auth/admin/${realmName}/console/`,
+  `https://oidc.gov.bc.ca/auth/admin/${realmName}/console/`,
 ];
 
 export const KEYCLOAK_TERMS = {

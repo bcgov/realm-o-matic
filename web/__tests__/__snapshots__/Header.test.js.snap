@@ -3,26 +3,26 @@
 exports[`Header Component renders without crashing 1`] = `
 <div>
   <div
-    class="ui top fixed css-hn2qep-StyledHeader em87vhj0 menu"
+    class="ui top fixed css-12u87mu-StyledHeader em87vhj0 menu"
   >
     <div
       class="ui container"
     >
       <div
-        class="item css-15pjj5h-StyledItem em87vhj1"
+        class="item css-147fva8-StyledItem em87vhj1"
       >
         <img
           alt="logo"
-          class="css-1dodcdk-StyledImage em87vhj2"
+          class="css-iuuabf-StyledImage em87vhj2"
           data-testid="gov-logo"
           src="bcgovlogo.svg"
         />
       </div>
       <div
-        class="item css-15pjj5h-StyledItem em87vhj1"
+        class="item css-147fva8-StyledItem em87vhj1"
       >
         <a
-          class="css-39fbxr-TextCss"
+          class="css-1x7dbc2-TextCss"
           data-testid="app-name"
           href="/"
         >
@@ -30,11 +30,11 @@ exports[`Header Component renders without crashing 1`] = `
         </a>
       </div>
       <div
-        class="right item css-15pjj5h-StyledItem em87vhj1"
+        class="right item css-147fva8-StyledItem em87vhj1"
       >
         <div
           aria-expanded="false"
-          class="ui dropdown css-icuubi-DropdownCss"
+          class="ui dropdown css-9rz85f-DropdownCss"
           data-testid="account-dropdown"
           role="listbox"
           tabindex="0"

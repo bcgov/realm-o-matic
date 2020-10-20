@@ -2,7 +2,7 @@
 
 exports[`Home Component has link to create a new request for Requester when no open record exists 1`] = `
 <div
-  class="css-10ra27g-StyledTableHeader e1c48y920"
+  class="css-53ro1c-StyledTableHeader e1c48y920"
 >
   <h2>
     Welcome!
@@ -60,7 +60,7 @@ exports[`Home Component has link to create a new request for Requester when no o
 
 exports[`Home Component has link to create a new request for reviewer 1`] = `
 <div
-  class="css-10ra27g-StyledTableHeader e1c48y920"
+  class="css-53ro1c-StyledTableHeader e1c48y920"
 >
   <h2>
     Welcome!
@@ -109,7 +109,7 @@ exports[`Home Component has link to create a new request for reviewer 1`] = `
   </div>
   <p />
   <div
-    class="css-b956hq-StyledList e11ezbjh0"
+    class="css-1xulj1-StyledList e11ezbjh0"
   >
     <table
       class="ui selectable striped table"
@@ -153,7 +153,7 @@ exports[`Home Component has link to create a new request for reviewer 1`] = `
 
 exports[`Home Component hide the link to create a new request for Requester when open record exists 1`] = `
 <div
-  class="css-10ra27g-StyledTableHeader e1c48y920"
+  class="css-53ro1c-StyledTableHeader e1c48y920"
 >
   <h2>
     Welcome!
@@ -202,7 +202,7 @@ exports[`Home Component hide the link to create a new request for Requester when
   </div>
   <p />
   <div
-    class="css-b956hq-StyledList e11ezbjh0"
+    class="css-1xulj1-StyledList e11ezbjh0"
   >
     <table
       class="ui selectable striped table"
