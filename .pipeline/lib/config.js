@@ -6,7 +6,7 @@ const name = 'realm-o-matic';
 
 const phases = {
   build: {
-    namespace: 'devhub-tools',
+    namespace: '6d70e7-tools',
     name: `${name}`,
     phase: 'build',
     changeId,
@@ -16,7 +16,7 @@ const phases = {
     tag: `build-${version}-${changeId}`,
   },
   dev: {
-    namespace: 'devhub-dev',
+    namespace: '6d70e7-dev',
     name: `${name}`,
     phase: 'dev',
     changeId,
@@ -30,7 +30,7 @@ const phases = {
     admin: 'shelly.han@gov.bc.ca',
   },
   test: {
-    namespace: 'devhub-test',
+    namespace: '6d70e7-test',
     name: `${name}`,
     phase: 'test',
     changeId,
@@ -44,7 +44,7 @@ const phases = {
     admin: 'shelly.han@gov.bc.ca',
   },
   prod: {
-    namespace: 'devhub-prod',
+    namespace: '6d70e7-prod',
     name: `${name}`,
     phase: 'prod',
     changeId,

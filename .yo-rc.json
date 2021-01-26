@@ -4,21 +4,21 @@
       "modules": {
         "jenkins": {
           "path": ".jenkins",
-          "namespace": "devhub-tools",
+          "namespace": "6d70e7-tools",
           "name": "jenkins-realm-o-matic",
           "version": "1.0.0",
           "environments": {
             "build": {
-              "namespace": "devhub-tools"
+              "namespace": "6d70e7-tools"
             },
             "dev": {
-              "namespace": "devhub-tools"
+              "namespace": "6d70e7-tools"
             },
             "test": {
-              "namespace": "devhub-tools"
+              "namespace": "6d70e7-tools"
             },
             "prod": {
-              "namespace": "devhub-tools"
+              "namespace": "6d70e7-tools"
             }
           },
           "jenkinsJobName": "_jenkins",
@@ -33,16 +33,16 @@
           "path": ".",
           "environments": {
             "build": {
-              "namespace": "devhub-tools"
+              "namespace": "6d70e7-tools"
             },
             "dev": {
-              "namespace": "devhub-dev"
+              "namespace": "6d70e7-dev"
             },
             "test": {
-              "namespace": "devhub-test"
+              "namespace": "6d70e7-test"
             },
             "prod": {
-              "namespace": "devhub-prod"
+              "namespace": "6d70e7-prod"
             }
           },
           "jenkinsJobName": "app",
