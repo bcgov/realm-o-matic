@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Template
 metadata:
   creationTimestamp: null
-  name: jenkins
+  name: realm-o-matic-web-bc
 labels:
   template: realm-o-matic-web
 objects:
@@ -12,7 +12,7 @@ objects:
     creationTimestamp: null
     labels:
       shared: true
-    name: ${NAME}
+    name: ${NAME}-web
   spec:
     lookupPolicy:
       local: false
@@ -21,7 +21,7 @@ objects:
   kind: ImageStream
   metadata:
     creationTimestamp: null
-    name: ${NAME}-static
+    name: ${NAME}-web-static
   spec:
     lookupPolicy:
       local: false
@@ -29,13 +29,13 @@ objects:
   kind: BuildConfig
   metadata:
     creationTimestamp: null
-    name: ${NAME}${SUFFIX}
+    name: ${NAME}-web${SUFFIX}
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}:${VERSION}
+        name: ${NAME}-web:${VERSION}
     postCommit: {}
     resources:
       requests:
@@ -67,14 +67,14 @@ objects:
   metadata:
     creationTimestamp: null
     labels:
-      build: ${NAME}-static${SUFFIX}
-    name: ${NAME}-static${SUFFIX}
+      build: ${NAME}-web-static${SUFFIX}
+    name: ${NAME}-web-static${SUFFIX}
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}-static:${VERSION}
+        name: ${NAME}-web-static:${VERSION}
     postCommit: {}
     resources:
       requests:
@@ -88,7 +88,7 @@ objects:
       images:
         - from:
             kind: ImageStreamTag
-            name: '${NAME}:${VERSION}'
+            name: '${NAME}-web:${VERSION}'
           paths:
             - destinationDir: html
               sourcePath: /opt/app-root/src/build/
@@ -97,14 +97,13 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: 'bcgov-s2i-caddy:latest'
-          namespace: openshift
+          name: bcgov-s2i-caddy:latest
       type: Docker
     triggers:
     - imageChange:
         from:
           kind: ImageStreamTag
-          name: ${NAME}:${VERSION}
+          name: ${NAME}-web:${VERSION}
       type: ImageChange
     - type: ConfigChange
     - imageChange: {}
@@ -114,7 +113,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: realm-o-matic-web
+  value: realm-o-matic
 - description: A name suffix used for all objects
   displayName: Suffix
   name: SUFFIX
