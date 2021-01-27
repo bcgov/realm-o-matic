@@ -17,17 +17,12 @@
 //
 // Created by Shelly Xue Han
 //
-
-export const CADDY_ENV_VAR = {
-  ssoRealmName: '{{.Env.REACT_APP_SSO_REALM_NAME}}',
-  ssoClientId: '{{.Env.REACT_APP_SSO_CLIENT_ID}}',
-  ssoBaseUrl: '{{.Env.REACT_APP_SSO_BASE_URL}}',
-};
+import config from '../config.json';
 
 export const SSO_CONFIG = {
-  baseURL: process.env.REACT_APP_SSO_BASE_URL || CADDY_ENV_VAR.ssoBaseUrl,
-  realmName: process.env.REACT_APP_SSO_REALM_NAME || CADDY_ENV_VAR.ssoRealmName,
-  clientId: process.env.REACT_APP_SSO_CLIENT_ID || CADDY_ENV_VAR.ssoClientId,
+  baseURL: process.env.REACT_APP_SSO_BASE_URL || config.ssoBaseUrl,
+  realmName: process.env.REACT_APP_SSO_REALM_NAME || config.ssoRealmName,
+  clientId: process.env.REACT_APP_SSO_CLIENT_ID || config.ssoClientId,
 };
 
 export const SSO_IDP = {
