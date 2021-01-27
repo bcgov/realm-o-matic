@@ -26,44 +26,44 @@ objects:
   spec:
     lookupPolicy:
       local: false
-# # email server secret:
-# - apiVersion: v1
-#   stringData:
-#     EMAIL_HOST: ${EMAIL_HOST}
-#     EMAIL_PORT: ${EMAIL_PORT}
-#     EMAIL_SENDER: ${EMAIL_SENDER}
-#   kind: Secret
-#   metadata:
-#     creationTimestamp: null
-#     name: realmomatic-api-email
-#     labels:
-#       app: realm-o-matic
-#   type: Opaque
-# # github token secret:
-# - apiVersion: v1
-#   stringData:
-#     GITHUB_TOKEN: ${GITHUB_TOKEN}
-#     GITHUB_OWNER: ${GITHUB_OWNER}
-#     GITHUB_REPO: ${GITHUB_REPO}
-#   kind: Secret
-#   metadata:
-#     creationTimestamp: null
-#     name: realmomatic-api-gh
-#     labels:
-#       app: realm-o-matic
-#   type: Opaque
-# # sso secret:
-# - apiVersion: v1
-#   stringData:
-#     API_SSO_CLIENT_SECRET: ${API_SSO_CLIENT_SECRET}
-#   kind: Secret
-#   metadata:
-#     creationTimestamp: null
-#     name: realmomatic-api-sso
-#     labels:
-#       app: realm-o-matic
-#   type: Opaque
-# caddy file configmap:
+# api email server secret:
+- apiVersion: v1
+  stringData:
+    EMAIL_HOST: ${EMAIL_HOST}
+    EMAIL_PORT: ${EMAIL_PORT}
+    EMAIL_SENDER: ${EMAIL_SENDER}
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: realmomatic-api-email
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# api github token secret:
+- apiVersion: v1
+  stringData:
+    GITHUB_TOKEN: ${GITHUB_TOKEN}
+    GITHUB_OWNER: ${GITHUB_OWNER}
+    GITHUB_REPO: ${GITHUB_REPO}
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: realmomatic-api-gh
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# api sso secret:
+- apiVersion: v1
+  stringData:
+    API_SSO_CLIENT_SECRET: ${API_SSO_CLIENT_SECRET}
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: realmomatic-api-sso
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# web caddy file configmap:
 - apiVersion: v1
   data:
     Caddyfile: |
@@ -81,10 +81,21 @@ objects:
   kind: ConfigMap
   metadata:
     creationTimestamp: null
-    name: realm-o-matic-web-caddy
+    name: ${NAME}-web-caddy
     labels:
       app: realm-o-matic
   type: Opaque
+# web sso config configmap:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${NAME}-web-static-config
+    labels:
+      app: realm-o-matic
+  data:
+    REACT_APP_SSO_BASE_URL: ${REACT_APP_SSO_BASE_URL}
+    REACT_APP_SSO_REALM_NAME: ${REACT_APP_SSO_REALM_NAME}
+    REACT_APP_SSO_CLIENT_ID: ${REACT_APP_SSO_CLIENT_ID}
 parameters:
 - description: A name used for all objects
   displayName: Name
@@ -118,4 +129,19 @@ parameters:
 - description: Github account token
   displayName: GITHUB_REPO
   name: GITHUB_REPO
+  value: ''
+- description: The url of the web sso client
+  displayName: Realm-o-matic web sso
+  name: REACT_APP_SSO_BASE_URL
+  required: false
+  value: ''
+- description: The realm of the web sso realm
+  displayName: Realm-o-matic web sso
+  name: REACT_APP_SSO_REALM_NAME
+  required: false
+  value: ''
+- description: The client id of the web sso client
+  displayName: Realm-o-matic web sso
+  name: REACT_APP_SSO_CLIENT_ID
+  required: false
   value: ''

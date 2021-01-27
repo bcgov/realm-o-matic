@@ -7,16 +7,6 @@ labels:
   template: realm-o-matic-web
 objects:
 - apiVersion: v1
-  kind: ConfigMap
-  metadata:
-    name: ${NAME}-web-static-config
-    labels:
-      app: realm-o-matic
-  data:
-    REACT_APP_SSO_BASE_URL: ${REACT_APP_SSO_BASE_URL}
-    REACT_APP_SSO_REALM_NAME: ${REACT_APP_SSO_REALM_NAME}
-    REACT_APP_SSO_CLIENT_ID: ${REACT_APP_SSO_CLIENT_ID}
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     creationTimestamp: null
@@ -148,21 +138,6 @@ parameters:
   name: VOLUME_NAME
   required: false
   value: web-caddy-config
-- description: The url of the web sso client
-  displayName: Realm-o-matic web sso
-  name: REACT_APP_SSO_BASE_URL
-  required: false
-  value: ''
-- description: The realm of the web sso realm
-  displayName: Realm-o-matic web sso
-  name: REACT_APP_SSO_REALM_NAME
-  required: false
-  value: ''
-- description: The client id of the web sso client
-  displayName: Realm-o-matic web sso
-  name: REACT_APP_SSO_CLIENT_ID
-  required: false
-  value: ''
 - name: TLS_CERT_PEM
   description: TLS certificate data in PEM format.
   displayName: TLS Certificate
