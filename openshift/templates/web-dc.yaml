@@ -7,6 +7,16 @@ labels:
   template: realm-o-matic-web
 objects:
 - apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${NAME}-web-static-config
+    labels:
+      app: realm-o-matic
+  data:
+    REACT_APP_SSO_BASE_URL: ${REACT_APP_SSO_BASE_URL}
+    REACT_APP_SSO_REALM_NAME: ${REACT_APP_SSO_REALM_NAME}
+    REACT_APP_SSO_CLIENT_ID: ${REACT_APP_SSO_CLIENT_ID}
+- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     creationTimestamp: null
@@ -50,19 +60,15 @@ objects:
               cpu: '100m'
             limits:
               cpu: '150m'
-          env:
-          - name: REACT_APP_SSO_BASE_URL
-            value: ${REACT_APP_SSO_BASE_URL_VALUE}
-          - name: REACT_APP_SSO_REALM_NAME
-            value: ${REACT_APP_SSO_REALM_NAME_VALUE}
-          - name: REACT_APP_SSO_CLIENT_ID
-            value: ${REACT_APP_SSO_CLIENT_ID_VALUE}
+          envFrom:
+            - configMapRef:
+                name: ${NAME}-web-static-config
           volumeMounts:
-          - name: ${VOLUMN_NAME}
+          - name: ${VOLUME_NAME}
             mountPath: /opt/app-root/etc/Caddyfile
             subPath: Caddyfile
         volumes:
-        - name: ${VOLUMN_NAME}
+        - name: ${VOLUME_NAME}
           configMap:
             name: ${NAME}-web-caddy
     test: false
@@ -105,6 +111,12 @@ objects:
     tls:
       insecureEdgeTerminationPolicy: Redirect
       termination: edge
+      certificate: |-
+        ${TLS_CERT_PEM}
+      key: |-
+        ${TLS_KEY_PEM}
+      caCertificate: |-
+        ${TLS_CACERT_PEM}
     to:
       kind: Service
       name: ${NAME}-web-static${SUFFIX}
@@ -131,23 +143,40 @@ parameters:
   name: HOST_VALUE
   required: false
   value: ''
-- description: A volumn used for the caddy from config map
-  displayName: volumn name
-  name: VOLUMN_NAME
+- description: A volume used for the caddy from config map
+  displayName: volume name
+  name: VOLUME_NAME
   required: false
   value: web-caddy-config
 - description: The url of the web sso client
   displayName: Realm-o-matic web sso
-  name: REACT_APP_SSO_BASE_URL_VALUE
+  name: REACT_APP_SSO_BASE_URL
   required: false
   value: ''
 - description: The realm of the web sso realm
   displayName: Realm-o-matic web sso
-  name: REACT_APP_SSO_REALM_NAME_VALUE
+  name: REACT_APP_SSO_REALM_NAME
   required: false
   value: ''
 - description: The client id of the web sso client
   displayName: Realm-o-matic web sso
-  name: REACT_APP_SSO_CLIENT_ID_VALUE
+  name: REACT_APP_SSO_CLIENT_ID
   required: false
   value: ''
+- name: TLS_CERT_PEM
+  description: TLS certificate data in PEM format.
+  displayName: TLS Certificate
+  required: true
+- name: TLS_KEY_PEM
+  description: |
+    TLS certificate private key data in PEM format. This will be in
+    the possesion of the person who created the Certificate Signing
+    Request (CSR).
+  displayName: TLS Private Key
+  required: true
+- name: TLS_CACERT_PEM
+  description: |
+    TLS certificate authority certificate data in PEM format. If you 
+    got your certificate from an iStore request, use L1KChain.txt.
+  displayName: TLS Certificate Authority Certificate
+  required: true
