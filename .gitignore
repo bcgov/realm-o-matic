@@ -71,3 +71,4 @@ pipeline/
 samples/
 api/build/
 .nvm/
+*.pem
