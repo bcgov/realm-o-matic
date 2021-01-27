@@ -131,6 +131,12 @@ objects:
     tls:
       insecureEdgeTerminationPolicy: Redirect
       termination: edge
+      certificate: |-
+        ${TLS_CERT_PEM}
+      key: |-
+        ${TLS_KEY_PEM}
+      caCertificate: |-
+        ${TLS_CACERT_PEM}
     to:
       kind: Service
       name: ${NAME}-api${SUFFIX}
@@ -187,3 +193,20 @@ parameters:
   name: ADMIN_EMAIL_VALUE
   required: false
   value: ''
+- name: TLS_CERT_PEM
+  description: TLS certificate data in PEM format.
+  displayName: TLS Certificate
+  required: true
+- name: TLS_KEY_PEM
+  description: |
+    TLS certificate private key data in PEM format. This will be in
+    the possesion of the person who created the Certificate Signing
+    Request (CSR).
+  displayName: TLS Private Key
+  required: true
+- name: TLS_CACERT_PEM
+  description: |
+    TLS certificate authority certificate data in PEM format. If you 
+    got your certificate from an iStore request, use L1KChain.txt.
+  displayName: TLS Certificate Authority Certificate
+  required: true
