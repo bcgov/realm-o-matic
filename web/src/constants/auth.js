@@ -17,12 +17,11 @@
 //
 // Created by Shelly Xue Han
 //
-import config from '../config.json';
 
 export const SSO_CONFIG = {
-  baseURL: process.env.REACT_APP_SSO_BASE_URL || config.ssoBaseUrl,
-  realmName: process.env.REACT_APP_SSO_REALM_NAME || config.ssoRealmName,
-  clientId: process.env.REACT_APP_SSO_CLIENT_ID || config.ssoClientId,
+  baseURL: process.env.REACT_APP_SSO_BASE_URL || '{{env "REACT_APP_SSO_BASE_URL"}}',
+  realmName: process.env.REACT_APP_SSO_REALM_NAME || '{{env "REACT_APP_SSO_REALM_NAME"}}',
+  clientId: process.env.REACT_APP_SSO_CLIENT_ID || '{{env "REACT_APP_SSO_CLIENT_ID"}}',
 };
 
 export const SSO_IDP = {

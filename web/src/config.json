@@ -1,5 +1,0 @@
-{
-  "ssoRealmName": "{{env \"REACT_APP_SSO_REALM_NAME\"}}",
-  "ssoClientId": "{{env \"REACT_APP_SSO_CLIENT_ID\"}}",
-  "ssoBaseUrl": "{{env \"REACT_APP_SSO_BASE_URL\"}}"
-}
