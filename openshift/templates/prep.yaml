@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: "true"
+objects:
+# local api image:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    name: ${NAME}-api
+    labels:
+      app: realm-o-matic
+  spec:
+    lookupPolicy:
+      local: false
+# local web image:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    name: ${NAME}-web-static
+    labels:
+      app: realm-o-matic
+  spec:
+    lookupPolicy:
+      local: false
+# # email server secret:
+# - apiVersion: v1
+#   stringData:
+#     EMAIL_HOST: ${EMAIL_HOST}
+#     EMAIL_PORT: ${EMAIL_PORT}
+#     EMAIL_SENDER: ${EMAIL_SENDER}
+#   kind: Secret
+#   metadata:
+#     creationTimestamp: null
+#     name: realmomatic-api-email
+#     labels:
+#       app: realm-o-matic
+#   type: Opaque
+# # github token secret:
+# - apiVersion: v1
+#   stringData:
+#     GITHUB_TOKEN: ${GITHUB_TOKEN}
+#     GITHUB_OWNER: ${GITHUB_OWNER}
+#     GITHUB_REPO: ${GITHUB_REPO}
+#   kind: Secret
+#   metadata:
+#     creationTimestamp: null
+#     name: realmomatic-api-gh
+#     labels:
+#       app: realm-o-matic
+#   type: Opaque
+# # sso secret:
+# - apiVersion: v1
+#   stringData:
+#     API_SSO_CLIENT_SECRET: ${API_SSO_CLIENT_SECRET}
+#   kind: Secret
+#   metadata:
+#     creationTimestamp: null
+#     name: realmomatic-api-sso
+#     labels:
+#       app: realm-o-matic
+#   type: Opaque
+# caddy file configmap:
+- apiVersion: v1
+  data:
+    Caddyfile: |
+      0.0.0.0:2015
+      root /var/www/html/build
+      log stdout
+      errors stdout
+      rewrite {
+        if  {path} not_match ^\/0.0.0.0
+        to  {path} {path}/ /?_url={uri}
+      }
+      templates {
+        ext  .js
+      }
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: null
+    name: realm-o-matic-web-caddy
+    labels:
+      app: realm-o-matic
+  type: Opaque
+parameters:
+- description: A name used for all objects
+  displayName: Name
+  name: NAME
+  required: true
+  value: realm-o-matic
+- description: Email server host
+  displayName: EMAIL_HOST
+  name: EMAIL_HOST
+  value: ''
+- description: Email server port
+  displayName: EMAIL_PORT
+  name: EMAIL_PORT
+  value: ''
+- description: Sender email address
+  displayName: EMAIL_SENDER
+  name: EMAIL_SENDER
+  value: ''
+- description: SSO client secret for endpoints
+  displayName: API_SSO_CLIENT_SECRET
+  name: API_SSO_CLIENT_SECRET
+  value: ''
+- description: Github account token
+  displayName: GITHUB_TOKEN
+  name: GITHUB_TOKEN
+  value: ''
+- description: Github account token
+  displayName: GITHUB_OWNER
+  name: GITHUB_OWNER
+  value: ''
+- description: Github account token
+  displayName: GITHUB_REPO
+  name: GITHUB_REPO
+  value: ''
