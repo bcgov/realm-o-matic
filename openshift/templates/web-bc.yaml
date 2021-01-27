@@ -54,13 +54,13 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: nodejs:${NODE_JS_VERSION}
-          namespace: openshift
+          name: ${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
+          namespace: ${SOURCE_IMAGE_NAMESPACE}
       type: Source
-    triggers:
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
+    # triggers:
+    # - type: ConfigChange
+    # - imageChange: {}
+    #   type: ImageChange
 #Chainned build
 - apiVersion: v1
   kind: BuildConfig
@@ -82,32 +82,33 @@ objects:
       limits:
         cpu: 2
     source:
-      dockerfile: |-
-        FROM nodejs/build-output:latest
-        COPY html /var/www/html/
-      images:
-        - from:
-            kind: ImageStreamTag
-            name: '${NAME}-web:${VERSION}'
-          paths:
-            - destinationDir: html
-              sourcePath: /opt/app-root/src/build/
       type: Dockerfile
+      dockerfile: |-
+        FROM image-registry.openshift-image-registry.svc:5000/6d70e7-tools/caddy-s2i-v2:latest
+        COPY build /opt/app-root/
+        CMD /usr/libexec/s2i/run
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: '${NAME}-web:${VERSION}'
+        paths:
+        - sourcePath: /opt/app-root/src/build/
+          destinationDir: "."
     strategy:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: bcgov-s2i-caddy:latest
+          name: caddy-s2i-v2:latest
       type: Docker
-    triggers:
-    - imageChange:
-        from:
-          kind: ImageStreamTag
-          name: ${NAME}-web:${VERSION}
-      type: ImageChange
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
+    # triggers:
+    # - imageChange:
+    #     from:
+    #       kind: ImageStreamTag
+    #       name: ${NAME}-web:${VERSION}
+    #   type: ImageChange
+    # - type: ConfigChange
+    # - imageChange: {}
+    #   type: ImageChange
 parameters:
 - description: A name used for all objects
   displayName: Name
@@ -124,11 +125,21 @@ parameters:
   name: VERSION
   required: true
   value: v1.0.0
-- description: NODE_JS_VERSION
-  displayName: NODE_JS_VERSION
-  name: NODE_JS_VERSION
+- description: The openshift project where builds and target images are stored.
+  displayName: Build Project
+  name: SOURCE_IMAGE_NAMESPACE
+  value: 'openshift'
   required: true
-  value: '10'
+- description: The name of the source image.
+  displayName: Source Image Name
+  name: SOURCE_IMAGE_NAME
+  value: 'nodejs'
+  required: true
+- description: The tag of the source image.
+  displayName: Source Image Tag
+  name: SOURCE_IMAGE_TAG
+  value: "10"
+  required: true
 - description: SOURCE_REPOSITORY_URL
   displayName: SOURCE_REPOSITORY_URL
   name: SOURCE_REPOSITORY_URL
