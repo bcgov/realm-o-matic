@@ -48,7 +48,7 @@ export const TEST_IDS = {
 
 export const APP_INFO = {
   NAME: 'Realm-o-Matic',
-  CONTACT_LINK: 'https://chat.pathfinder.gov.bc.ca',
+  CONTACT_LINK: 'https://chat.developer.gov.bc.ca',
 };
 
 export const FOOTER_LINKS = [
