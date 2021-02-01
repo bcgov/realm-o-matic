@@ -67,16 +67,41 @@ objects:
 - apiVersion: v1
   data:
     Caddyfile: |
-      0.0.0.0:2015
-      root /var/www/html/build
-      log stdout
-      errors stdout
-      rewrite {
-        if  {path} not_match ^\/0.0.0.0
-        to  {path} {path}/ /?_url={uri}
-      }
+      # Where caddy should listen
+      :2015
+
+      # Turn on the Web/file server
+      file_server
       templates {
-        ext  .js
+        mime  "text/javascript" "application/javascript"
+      }
+
+      # The site root
+      root * /opt/app-root/
+
+      # Because we should
+      encode zstd gzip
+
+      # This rewrite rule may be required to get React apps
+      # to deal with trailing slashes properly.
+      #@filter {
+      #	not path_regexp ^\/0.0.0.0
+      #	file {
+      #		try_files {path} {path}/ /?url={uri}
+      #	}
+      #}
+      #rewrite @try_files {http.matchers.file.relative}
+
+      # This properly deals with react routes.
+      try_files {path} {path}/ /index.html
+
+      # On OCP we should log to stdout so Prometheus can
+      # slurp up the logs for human consumption.
+      log {
+        #errors stdout
+        output stdout 
+        format single_field common_log
+        level info
       }
   kind: ConfigMap
   metadata:
