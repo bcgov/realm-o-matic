@@ -30,14 +30,14 @@ oc get is | grep -i realm-o-matic
 
 ### Deploy
 
-An example in dev namespace.
+Deploy api and web component with oc templates and config for each env.
 
 ```shell
 # switch to deployment namespace:
-oc project <namespace>-dev
+oc project <namespace>-<env>
 
 # edit properties file:
-# - realm-o-matic-dev.properties
+# - realm-o-matic-<env>.properties
 
 # Create a copy of the SSL Certificate if needed:
 # - ./openshift/certificate.pem
@@ -48,7 +48,7 @@ oc project <namespace>-dev
 # - please note that secret values should be obtained from existing secrets
 oc process --ignore-unknown-parameters=true \
 -f openshift/templates/prep.yaml \
---param-file=openshift/realm-o-matic-dev.properties | oc apply -f -
+--param-file=openshift/realm-o-matic-<env>.properties | oc apply -f -
 
 # copy built image from tools namespace:
 # - please note that our dc is using local image atm, that's why we need to have a copy
@@ -59,13 +59,16 @@ oc tag <namespace>-tools/realm-o-matic-web-static:<version> realm-o-matic-web-st
 oc process --ignore-unknown-parameters=true \
 -f openshift/templates/api-dc.yaml \
 -p TLS_CERT_PEM="$(cat ./openshift/certificate.pem)" -p TLS_KEY_PEM="$(cat ./openshift/key.pem)" -p TLS_CACERT_PEM="$(cat ./openshift/ca.pem)" \
---param-file=openshift/realm-o-matic-dev.properties | oc apply -f -
+--param-file=openshift/realm-o-matic-<env>.properties | oc apply -f -
 
 # deploy web:
 oc process --ignore-unknown-parameters=true \
 -f openshift/templates/web-dc.yaml \
 -p TLS_CERT_PEM="$(cat ./openshift/certificate.pem)" -p TLS_KEY_PEM="$(cat ./openshift/key.pem)" -p TLS_CACERT_PEM="$(cat ./openshift/ca.pem)" \
---param-file=openshift/realm-o-matic-dev.properties | oc apply -f -
+--param-file=openshift/realm-o-matic-<env>.properties | oc apply -f -
 
 # wait for dc to spin up
+
+# get all components:
+oc get all -l app=realm-o-matic
 ```
