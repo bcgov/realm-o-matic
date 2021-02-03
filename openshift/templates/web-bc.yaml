@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Template
 metadata:
   creationTimestamp: null
-  name: jenkins
+  name: realm-o-matic-web-bc
 labels:
   template: realm-o-matic-web
 objects:
@@ -12,7 +12,7 @@ objects:
     creationTimestamp: null
     labels:
       shared: true
-    name: ${NAME}
+    name: ${NAME}-web
   spec:
     lookupPolicy:
       local: false
@@ -21,7 +21,7 @@ objects:
   kind: ImageStream
   metadata:
     creationTimestamp: null
-    name: ${NAME}-static
+    name: ${NAME}-web-static
   spec:
     lookupPolicy:
       local: false
@@ -29,13 +29,13 @@ objects:
   kind: BuildConfig
   metadata:
     creationTimestamp: null
-    name: ${NAME}${SUFFIX}
+    name: ${NAME}-web${SUFFIX}
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}:${VERSION}
+        name: ${NAME}-web:${VERSION}
     postCommit: {}
     resources:
       requests:
@@ -54,8 +54,8 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: nodejs:${NODE_JS_VERSION}
-          namespace: openshift
+          name: ${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
+          namespace: ${SOURCE_IMAGE_NAMESPACE}
       type: Source
     triggers:
     - type: ConfigChange
@@ -67,14 +67,14 @@ objects:
   metadata:
     creationTimestamp: null
     labels:
-      build: ${NAME}-static${SUFFIX}
-    name: ${NAME}-static${SUFFIX}
+      build: ${NAME}-web-static${SUFFIX}
+    name: ${NAME}-web-static${SUFFIX}
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}-static:${VERSION}
+        name: ${NAME}-web-static:${VERSION}
     postCommit: {}
     resources:
       requests:
@@ -82,29 +82,29 @@ objects:
       limits:
         cpu: 2
     source:
-      dockerfile: |-
-        FROM nodejs/build-output:latest
-        COPY html /var/www/html/
-      images:
-        - from:
-            kind: ImageStreamTag
-            name: '${NAME}:${VERSION}'
-          paths:
-            - destinationDir: html
-              sourcePath: /opt/app-root/src/build/
       type: Dockerfile
+      dockerfile: |-
+        FROM image-registry.openshift-image-registry.svc:5000/6d70e7-tools/caddy-s2i-v2:latest
+        COPY build /opt/app-root/
+        CMD /usr/libexec/s2i/run
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: '${NAME}-web:${VERSION}'
+        paths:
+        - sourcePath: /opt/app-root/src/build/
+          destinationDir: "."
     strategy:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: 'bcgov-s2i-caddy:latest'
-          namespace: openshift
+          name: caddy-s2i-v2:latest
       type: Docker
     triggers:
     - imageChange:
         from:
           kind: ImageStreamTag
-          name: ${NAME}:${VERSION}
+          name: ${NAME}-web:${VERSION}
       type: ImageChange
     - type: ConfigChange
     - imageChange: {}
@@ -114,7 +114,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: realm-o-matic-web
+  value: realm-o-matic
 - description: A name suffix used for all objects
   displayName: Suffix
   name: SUFFIX
@@ -125,11 +125,21 @@ parameters:
   name: VERSION
   required: true
   value: v1.0.0
-- description: NODE_JS_VERSION
-  displayName: NODE_JS_VERSION
-  name: NODE_JS_VERSION
+- description: The openshift project where builds and target images are stored.
+  displayName: Build Project
+  name: SOURCE_IMAGE_NAMESPACE
+  value: 'openshift'
   required: true
-  value: '10'
+- description: The name of the source image.
+  displayName: Source Image Name
+  name: SOURCE_IMAGE_NAME
+  value: 'nodejs'
+  required: true
+- description: The tag of the source image.
+  displayName: Source Image Tag
+  name: SOURCE_IMAGE_TAG
+  value: "10"
+  required: true
 - description: SOURCE_REPOSITORY_URL
   displayName: SOURCE_REPOSITORY_URL
   name: SOURCE_REPOSITORY_URL

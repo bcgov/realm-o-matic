@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Template
 metadata:
   creationTimestamp: null
-  name: jenkins
+  name: realm-o-matic-api-bc
 labels:
   template: realm-o-matic-api
 objects:
@@ -12,7 +12,7 @@ objects:
     creationTimestamp: null
     labels:
       shared: true
-    name: ${NAME}
+    name: ${NAME}-api
   spec:
     lookupPolicy:
       local: false
@@ -20,13 +20,13 @@ objects:
   kind: BuildConfig
   metadata:
     creationTimestamp: null
-    name: ${NAME}${SUFFIX}
+    name: ${NAME}-api${SUFFIX}
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}:${VERSION}
+        name: ${NAME}-api:${VERSION}
     postCommit: {}
     resources:
       requests:
@@ -45,8 +45,8 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: nodejs:${NODE_JS_VERSION}
-          namespace: openshift
+          name: ${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
+          namespace: ${SOURCE_IMAGE_NAMESPACE}
       type: Source
     triggers:
     - type: ConfigChange
@@ -57,7 +57,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: realm-o-matic-api
+  value: realm-o-matic
 - description: A name suffix used for all objects
   displayName: Suffix
   name: SUFFIX
@@ -83,8 +83,18 @@ parameters:
   name: SOURCE_CONTEXT_DIR
   required: true
   value: api
-- description: NODE_JS_VERSION
-  displayName: NODE_JS_VERSION
-  name: NODE_JS_VERSION
+- description: The openshift project where builds and target images are stored.
+  displayName: Build Project
+  name: SOURCE_IMAGE_NAMESPACE
+  value: 'openshift'
   required: true
-  value: '10'
+- description: The name of the source image.
+  displayName: Source Image Name
+  name: SOURCE_IMAGE_NAME
+  value: 'nodejs'
+  required: true
+- description: The tag of the source image.
+  displayName: Source Image Tag
+  name: SOURCE_IMAGE_TAG
+  value: "10"
+  required: true

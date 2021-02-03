@@ -1,0 +1,172 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: realm-o-matic-prep-template
+objects:
+# local api image:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    name: ${NAME}-api
+    labels:
+      app: realm-o-matic
+  spec:
+    lookupPolicy:
+      local: false
+# local web image:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    name: ${NAME}-web-static
+    labels:
+      app: realm-o-matic
+  spec:
+    lookupPolicy:
+      local: false
+# api email server secret:
+- apiVersion: v1
+  stringData:
+    EMAIL_HOST: ${EMAIL_HOST}
+    EMAIL_PORT: ${EMAIL_PORT}
+    EMAIL_SENDER: ${EMAIL_SENDER}
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: realmomatic-api-email
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# api github token secret:
+- apiVersion: v1
+  stringData:
+    GITHUB_TOKEN: ${GITHUB_TOKEN}
+    GITHUB_OWNER: ${GITHUB_OWNER}
+    GITHUB_REPO: ${GITHUB_REPO}
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: realmomatic-api-gh
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# api sso secret:
+- apiVersion: v1
+  stringData:
+    API_SSO_CLIENT_SECRET: ${API_SSO_CLIENT_SECRET}
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: realmomatic-api-sso
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# web caddy file configmap:
+- apiVersion: v1
+  data:
+    Caddyfile: |
+      # Where caddy should listen
+      :2015
+
+      # Turn on the Web/file server
+      file_server
+      templates {
+        mime  "text/javascript" "application/javascript"
+      }
+
+      # The site root
+      root * /opt/app-root/
+
+      # Because we should
+      encode zstd gzip
+
+      # This rewrite rule may be required to get React apps
+      # to deal with trailing slashes properly.
+      #@filter {
+      #	not path_regexp ^\/0.0.0.0
+      #	file {
+      #		try_files {path} {path}/ /?url={uri}
+      #	}
+      #}
+      #rewrite @try_files {http.matchers.file.relative}
+
+      # This properly deals with react routes.
+      try_files {path} {path}/ /index.html
+
+      # On OCP we should log to stdout so Prometheus can
+      # slurp up the logs for human consumption.
+      log {
+        #errors stdout
+        output stdout 
+        format single_field common_log
+        level info
+      }
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: null
+    name: ${NAME}-web-caddy
+    labels:
+      app: realm-o-matic
+  type: Opaque
+# web sso config configmap:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${NAME}-web-static-config
+    labels:
+      app: realm-o-matic
+  data:
+    REACT_APP_SSO_BASE_URL: ${REACT_APP_SSO_BASE_URL}
+    REACT_APP_SSO_REALM_NAME: ${REACT_APP_SSO_REALM_NAME}
+    REACT_APP_SSO_CLIENT_ID: ${REACT_APP_SSO_CLIENT_ID}
+parameters:
+- description: A name used for all objects
+  displayName: Name
+  name: NAME
+  required: true
+  value: realm-o-matic
+- description: Email server host
+  displayName: EMAIL_HOST
+  name: EMAIL_HOST
+  value: ''
+- description: Email server port
+  displayName: EMAIL_PORT
+  name: EMAIL_PORT
+  value: ''
+- description: Sender email address
+  displayName: EMAIL_SENDER
+  name: EMAIL_SENDER
+  value: ''
+- description: SSO client secret for endpoints
+  displayName: API_SSO_CLIENT_SECRET
+  name: API_SSO_CLIENT_SECRET
+  value: ''
+- description: Github account token
+  displayName: GITHUB_TOKEN
+  name: GITHUB_TOKEN
+  value: ''
+- description: Github account token
+  displayName: GITHUB_OWNER
+  name: GITHUB_OWNER
+  value: ''
+- description: Github account token
+  displayName: GITHUB_REPO
+  name: GITHUB_REPO
+  value: ''
+- description: The url of the web sso client
+  displayName: Realm-o-matic web sso
+  name: REACT_APP_SSO_BASE_URL
+  required: false
+  value: ''
+- description: The realm of the web sso realm
+  displayName: Realm-o-matic web sso
+  name: REACT_APP_SSO_REALM_NAME
+  required: false
+  value: ''
+- description: The client id of the web sso client
+  displayName: Realm-o-matic web sso
+  name: REACT_APP_SSO_CLIENT_ID
+  required: false
+  value: ''
