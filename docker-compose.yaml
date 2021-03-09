@@ -21,15 +21,20 @@ services:
       - API_PORT=${API_PORT}
       - NODE_ENV=development
   web:
+    stdin_open: true
     image: kc-web-img
     container_name: kc-web
     build:
       context: ./web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.node
     volumes:
       - type: bind
         source: ./web
         target: /home/app
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 256m
     ports:
       - ${WEB_PORT}:${WEB_PORT}
     depends_on:
