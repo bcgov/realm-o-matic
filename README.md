@@ -51,13 +51,28 @@ There is an Ansible Playbook that provisions the KeyCloak resources. Realm-o-mat
 1. Prerequisites: npm, docker and docker-compose, ngrok
 
 2. Install project dependencies:
-run `npm i` in both /api and /web directories
+```shell
+# npm install for both /api and /web directories
+cd api/
+npm i
 
-3. Setup environment variables in a `.env`, based from `.env.sample`
+cd web/
+npm i
+
+cd ..
+```
+
+3. Setup environment variables from sample env file, and copy to both /api and /web directories
+```shell
+cp .env.sample .env
+# fill in env var and secrets
+cp .env api/.env
+cp .env web/.env
+```
 
 4. Docker deploy using the `docker-compose.yaml`
 run `docker-compose up --build` at the root level of the repo 
 
-5. Expose frontend localhost with ngrok `npm ngrok http 3000`
+5. Expose frontend localhost with ngrok `npx ngrok http 3000`
 
 6. Add the ngrok url to Keycloak client's valid redirect uris to enable authentication
